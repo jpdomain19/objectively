@@ -222,7 +222,7 @@ nav {
 /* TOOL CARDS */
 .tools-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   margin-bottom: 80px;
 }
@@ -468,7 +468,6 @@ footer {
 
 @media (max-width: 900px) and (min-width: 701px) {
   .tools-grid { grid-template-columns: 1fr 1fr; }
-  .tools-grid .tool-card:last-child { grid-column: span 2; max-width: 50%; margin: 0 auto; width: 100%; }
 }
 </style>
 </head>
@@ -555,6 +554,24 @@ footer {
       </div>
       <div class="tool-link">
         Find My Archetype <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Paycheck Reality -->
+    <a href="/paycheck/" class="tool-card gold">
+      <div class="tool-number">Tool 04</div>
+      <span class="tool-icon">💸</span>
+      <div class="tool-name">What's My Real Take-Home?</div>
+      <p class="tool-desc">
+        You got offered $65k. You're not taking home $65k. See your <strong>exact take-home after every deduction</strong> — taxes, FICA, 401k, insurance. Includes bonus and commission income.
+      </p>
+      <div class="tool-tags">
+        <span class="tool-tag">All 50 States</span>
+        <span class="tool-tag">Bonus Income</span>
+        <span class="tool-tag">2024 Tax Brackets</span>
+      </div>
+      <div class="tool-link">
+        See My Real Paycheck <span class="arrow">→</span>
       </div>
     </a>
 

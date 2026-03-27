@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Should I Buy This? — Free Financial Decision Scorer</title>
+  <meta name="description" content="Get an honest 1-10 score on any financial decision based on your real income, expenses, and savings. Cars, houses, electronics — find out if you can actually afford it.">
+  <meta name="keywords" content="should I buy this calculator, can I afford this, financial decision calculator, purchase affordability tool">
+  <meta property="og:title" content="Should I Buy This? — Free Financial Decision Scorer">
+  <meta property="og:description" content="Get an honest 1-10 score on any financial decision based on your real income, expenses, and savings. Cars, houses, electronics — find out if you can actually afford it.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Objectively">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Should I Buy This? — Free Financial Decision Scorer">
+  <meta name="twitter:description" content="Get an honest 1-10 score on any financial decision based on your real income, expenses, and savings. Cars, houses, electronics — find out if you can actually afford it.">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f0e8;
+  --paper: #faf7f2;
+  --ink: #0f0d0b;
+  --ink2: #2a2420;
+  --muted: #5a5248;
+  --border: #d8cfc4;
+  --border2: #b8b0a4;
+  --accent: #d63c1f;
+  --good: #145e2e;
+  --warn: #9e6200;
+  --bad: #a81818;
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'Outfit', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-weight: 400;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(transparent, transparent 31px, rgba(180,160,130,0.11) 31px, rgba(180,160,130,0.11) 32px);
+  pointer-events: none;
+  z-index: 0;
+}
+.wrap { max-width: 660px; margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 1; }
+
+/* HEADER */
+header { padding: 52px 0 36px; border-bottom: 2px solid var(--ink); margin-bottom: 40px; }
+.brand { font-family: var(--display); font-size: 68px; letter-spacing: 2px; color: var(--ink); line-height: .9; margin-bottom: 4px; }
+.brand span { color: var(--accent); }
+.brand-sub { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.header-desc { font-size: 15px; color: var(--ink2); line-height: 1.65; max-width: 500px; font-weight: 400; }
+.header-desc strong { font-weight: 600; color: var(--ink); }
+
+/* SECTION */
+.sec { margin-bottom: 30px; }
+.sec-label {
+  font-family: var(--display);
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--ink);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-label .sn {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--ink);
+  color: var(--bg);
+  padding: 2px 7px;
+  border-radius: 2px;
+}
+
+/* EXPENSE BLOCK */
+.expense-block {
+  background: var(--paper);
+  border: 1.5px solid var(--border2);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.expense-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 140px;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  min-height: 52px;
+}
+.expense-row:last-child { border-bottom: none; }
+.exp-icon {
+  font-size: 15px;
+  text-align: center;
+  padding: 0 2px 0 10px;
+  flex-shrink: 0;
+}
+.exp-info {
+  padding: 10px 12px;
+}
+.exp-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.exp-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.4;
+  font-weight: 400;
+}
+.exp-input-wrap {
+  padding: 8px 12px 8px 0;
+}
+.exp-input-inner {
+  position: relative;
+}
+.exp-input-inner .pre {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.exp-input-inner input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 10px 8px 22px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+}
+.exp-input-inner input:focus {
+  border-color: var(--ink);
+  box-shadow: 2px 2px 0 var(--ink);
+  background: var(--paper);
+}
+.exp-input-inner input::placeholder { color: #c5bdb5; font-weight: 400; }
+
+/* EXPENSE TOTAL */
+.exp-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  background: var(--ink);
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.exp-total-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,.6); }
+.exp-total-val { font-family: var(--display); font-size: 24px; color: var(--bg); letter-spacing: 1px; }
+
+/* LIVE FEEDBACK BARS */
+.live-feedback {
+  background: var(--paper);
+  border: 1.5px solid var(--border2);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.lf-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.lf-row:last-child { border-bottom: none; }
+.lf-label { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink2); font-weight: 500; }
+.lf-val {
+  font-family: var(--display);
+  font-size: 20px;
+  letter-spacing: .5px;
+  transition: color .3s;
+  white-space: nowrap;
+}
+.lf-val.positive { color: var(--good); }
+.lf-val.negative { color: var(--bad); }
+.lf-val.neutral  { color: var(--ink); }
+.lf-val.warn     { color: var(--warn); }
+.lf-sub { font-size: 11px; color: var(--muted); margin-top: 1px; font-weight: 400; }
+
+/* SECTION TONE HEADERS */
+.tone-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.tone-header.positive {
+  background: rgba(20,94,46,.08);
+  color: var(--good);
+  border: 1px solid rgba(20,94,46,.2);
+}
+.tone-header.negative {
+  background: rgba(168,24,24,.06);
+  color: var(--bad);
+  border: 1px solid rgba(168,24,24,.18);
+}
+.tone-header.neutral {
+  background: rgba(26,23,20,.05);
+  color: var(--ink2);
+  border: 1px solid var(--border2);
+}
+.exp-total-note { font-size: 11px; color: var(--muted); text-align: right; }
+
+/* FIELDS */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.grid1 { display: grid; grid-template-columns: 1fr; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink2); font-weight: 500; }
+.field .hint { font-size: 12px; color: var(--muted); margin-top: 2px; font-weight: 400; }
+.iw { position: relative; }
+.iw .pre { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 14px; color: var(--muted); pointer-events: none; }
+input, select, textarea {
+  width: 100%;
+  background: var(--paper);
+  border: 1.5px solid var(--border2);
+  border-radius: 4px;
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 11px 13px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.iw.pre-input input { padding-left: 26px; }
+input:focus, select:focus, textarea:focus { border-color: var(--ink); box-shadow: 3px 3px 0 var(--ink); }
+input::placeholder, textarea::placeholder { color: #c0b8ac; font-weight: 300; }
+select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239a9080' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 34px; }
+textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+
+/* PURCHASE TYPE */
+.type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.type-btn { background: var(--paper); border: 1.5px solid var(--border2); border-radius: 4px; padding: 10px 6px; cursor: pointer; text-align: center; transition: all .12s; font-family: var(--body); }
+.type-btn .ti { font-size: 20px; display: block; margin-bottom: 3px; }
+.type-btn .tn { font-size: 11px; color: var(--muted); font-weight: 500; display: block; }
+.type-btn:hover { border-color: var(--ink); }
+.type-btn.active { border-color: var(--ink); background: var(--ink); }
+.type-btn.active .tn { color: var(--bg); }
+
+/* PURCHASE DETAIL PANEL */
+.purchase-panel {
+  background: var(--paper);
+  border: 1.5px solid var(--border2);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 14px;
+}
+.panel-header {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 10px 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.panel-body { padding: 16px; display: grid; gap: 12px; }
+.panel-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* FINANCING PREVIEW */
+.fin-preview {
+  background: rgba(214,60,31,.06);
+  border: 1px solid rgba(214,60,31,.2);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin-top: 4px;
+  display: none;
+}
+.fin-preview.visible { display: block; }
+.fin-preview-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.fin-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.fin-stat { text-align: center; }
+.fin-stat-val { font-family: var(--display); font-size: 20px; color: var(--ink); letter-spacing: .5px; }
+.fin-stat-val.warn { color: var(--warn); }
+.fin-stat-val.bad { color: var(--bad); }
+.fin-stat-label { font-size: 11px; color: var(--muted); margin-top: 3px; font-weight: 500; }
+.fin-divider { grid-column: 1/-1; height: 1px; background: rgba(214,60,31,.15); }
+.fin-note { grid-column: 1/-1; font-size: 13px; color: var(--ink2); line-height: 1.55; font-weight: 400; }
+.fin-note strong { color: var(--ink); }
+
+/* DIVIDER */
+.divider { height: 1.5px; background: var(--border); margin: 32px 0; }
+
+/* SUBMIT */
+.submit-btn { width: 100%; background: var(--ink); color: var(--bg); border: none; border-radius: 4px; padding: 18px; font-family: var(--display); font-size: 22px; letter-spacing: 2px; cursor: pointer; transition: all .12s; box-shadow: 4px 4px 0 var(--accent); }
+.submit-btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--accent); }
+.submit-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--accent); }
+
+/* RESULTS */
+#results { display: none; margin-top: 56px; animation: appear .4s ease; }
+@keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* VERDICT */
+.verdict-card { border: 2px solid var(--ink); border-radius: 4px; padding: 28px 28px 24px; margin-bottom: 20px; position: relative; background: var(--paper); }
+.verdict-card::before { content: 'VERDICT'; position: absolute; top: -10px; left: 20px; background: var(--paper); font-family: var(--mono); font-size: 10px; letter-spacing: 3px; color: var(--muted); padding: 0 8px; }
+.score-row { display: flex; align-items: center; gap: 20px; margin-bottom: 16px; }
+.score-circle { width: 80px; height: 80px; border-radius: 50%; border: 3px solid; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
+.score-circle .sc-num { font-family: var(--display); font-size: 34px; line-height: 1; }
+.score-circle .sc-den { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.score-circle.good { border-color: var(--good); } .score-circle.good .sc-num { color: var(--good); }
+.score-circle.warn { border-color: var(--warn); } .score-circle.warn .sc-num { color: var(--warn); }
+.score-circle.bad  { border-color: var(--bad);  } .score-circle.bad  .sc-num { color: var(--bad);  }
+.vt-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.vt-headline { font-family: var(--display); font-size: 30px; letter-spacing: 1px; line-height: 1.1; margin-bottom: 5px; }
+.vt-headline.good { color: var(--good); } .vt-headline.warn { color: var(--warn); } .vt-headline.bad { color: var(--bad); }
+.verdict-summary { font-size: 14px; color: var(--ink2); line-height: 1.65; border-top: 1px solid var(--border); padding-top: 14px; font-weight: 400; }
+
+/* NUMBERS */
+.numbers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.num-card { background: var(--paper); border: 1.5px solid var(--border2); border-radius: 4px; padding: 13px 14px; }
+.num-label { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink2); margin-bottom: 5px; font-weight: 500; }
+.num-val { font-family: var(--display); font-size: 20px; color: var(--ink); line-height: 1; }
+.num-val.good { color: var(--good); } .num-val.warn { color: var(--warn); } .num-val.bad { color: var(--bad); }
+.num-sub { font-size: 12px; color: var(--muted); margin-top: 3px; font-weight: 400; }
+
+/* PURCHASE IMPACT BOX */
+.impact-box {
+  background: var(--paper);
+  border: 1.5px solid var(--border2);
+  border-radius: 4px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+}
+.impact-title { font-family: var(--display); font-size: 18px; letter-spacing: 1px; margin-bottom: 12px; }
+.impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.imp-stat { }
+.imp-val { font-family: var(--display); font-size: 19px; color: var(--ink); }
+.imp-val.good { color: var(--good); } .imp-val.warn { color: var(--warn); } .imp-val.bad { color: var(--bad); }
+.imp-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* SCORE BARS */
+.score-bars { background: var(--paper); border: 1.5px solid var(--border2); border-radius: 4px; padding: 18px 20px; margin-bottom: 18px; }
+.score-bars-title { font-family: var(--display); font-size: 18px; letter-spacing: 1px; margin-bottom: 14px; }
+.score-bar-row { margin-bottom: 13px; }
+.sbr-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.sbr-name { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--ink2); font-weight: 500; }
+.sbr-val { font-family: var(--display); font-size: 17px; }
+.sbr-val.good { color: var(--good); } .sbr-val.warn { color: var(--warn); } .sbr-val.bad { color: var(--bad); }
+.sbr-track { background: var(--border); border-radius: 2px; height: 5px; overflow: hidden; }
+.sbr-fill { height: 100%; border-radius: 2px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+.sbr-fill.good { background: var(--good); } .sbr-fill.warn { background: var(--warn); } .sbr-fill.bad { background: var(--bad); }
+.sbr-note { font-size: 12px; color: var(--muted); margin-top: 4px; font-weight: 400; }
+
+/* THE CALL */
+.the-call { border: 2px solid; border-radius: 4px; padding: 18px 20px; margin-bottom: 18px; }
+.the-call.good { border-color: var(--good); background: rgba(26,122,60,.04); }
+.the-call.warn { border-color: var(--warn); background: rgba(196,124,0,.04); }
+.the-call.bad  { border-color: var(--bad);  background: rgba(192,32,32,.04); }
+.call-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--ink2); margin-bottom: 8px; font-weight: 500; }
+.call-text { font-size: 15px; line-height: 1.7; color: var(--ink2); font-weight: 400; }
+.call-text strong { color: var(--ink); font-weight: 600; }
+
+/* ACTIONS */
+.actions-title { font-family: var(--display); font-size: 20px; letter-spacing: 1px; margin-bottom: 10px; }
+.action-item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--paper); border: 1.5px solid var(--border2); border-radius: 4px; margin-bottom: 8px; animation: appear .3s ease both; }
+.action-num { font-family: var(--mono); font-size: 11px; color: var(--muted); flex-shrink: 0; margin-top: 2px; font-weight: 500; }
+.action-text { font-size: 14px; color: var(--ink2); line-height: 1.6; font-weight: 400; }
+.action-text strong { color: var(--ink); font-weight: 600; }
+
+/* OPP COST */
+.opp-box { background: var(--ink); color: var(--bg); border-radius: 4px; padding: 18px 20px; margin-bottom: 18px; }
+.opp-title { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,.5); margin-bottom: 6px; }
+.opp-amount { font-family: var(--display); font-size: 34px; letter-spacing: 1px; color: var(--bg); margin-bottom: 4px; }
+.opp-note { font-size: 13px; color: rgba(245,240,232,.75); line-height: 1.5; font-weight: 400; }
+
+.reset-btn { width: 100%; background: transparent; color: var(--muted); border: 1.5px solid var(--border2); border-radius: 4px; padding: 12px; font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all .15s; margin-top: 28px; }
+.reset-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* FINANCING TOGGLE */
+.fin-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--muted);
+  cursor: pointer;
+  margin-top: 5px;
+  padding: 3px 0;
+  border: none;
+  background: none;
+  text-decoration: none;
+  transition: color .15s;
+  text-transform: uppercase;
+}
+.fin-toggle:hover { color: var(--accent); }
+.fin-toggle .arrow { font-size: 9px; transition: transform .2s; display: inline-block; }
+.fin-toggle.open .arrow { transform: rotate(90deg); }
+
+.existing-loan-panel {
+  display: none;
+  background: rgba(26,23,20,.04);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 12px 14px;
+  margin-top: 6px;
+  gap: 10px;
+}
+.existing-loan-panel.visible { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.existing-loan-panel .field label { font-size: 10px; }
+
+/* BIG PICTURE */
+.big-picture {
+  background: var(--ink);
+  border-radius: 6px;
+  padding: 22px 22px 18px;
+  margin-bottom: 18px;
+  position: relative;
+  overflow: hidden;
+}
+.big-picture::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--warn));
+}
+.bp-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(245,240,232,.5);
+  margin-bottom: 16px;
+}
+.bp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.bp-stat .bp-val {
+  font-family: var(--display);
+  font-size: 22px;
+  letter-spacing: .5px;
+  color: var(--bg);
+  line-height: 1;
+}
+.bp-stat .bp-val.warn { color: var(--warn); }
+.bp-stat .bp-val.bad  { color: #ff7070; }
+.bp-stat .bp-val.good { color: #6fdc9a; }
+.bp-stat .bp-label {
+  font-size: 11px;
+  color: rgba(245,240,232,.5);
+  margin-top: 4px;
+  font-weight: 400;
+}
+.bp-insight {
+  border-top: 1px solid rgba(245,240,232,.1);
+  padding-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+.bp-insight-row {
+  font-size: 13px;
+  color: rgba(245,240,232,.7);
+  line-height: 1.55;
+  padding-left: 14px;
+  position: relative;
+}
+.bp-insight-row::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 11px;
+}
+.bp-insight-row strong { color: var(--bg); }
+
+.disclaimer { margin-top: 48px; padding-top: 20px; border-top: 1.5px solid var(--border); font-size: 12px; color: var(--muted); line-height: 1.6; font-weight: 400; }
+
+/* SHARE BOX */
+.share-box {
+  margin-top: 24px;
+  background: var(--paper);
+  border: 1.5px solid var(--border2);
+  border-radius: 6px;
+  padding: 18px 20px;
+}
+.share-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.share-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: 15px;
+  letter-spacing: 1px;
+  transition: all .15s;
+}
+.share-btn.twitter {
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: 3px 3px 0 var(--accent);
+}
+.share-btn.twitter:hover {
+  transform: translate(-1px,-1px);
+  box-shadow: 4px 4px 0 var(--accent);
+}
+.share-btn.copy {
+  background: transparent;
+  color: var(--ink2);
+  border: 1.5px solid var(--border2);
+}
+.share-btn.copy:hover { border-color: var(--ink); color: var(--ink); }
+.share-btn.copy.copied { border-color: var(--good); color: var(--good); }
+.share-preview {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-style: italic;
+  padding: 10px 12px;
+  background: var(--bg);
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  display: none;
+}
+.share-preview.visible { display: block; }
+
+@media (max-width: 520px) {
+  .brand { font-size: 50px; }
+  .grid2, .panel-grid2 { grid-template-columns: 1fr; }
+  .numbers-grid, .impact-grid { grid-template-columns: 1fr 1fr; }
+  .fin-preview-grid { grid-template-columns: 1fr 1fr; }
+  .expense-row { grid-template-columns: 24px 1fr 120px; }
+}
+</style>
+</head>
+<body>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid #282828;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
+  <a href="/" style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c8f135;text-decoration:none;font-weight:500;">&#8592; Objectively.net</a>
+  <div style="display:flex;gap:16px;">
+    <a href="/decision/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">Decision</a>
+    <a href="/realdeal/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">RealDeal</a>
+    <a href="/track/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">On Track</a>
+    <a href="/paycheck/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">Paycheck</a>
+  </div>
+</nav>
+<div class="wrap">
+
+<header>
+  <div class="brand">OBJECTIVELY<span>.</span></div>
+  <div class="brand-sub">Financial Decision Scorer</div>
+  <p class="header-desc">Enter your real numbers. Get an <strong>honest score</strong> on whether this decision makes sense for your situation — no sugarcoating.</p>
+</header>
+
+<!-- INCOME & POSITIVES -->
+<div class="sec">
+  <div class="sec-label"><span class="sn">01</span> Income & Assets</div>
+  <div class="tone-header positive">↑ What's coming in and building up</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Monthly Take-Home Pay</label>
+      <div class="iw pre-input">
+        <span class="pre">$</span>
+        <input type="number" id="income" placeholder="3800" min="0" oninput="updateTotals()">
+      </div>
+      <div class="hint">After taxes, all sources combined</div>
+    </div>
+    <div class="field">
+      <label>Monthly Savings Contribution</label>
+      <div class="iw pre-input">
+        <span class="pre">$</span>
+        <input type="number" id="savingsRate" placeholder="300" min="0" value="0" oninput="updateTotals()">
+      </div>
+      <div class="hint">What you transfer to savings each month — not your total balance, just the recurring amount (e.g. $200/mo)</div>
+    </div>
+    <div class="field">
+      <label>Liquid Savings</label>
+      <div class="iw pre-input">
+        <span class="pre">$</span>
+        <input type="number" id="savings" placeholder="4000" min="0" oninput="updateTotals()">
+      </div>
+      <div class="hint">Checking + savings accounts</div>
+    </div>
+    <div class="field">
+      <label>Investments / Retirement</label>
+      <div class="iw pre-input">
+        <span class="pre">$</span>
+        <input type="number" id="investments" placeholder="0" min="0" value="0">
+      </div>
+      <div class="hint">401k, IRA, brokerage (optional)</div>
+    </div>
+  </div>
+
+  <!-- Live positive feedback -->
+  <div class="live-feedback" id="positiveFeedback" style="margin-top:14px;display:none">
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Monthly Income</div>
+      </div>
+      <div class="lf-val positive" id="lfIncome">—</div>
+    </div>
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Total Assets</div>
+        <div class="lf-sub">savings + investments</div>
+      </div>
+      <div class="lf-val positive" id="lfAssets">—</div>
+    </div>
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Savings Rate</div>
+        <div class="lf-sub" id="lfSavRateSub">of monthly income</div>
+      </div>
+      <div class="lf-val" id="lfSavRate">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- EXPENSES -->
+<div class="sec">
+  <div class="sec-label"><span class="sn">02</span> Monthly Expenses</div>
+  <div class="tone-header negative">↓ What's going out every month</div>
+  <p style="font-size:14px;color:var(--ink2);margin-bottom:16px;line-height:1.6;font-weight:400">Be honest here. Most people undercount by $300–600/month. Fill in what you actually spend, not what sounds reasonable.</p>
+
+  <div class="expense-block">
+    <div class="expense-row">
+      <span class="exp-icon">🏠</span>
+      <div class="exp-info">
+        <div class="exp-name">Housing</div>
+        <div class="exp-hint">Rent or mortgage payment</div>
+        <button class="fin-toggle" id="mortgageToggle" onclick="toggleLoan('mortgage')">
+          <span class="arrow">▶</span> I have a mortgage balance
+        </button>
+      </div>
+      <div class="exp-input-wrap">
+        <div class="exp-input-inner">
+          <span class="pre">$</span>
+          <input type="number" id="expHousing" placeholder="1200" min="0" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+    <div class="existing-loan-panel" id="mortgagePanel">
+      <div class="field">
+        <label>Remaining Balance</label>
+        <div class="iw pre-input" style="position:relative">
+          <span class="pre" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:13px;color:var(--muted)">$</span>
+          <input type="number" id="mortgageBalance" placeholder="187000" min="0" style="padding-left:22px" oninput="updateTotals()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Original Loan Amount</label>
+        <div class="iw pre-input" style="position:relative">
+          <span class="pre" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:13px;color:var(--muted)">$</span>
+          <input type="number" id="mortgageOriginal" placeholder="220000" min="0" style="padding-left:22px" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+    <div class="expense-row">
+      <span class="exp-icon">🚗</span>
+      <div class="exp-info">
+        <div class="exp-name">Transportation</div>
+        <div class="exp-hint">Car payment + insurance + gas</div>
+        <button class="fin-toggle" id="autoToggle" onclick="toggleLoan('auto')">
+          <span class="arrow">▶</span> I have an auto loan balance
+        </button>
+      </div>
+      <div class="exp-input-wrap">
+        <div class="exp-input-inner">
+          <span class="pre">$</span>
+          <input type="number" id="expTransport" placeholder="450" min="0" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+    <div class="existing-loan-panel" id="autoPanel">
+      <div class="field">
+        <label>Remaining Balance</label>
+        <div class="iw pre-input" style="position:relative">
+          <span class="pre" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:13px;color:var(--muted)">$</span>
+          <input type="number" id="autoBalance" placeholder="14500" min="0" style="padding-left:22px" oninput="updateTotals()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Original Loan Amount</label>
+        <div class="iw pre-input" style="position:relative">
+          <span class="pre" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:13px;color:var(--muted)">$</span>
+          <input type="number" id="autoOriginal" placeholder="22000" min="0" style="padding-left:22px" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+    <div class="expense-row">
+      <span class="exp-icon">🛒</span>
+      <div class="exp-info">
+        <div class="exp-name">Food & Groceries</div>
+        <div class="exp-hint">Groceries, coffee runs, takeout</div>
+      </div>
+      <div class="exp-input-wrap">
+        <div class="exp-input-inner">
+          <span class="pre">$</span>
+          <input type="number" id="expFood" placeholder="400" min="0" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+    <div class="expense-row">
+      <span class="exp-icon">📱</span>
+      <div class="exp-info">
+        <div class="exp-name">Bills & Utilities</div>
+        <div class="exp-hint">Phone, electric, internet, insurance</div>
+      </div>
+      <div class="exp-input-wrap">
+        <div class="exp-input-inner">
+          <span class="pre">$</span>
+          <input type="number" id="expBills" placeholder="250" min="0" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+    <div class="expense-row" style="background:rgba(168,24,24,.03)">
+      <span class="exp-icon">🎮</span>
+      <div class="exp-info">
+        <div class="exp-name">The "Invisible" Spending</div>
+        <div class="exp-hint">Streaming, apps, subscriptions, DoorDash, Amazon, dining out, impulse buys — the stuff that adds up without you realizing</div>
+      </div>
+      <div class="exp-input-wrap">
+        <div class="exp-input-inner">
+          <span class="pre">$</span>
+          <input type="number" id="expLeisure" placeholder="300" min="0" oninput="updateTotals()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live expense feedback -->
+  <div class="live-feedback" id="expFeedback" style="display:none">
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Total Monthly Expenses</div>
+      </div>
+      <div class="lf-val negative" id="lfExpTotal">—</div>
+    </div>
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Monthly Margin</div>
+        <div class="lf-sub">income minus all expenses</div>
+      </div>
+      <div class="lf-val" id="lfMargin">—</div>
+    </div>
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Emergency Fund Coverage</div>
+        <div class="lf-sub" id="lfEFsub">months of expenses covered</div>
+      </div>
+      <div class="lf-val" id="lfEF">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- LIABILITIES -->
+<div class="sec">
+  <div class="sec-label"><span class="sn">03</span> Debts & Credit</div>
+  <div class="tone-header neutral">What you owe</div>
+  <div class="grid2">
+    <div class="field">
+      <label>High-Interest Debt</label>
+      <div class="iw pre-input">
+        <span class="pre">$</span>
+        <input type="number" id="debt" placeholder="0" min="0" value="0" oninput="updateTotals()">
+      </div>
+      <div class="hint">Credit cards, personal loans</div>
+    </div>
+    <div class="field">
+      <label>Credit Score Tier</label>
+      <select id="creditTier">
+        <option value="great">Great (720+)</option>
+        <option value="good">Good (660–719)</option>
+        <option value="fair" selected>Fair (580–659)</option>
+        <option value="poor">Poor (Below 580)</option>
+        <option value="unknown">Not sure</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Live debt feedback -->
+  <div class="live-feedback" id="debtFeedback" style="margin-top:14px;display:none">
+    <div class="lf-row">
+      <div>
+        <div class="lf-label">Debt-to-Income</div>
+        <div class="lf-sub">months of income to clear debt</div>
+      </div>
+      <div class="lf-val" id="lfDTI">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- THE DECISION -->
+<div class="sec">
+  <div class="sec-label"><span class="sn">04</span> The Decision</div>
+
+  <div class="type-grid">
+    <button class="type-btn active" data-type="car" onclick="setType(this)"><span class="ti">🚗</span><span class="tn">Vehicle</span></button>
+    <button class="type-btn" data-type="house" onclick="setType(this)"><span class="ti">🏠</span><span class="tn">House</span></button>
+    <button class="type-btn" data-type="boat" onclick="setType(this)"><span class="ti">⛵</span><span class="tn">Boat</span></button>
+    <button class="type-btn" data-type="vacation" onclick="setType(this)"><span class="ti">✈</span><span class="tn">Vacation</span></button>
+    <button class="type-btn" data-type="electronics" onclick="setType(this)"><span class="ti">📱</span><span class="tn">Electronics</span></button>
+    <button class="type-btn" data-type="furniture" onclick="setType(this)"><span class="ti">🛋</span><span class="tn">Furniture</span></button>
+    <button class="type-btn" data-type="dining" onclick="setType(this)"><span class="ti">🍽</span><span class="tn">Dining</span></button>
+    <button class="type-btn" data-type="other" onclick="setType(this)"><span class="ti">💳</span><span class="tn">Other</span></button>
+  </div>
+
+  <!-- Dynamic panel per type -->
+  <div class="purchase-panel" id="purchasePanel">
+    <div class="panel-header">
+      <span id="panelTitle">VEHICLE DETAILS</span>
+      <span style="opacity:.5;font-size:10px">fills in automatically</span>
+    </div>
+    <div class="panel-body" id="panelBody">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+  <!-- Financing preview -->
+  <div class="fin-preview" id="finPreview">
+    <div class="fin-preview-title">What Financing This Actually Means</div>
+    <div class="fin-preview-grid">
+      <div class="fin-stat">
+        <div class="fin-stat-val" id="fpMonthly">—</div>
+        <div class="fin-stat-label">Est. monthly payment</div>
+      </div>
+      <div class="fin-stat">
+        <div class="fin-stat-val" id="fpTotalInt">—</div>
+        <div class="fin-stat-label">Total interest paid</div>
+      </div>
+      <div class="fin-stat">
+        <div class="fin-stat-val" id="fpTotalCost">—</div>
+        <div class="fin-stat-label">Total cost of loan</div>
+      </div>
+      <div class="fin-divider"></div>
+      <div class="fin-note" id="fpNote"></div>
+    </div>
+  </div>
+
+  <div class="field" style="margin-top:14px">
+    <label>What is it? (optional)</label>
+    <textarea id="purchaseDesc" placeholder="e.g. 2021 Honda Accord, PS5, kitchen renovation, Cancun trip..."></textarea>
+  </div>
+</div>
+
+<button class="submit-btn" onclick="scoreIt()">RATE MY DECISION →</button>
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="sec-label" style="margin-top:0">Your Objective Score</div>
+
+  <div class="verdict-card">
+    <div class="score-row">
+      <div class="score-circle" id="scoreCircle">
+        <span class="sc-num" id="scoreNum"></span>
+        <span class="sc-den">/10</span>
+      </div>
+      <div class="verdict-text">
+        <div class="vt-label">Overall Decision Score</div>
+        <div class="vt-headline" id="vtHeadline"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px" id="vtPurchase"></div>
+      </div>
+    </div>
+    <div class="verdict-summary" id="vtSummary"></div>
+  </div>
+
+  <div class="numbers-grid">
+    <div class="num-card">
+      <div class="num-label">Monthly Left Over</div>
+      <div class="num-val" id="numLeftover"></div>
+      <div class="num-sub">after all expenses</div>
+    </div>
+    <div class="num-card">
+      <div class="num-label">Emergency Fund</div>
+      <div class="num-val" id="numEF"></div>
+      <div class="num-sub" id="numEFsub"></div>
+    </div>
+    <div class="num-card">
+      <div class="num-label">Invisible Spending</div>
+      <div class="num-val" id="numLeisure"></div>
+      <div class="num-sub" id="numLeisureSub"></div>
+    </div>
+  </div>
+
+  <!-- Purchase impact -->
+  <div class="impact-box" id="impactBox">
+    <div class="impact-title" id="impactTitle">Purchase Impact</div>
+    <div class="impact-grid" id="impactGrid"></div>
+  </div>
+
+  <!-- Big Picture (shown only when existing loan data entered) -->
+  <div class="big-picture" id="bigPicture" style="display:none">
+    <div class="bp-title">Your Big Picture — Existing Obligations</div>
+    <div class="bp-grid" id="bpGrid"></div>
+    <div class="bp-insight" id="bpInsight"></div>
+  </div>
+
+  <!-- Score bars -->
+  <div class="score-bars">
+    <div class="score-bars-title">Score Breakdown</div>
+    <div id="barRows"></div>
+  </div>
+
+  <!-- Honest take -->
+  <div class="the-call" id="theCall">
+    <div class="call-label">The Honest Take</div>
+    <div class="call-text" id="callText"></div>
+  </div>
+
+  <!-- Opp cost -->
+  <div class="opp-box">
+    <div class="opp-title">Opportunity Cost — 10 Year Projection</div>
+    <div class="opp-amount" id="oppAmount"></div>
+    <div class="opp-note" id="oppNote"></div>
+  </div>
+
+  <!-- Actions -->
+  <div>
+    <div class="actions-title">What To Do Instead</div>
+    <div id="actionItems"></div>
+  </div>
+
+  <button class="reset-btn" onclick="reset()">← Score Another Decision</button>
+
+  <!-- Share -->
+  <div class="share-box" id="shareBox" style="display:none">
+    <div class="share-label">Share Your Score</div>
+    <div class="share-buttons">
+      <button class="share-btn twitter" onclick="shareTwitter()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Post on X
+      </button>
+      <button class="share-btn copy" onclick="copyLink()" id="copyBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy Link
+      </button>
+    </div>
+    <div class="share-preview" id="sharePreview"></div>
+  </div>
+</div>
+
+<div class="disclaimer">
+  <strong>Note:</strong> Objectively provides educational scoring based on general financial principles. It is not financial advice. Financing estimates use approximate rates based on credit tier and are for illustration only.
+</div>
+</div>
+
+<script>
+let selectedType = 'car';
+
+// --- TYPE PANEL CONFIGS ----------------------------------------------------
+const panels = {
+  car: {
+    title: 'VEHICLE DETAILS',
+    fields: [
+      { id:'pPrice', label:'Vehicle Price', pre:'$', placeholder:'18500', type:'number' },
+      { id:'pDown',  label:'Down Payment',  pre:'$', placeholder:'1500',  type:'number' },
+      { id:'pTerm',  label:'Loan Term', type:'select', options:[
+        {v:48,l:'48 months (4 yr)'},{v:60,l:'60 months (5 yr)'},{v:72,l:'72 months (6 yr)'},{v:84,l:'84 months (7 yr)'}
+      ]},
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'finance',l:'Financing'},{v:'cash',l:'Cash'},{v:'savings',l:'From Savings'}
+      ]},
+    ],
+    hasFinancing: true,
+    additionalCosts: 'Budget ~$150–250/mo extra for insurance, gas, and maintenance on top of your payment.',
+  },
+  house: {
+    title: 'HOME PURCHASE DETAILS',
+    fields: [
+      { id:'pPrice', label:'Purchase Price', pre:'$', placeholder:'220000', type:'number' },
+      { id:'pDown',  label:'Down Payment',   pre:'$', placeholder:'22000',  type:'number' },
+      { id:'pTerm',  label:'Loan Term', type:'select', options:[
+        {v:360,l:'30 years'},{v:180,l:'15 years'}
+      ]},
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'finance',l:'Mortgage'},{v:'cash',l:'Cash'}
+      ]},
+    ],
+    hasFinancing: true,
+    additionalCosts: 'Add property tax (~1–2%/yr), insurance (~$100–200/mo), and maintenance (~1%/yr of value) to your true housing cost.',
+  },
+  boat: {
+    title: 'BOAT DETAILS',
+    fields: [
+      { id:'pPrice',  label:'Boat Price',    pre:'$', placeholder:'25000', type:'number' },
+      { id:'pDown',   label:'Down Payment',  pre:'$', placeholder:'2500',  type:'number' },
+      { id:'pTerm',   label:'Loan Term', type:'select', options:[
+        {v:60,l:'5 years'},{v:84,l:'7 years'},{v:120,l:'10 years'}
+      ]},
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'finance',l:'Financing'},{v:'cash',l:'Cash'}
+      ]},
+    ],
+    hasFinancing: true,
+    additionalCosts: 'Boats average $2,000–5,000/year in ongoing costs: marina fees, insurance, fuel, maintenance. That\'s often more than the payment.',
+  },
+  vacation: {
+    title: 'VACATION DETAILS',
+    fields: [
+      { id:'pPrice',  label:'Total Trip Cost', pre:'$', placeholder:'3500', type:'number' },
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'cash',l:'Cash / Debit'},{v:'credit',l:'Credit Card'},{v:'savings',l:'From Savings'}
+      ]},
+    ],
+    hasFinancing: false,
+    additionalCosts: 'Most people underbudget vacations by 20–30%. Add a buffer for dining, activities, and the inevitable extras.',
+  },
+  electronics: {
+    title: 'ELECTRONICS DETAILS',
+    fields: [
+      { id:'pPrice',  label:'Item Price',   pre:'$', placeholder:'1200', type:'number' },
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'cash',l:'Cash'},{v:'credit',l:'Credit Card'},{v:'finance',l:'Store Financing'},{v:'savings',l:'From Savings'}
+      ]},
+    ],
+    hasFinancing: true,
+    additionalCosts: 'Store financing often has deferred interest — if not paid in full by end of promo, you owe all backdated interest.',
+  },
+  furniture: {
+    title: 'FURNITURE DETAILS',
+    fields: [
+      { id:'pPrice',  label:'Total Cost',   pre:'$', placeholder:'2400', type:'number' },
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'cash',l:'Cash'},{v:'credit',l:'Credit Card'},{v:'finance',l:'0% Financing'},{v:'savings',l:'From Savings'}
+      ]},
+    ],
+    hasFinancing: true,
+    additionalCosts: '"0% financing" furniture deals often convert to 25%+ APR if not paid off in time. Read the fine print.',
+  },
+  dining: {
+    title: 'DINING / EXPERIENCE',
+    fields: [
+      { id:'pPrice',  label:'How Much?',   pre:'$', placeholder:'200', type:'number' },
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'cash',l:'Cash'},{v:'credit',l:'Credit Card'}
+      ]},
+    ],
+    hasFinancing: false,
+    additionalCosts: 'One expensive dinner isn\'t the issue — it\'s whether this is part of a pattern. Check your "invisible spending" number above.',
+  },
+  other: {
+    title: 'PURCHASE DETAILS',
+    fields: [
+      { id:'pPrice',  label:'Purchase Price', pre:'$', placeholder:'500', type:'number' },
+      { id:'pMethod', label:'How Paying?', type:'select', options:[
+        {v:'cash',l:'Cash'},{v:'credit',l:'Credit Card'},{v:'finance',l:'Financing'},{v:'savings',l:'From Savings'}
+      ]},
+    ],
+    hasFinancing: true,
+    additionalCosts: '',
+  },
+};
+
+// --- APR ESTIMATES BY TYPE + CREDIT --------------------------------------
+const aprMap = {
+  car:   { great:0.055, good:0.09,  fair:0.17,  poor:0.24,  unknown:0.15  },
+  house: { great:0.065, good:0.07,  fair:0.075, poor:0.085, unknown:0.07  },
+  boat:  { great:0.075, good:0.10,  fair:0.16,  poor:0.22,  unknown:0.14  },
+  electronics: { great:0.0, good:0.20, fair:0.25, poor:0.28, unknown:0.20 },
+  furniture:   { great:0.0, good:0.20, fair:0.25, poor:0.28, unknown:0.20 },
+  other:       { great:0.08, good:0.15, fair:0.22, poor:0.28, unknown:0.18 },
+};
+
+function getAPR() {
+  const tier = (document.getElementById('creditTier')||{value:''}).value || 'unknown';
+  const typeAPR = aprMap[selectedType] || aprMap.other;
+  return typeAPR[tier] || 0.15;
+}
+
+function pmt(principal, annualRate, months) {
+  if (annualRate === 0 || principal <= 0) return principal / months;
+  const r = annualRate / 12;
+  return principal * r / (1 - Math.pow(1 + r, -months));
+}
+
+function fmt(n) { return '$' + Math.round(Math.abs(n)).toLocaleString(); }
+
+function setType(btn) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedType = btn.dataset.type;
+  buildPanel();
+}
+
+function toggleLoan(type) {
+  const panel = document.getElementById(type + 'Panel');
+  const toggle = document.getElementById(type + 'Toggle');
+  const isOpen = panel.classList.contains('visible');
+  panel.classList.toggle('visible', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+  updateTotals();
+}
+
+function getExistingLoans() {
+  const mortgageBalance  = parseFloat((document.getElementById('mortgageBalance')||{value:''}).value)  || 0;
+  const mortgageOriginal = parseFloat((document.getElementById('mortgageOriginal')||{value:''}).value) || 0;
+  const autoBalance      = parseFloat((document.getElementById('autoBalance')||{value:''}).value)      || 0;
+  const autoOriginal     = parseFloat((document.getElementById('autoOriginal')||{value:''}).value)     || 0;
+  const mortgageOpen = (document.getElementById('mortgagePanel') ? document.getElementById('mortgagePanel').classList.contains('visible') : false);
+  const autoOpen     = (document.getElementById('autoPanel') ? document.getElementById('autoPanel').classList.contains('visible') : false);
+  return {
+    mortgageBalance:  mortgageOpen ? mortgageBalance  : 0,
+    mortgageOriginal: mortgageOpen ? mortgageOriginal : 0,
+    autoBalance:      autoOpen     ? autoBalance      : 0,
+    autoOriginal:     autoOpen     ? autoOriginal     : 0,
+    hasAny: (mortgageOpen && mortgageBalance > 0) || (autoOpen && autoBalance > 0),
+  };
+}
+
+function renderBigPicture(loans, price, method, income, totalExp, purchaseMonthlyPayment) {
+  const bp = document.getElementById('bigPicture');
+  if (!loans.hasAny) { bp.style.display = 'none'; return; }
+  bp.style.display = 'block';
+
+  const totalExistingDebt = loans.mortgageBalance + loans.autoBalance;
+  const debt = parseFloat((document.getElementById('debt')||{value:''}).value) || 0;
+  const grandTotalDebt = totalExistingDebt + debt;
+
+  // Monthly payments already captured in expenses — calculate debt-to-income
+  const totalMonthlyDebt = totalExp; // their expenses include mortgage + car payment
+  const newMonthly = method === 'finance' ? purchaseMonthlyPayment : 0;
+  const totalMonthlyAfter = totalExp + newMonthly;
+  const dtiAfter = income > 0 ? totalMonthlyAfter / income * 100 : 0;
+  const dtiCls = dtiAfter > 50 ? 'bad' : dtiAfter > 36 ? 'warn' : 'good';
+
+  const insights = [];
+
+  // Mortgage context
+  if (loans.mortgageBalance > 0) {
+    const paidOff = loans.mortgageOriginal > 0 ? Math.round((1 - loans.mortgageBalance / loans.mortgageOriginal) * 100) : null;
+    const purchaseVsMortgage = loans.mortgageBalance > 0 ? (price / loans.mortgageBalance * 100).toFixed(1) : null;
+
+    if (paidOff !== null) {
+      insights.push(`Your mortgage is <strong>${paidOff}% paid off</strong> — you've built real equity. Protect it.`);
+    }
+    if (purchaseVsMortgage !== null && price > 0) {
+      insights.push(`This $${price.toLocaleString()} purchase is <strong>${purchaseVsMortgage}% of your remaining mortgage balance</strong>. Keeping perspective on scale matters.`);
+    }
+    if (method === 'finance' && purchaseMonthlyPayment > 0 && loans.mortgageBalance > 0) {
+      // How much longer does the new payment extend financial pressure?
+      const extraYearlyCost = purchaseMonthlyPayment * 12;
+      insights.push(`Adding <strong>${fmt(purchaseMonthlyPayment)}/mo</strong> to your existing mortgage payment means <strong>${fmt(extraYearlyCost)}/year</strong> more leaving your household — money that can't go toward your mortgage principal.`);
+    }
+  }
+
+  // Auto loan context
+  if (loans.autoBalance > 0) {
+    const autoPaidOff = loans.autoOriginal > 0 ? Math.round((1 - loans.autoBalance / loans.autoOriginal) * 100) : null;
+    if (autoPaidOff !== null) {
+      insights.push(`Your current auto loan is <strong>${autoPaidOff}% paid off</strong> — ${autoPaidOff > 70 ? 'almost there, stay the course.' : 'still significant remaining balance.'}`);
+    }
+    if (selectedType === 'car' && price > 0) {
+      insights.push(`You're considering a new vehicle while carrying <strong>${fmt(loans.autoBalance)}</strong> on your current one. Stacking auto loans significantly increases your monthly obligations.`);
+    }
+  }
+
+  // DTI insight
+  if (income > 0 && method === 'finance') {
+    insights.push(`After this purchase, <strong>${Math.round(dtiAfter)}% of your monthly income</strong> goes to expenses and debt — lenders consider above 43% a warning sign.`);
+  }
+
+  // Opportunity cost against mortgage
+  if (loans.mortgageBalance > 0 && price > 0) {
+    // If they put the purchase price toward mortgage principal instead
+    const interestSaved = Math.round(price * 0.065); // rough avg mortgage rate
+    insights.push(`Putting <strong>${fmt(price)}</strong> toward your mortgage principal instead would save roughly <strong>${fmt(interestSaved)}/year</strong> in interest — ${fmt(interestSaved * 5)} over 5 years.`);
+  }
+
+  document.getElementById('bpGrid').innerHTML = [
+    { val: fmt(totalExistingDebt), label: 'Total Loan Balances', cls: totalExistingDebt > income * 12 ? 'bad' : 'warn' },
+    { val: Math.round(dtiAfter) + '%', label: 'Expense-to-Income After', cls: dtiCls },
+    { val: grandTotalDebt > 0 ? fmt(grandTotalDebt) : '—', label: 'All Obligations Combined', cls: grandTotalDebt > income * 24 ? 'bad' : 'warn' },
+  ].map(s => `<div class="bp-stat"><div class="bp-val ${s.cls}">${s.val}</div><div class="bp-label">${s.label}</div></div>`).join('');
+
+  document.getElementById('bpInsight').innerHTML = insights.slice(0, 4).map(i =>
+    `<div class="bp-insight-row">${i}</div>`).join('');
+}
+
+function buildPanel() {
+  const cfg = panels[selectedType];
+  document.getElementById('panelTitle').textContent = cfg.title;
+
+  const body = document.getElementById('panelBody');
+  const isDoubleGrid = cfg.fields.length > 2;
+  body.style.gridTemplateColumns = isDoubleGrid ? '' : '1fr';
+
+  let html = `<div class="${cfg.fields.length > 2 ? 'panel-grid2' : 'grid1'}" style="gap:12px">`;
+  cfg.fields.forEach(f => {
+    if (f.type === 'select') {
+      html += `
+        <div class="field">
+          <label>${f.label}</label>
+          <select id="${f.id}" onchange="updateFinPreview()">
+            ${f.options.map(o => `<option value="${o.v}">${o.l}</option>`).join('')}
+          </select>
+        </div>`;
+    } else {
+      html += `
+        <div class="field">
+          <label>${f.label}</label>
+          <div class="iw pre-input">
+            <span class="pre">${f.pre || '$'}</span>
+            <input type="${f.type}" id="${f.id}" placeholder="${f.placeholder || ''}" min="0" oninput="updateFinPreview()">
+          </div>
+        </div>`;
+    }
+  });
+  html += '</div>';
+
+  if (cfg.additionalCosts) {
+    html += `<div style="font-size:12px;color:var(--muted);line-height:1.5;padding:10px 12px;background:rgba(0,0,0,.03);border-radius:4px;border:1px solid var(--border)">
+      ⚠ ${cfg.additionalCosts}
+    </div>`;
+  }
+
+  body.innerHTML = html;
+  updateFinPreview();
+}
+
+function updateFinPreview() {
+  const price   = parseFloat((document.getElementById('pPrice')||{value:''}).value) || 0;
+  const down    = parseFloat((document.getElementById('pDown')||{value:''}).value)  || 0;
+  const termEl  = document.getElementById('pTerm');
+  const term    = termEl ? parseInt(termEl.value) : 60;
+  const method  = (document.getElementById('pMethod')||{value:''}).value || 'cash';
+  const cfg     = panels[selectedType];
+
+  const fp = document.getElementById('finPreview');
+
+  if (!cfg.hasFinancing || method !== 'finance' || price <= 0) {
+    fp.classList.remove('visible');
+    return;
+  }
+
+  fp.classList.add('visible');
+  const principal = Math.max(0, price - down);
+  const apr = getAPR();
+  const monthly = pmt(principal, apr, term);
+  const totalCost = monthly * term;
+  const totalInt  = totalCost - principal;
+  const income = parseFloat((document.getElementById('income')||{value:''}).value) || 0;
+  const expTotal = getExpTotal();
+  const leftover = income - expTotal;
+  const ptiPct = income > 0 ? (monthly / income * 100).toFixed(0) : null;
+
+  document.getElementById('fpMonthly').textContent  = fmt(monthly) + '/mo';
+  document.getElementById('fpTotalInt').textContent = fmt(totalInt);
+  document.getElementById('fpTotalCost').textContent = fmt(totalCost);
+
+  const fmEl = document.getElementById('fpMonthly');
+  fmEl.className = 'fin-stat-val' + (monthly > leftover * 0.5 ? ' bad' : monthly > leftover * 0.3 ? ' warn' : '');
+
+  let noteText = '';
+  if (apr === 0) {
+    noteText = `<strong>0% promo rate assumed.</strong> If not paid in full by the promo end date, full interest is typically charged retroactively.`;
+  } else {
+    noteText = `Estimated at <strong>${(apr*100).toFixed(1)}% APR</strong> based on your credit tier.`;
+  }
+  if (ptiPct !== null) {
+    noteText += ` This payment would be <strong>${ptiPct}%</strong> of your monthly income — lenders prefer under 20%.`;
+  }
+  if (monthly > leftover && leftover > 0) {
+    noteText += ` <strong style="color:var(--bad)">⚠ This payment exceeds your current monthly margin of ${fmt(leftover)}.</strong>`;
+  }
+
+  document.getElementById('fpNote').innerHTML = noteText;
+}
+
+function getExpTotal() {
+  return ['expHousing','expTransport','expFood','expBills','expLeisure']
+    .reduce((s,id) => s + (parseFloat((document.getElementById(id)||{value:''}).value) || 0), 0);
+}
+
+function updateTotals() {
+  const income     = parseFloat((document.getElementById('income')||{value:''}).value) || 0;
+  const saveRate   = parseFloat((document.getElementById('savingsRate')||{value:''}).value) || 0;
+  const savings    = parseFloat((document.getElementById('savings')||{value:''}).value) || 0;
+  const invest     = parseFloat((document.getElementById('investments')||{value:''}).value) || 0;
+  const debt       = parseFloat((document.getElementById('debt')||{value:''}).value) || 0;
+
+  const expHousing   = parseFloat((document.getElementById('expHousing')||{value:''}).value) || 0;
+  const expTransport = parseFloat((document.getElementById('expTransport')||{value:''}).value) || 0;
+  const expFood      = parseFloat((document.getElementById('expFood')||{value:''}).value) || 0;
+  const expBills     = parseFloat((document.getElementById('expBills')||{value:''}).value) || 0;
+  const expLeisure   = parseFloat((document.getElementById('expLeisure')||{value:''}).value) || 0;
+  const totalExp     = expHousing + expTransport + expFood + expBills + expLeisure;
+
+  const leftover   = income - totalExp;
+  const efMonths   = totalExp > 0 ? savings / totalExp : 0;
+  const savRatioPct = income > 0 ? Math.round(saveRate / income * 100) : 0;
+  const totalAssets = savings + invest;
+
+  // -- POSITIVE PANEL --------------------------------------------------------
+  const anyPositive = income > 0 || savings > 0 || invest > 0;
+  const posFeedback = document.getElementById('positiveFeedback');
+  posFeedback.style.display = anyPositive ? 'block' : 'none';
+
+  if (anyPositive) {
+    document.getElementById('lfIncome').textContent = income > 0 ? '$' + income.toLocaleString() + '/mo' : '—';
+
+    const assetsEl = document.getElementById('lfAssets');
+    assetsEl.textContent = totalAssets > 0 ? '$' + Math.round(totalAssets).toLocaleString() : '—';
+
+    const srEl = document.getElementById('lfSavRate');
+    if (saveRate > 0 && income > 0) {
+      srEl.textContent = savRatioPct + '%';
+      srEl.className = 'lf-val ' + (savRatioPct >= 20 ? 'positive' : savRatioPct >= 10 ? 'warn' : 'negative');
+      document.getElementById('lfSavRateSub').textContent = savRatioPct >= 20 ? 'excellent savings rate ✓' : savRatioPct >= 10 ? 'decent — aim for 20%' : 'low — try to increase this';
+    } else {
+      srEl.textContent = income > 0 ? '0%' : '—';
+      srEl.className = 'lf-val negative';
+      document.getElementById('lfSavRateSub').textContent = 'no savings detected';
+    }
+  }
+
+  // -- EXPENSE PANEL ---------------------------------------------------------
+  const anyExpense = totalExp > 0;
+  const expFeedback = document.getElementById('expFeedback');
+  expFeedback.style.display = anyExpense ? 'block' : 'none';
+
+  if (anyExpense) {
+    document.getElementById('lfExpTotal').textContent = '$' + Math.round(totalExp).toLocaleString() + '/mo';
+
+    const marginEl = document.getElementById('lfMargin');
+    if (income > 0) {
+      marginEl.textContent = (leftover < 0 ? '-$' : '$') + Math.abs(Math.round(leftover)).toLocaleString() + '/mo';
+      marginEl.className = 'lf-val ' + (leftover < 0 ? 'negative' : leftover < 300 ? 'warn' : 'positive');
+    } else {
+      marginEl.textContent = '—';
+      marginEl.className = 'lf-val neutral';
+    }
+
+    const efEl = document.getElementById('lfEF');
+    if (savings > 0 && totalExp > 0) {
+      efEl.textContent = efMonths.toFixed(1) + ' mo';
+      efEl.className = 'lf-val ' + (efMonths >= 6 ? 'positive' : efMonths >= 3 ? 'warn' : 'negative');
+      document.getElementById('lfEFsub').textContent =
+        efMonths >= 6 ? 'fully funded ✓' :
+        efMonths >= 3 ? 'acceptable — aim for 6 months' :
+        'underfunded — this is a risk';
+    } else if (savings === 0) {
+      efEl.textContent = '0 mo';
+      efEl.className = 'lf-val negative';
+      document.getElementById('lfEFsub').textContent = 'no savings buffer';
+    } else {
+      efEl.textContent = '—';
+      efEl.className = 'lf-val neutral';
+    }
+  }
+
+  // -- DEBT PANEL ------------------------------------------------------------
+  const debtFeedback = document.getElementById('debtFeedback');
+  debtFeedback.style.display = debt > 0 ? 'block' : 'none';
+
+  if (debt > 0 && income > 0) {
+    const dtiMonths = debt / income;
+    const dtiEl = document.getElementById('lfDTI');
+    dtiEl.textContent = dtiMonths.toFixed(1) + ' mo income';
+    dtiEl.className = 'lf-val ' + (dtiMonths <= 1 ? 'warn' : dtiMonths <= 3 ? 'negative' : 'negative');
+  }
+
+  updateFinPreview();
+}
+
+function cls(s) { return s >= 7 ? 'good' : s >= 4 ? 'warn' : 'bad'; }
+
+function scoreIt() {
+  const income   = parseFloat(document.getElementById('income').value) || 0;
+  const saveRate = parseFloat(document.getElementById('savingsRate').value) || 0;
+  const savings  = parseFloat(document.getElementById('savings').value) || 0;
+  const debt     = parseFloat(document.getElementById('debt').value) || 0;
+  const creditTier = document.getElementById('creditTier').value;
+
+  const expHousing   = parseFloat((document.getElementById('expHousing')||{value:''}).value)   || 0;
+  const expTransport = parseFloat((document.getElementById('expTransport')||{value:''}).value)  || 0;
+  const expFood      = parseFloat((document.getElementById('expFood')||{value:''}).value)       || 0;
+  const expBills     = parseFloat((document.getElementById('expBills')||{value:''}).value)      || 0;
+  const expLeisure   = parseFloat((document.getElementById('expLeisure')||{value:''}).value)    || 0;
+  const totalExp     = expHousing + expTransport + expFood + expBills + expLeisure;
+
+  const price    = parseFloat((document.getElementById('pPrice')||{value:''}).value) || 0;
+  const down     = parseFloat((document.getElementById('pDown')||{value:''}).value)  || 0;
+  const termEl   = document.getElementById('pTerm');
+  const term     = termEl ? parseInt(termEl.value) : 60;
+  const method   = (document.getElementById('pMethod')||{value:''}).value || 'cash';
+  const desc     = document.getElementById('purchaseDesc').value.trim();
+
+  if (!income || !totalExp || !price) {
+    alert('Please fill in your income, expenses, and purchase details.');
+    return;
+  }
+
+  const leftover = income - totalExp;
+  const efMonths = totalExp > 0 ? savings / totalExp : 0;
+  const leisurePct = income > 0 ? expLeisure / income : 0;
+  const debtRatio = income > 0 ? debt / income : 99;
+  const savRatio = income > 0 ? saveRate / income : 0;
+
+  // Financing impact
+  let monthlyPayment = 0;
+  let totalInterest = 0;
+  if (method === 'finance') {
+    const principal = Math.max(0, price - (down || 0));
+    const apr = getAPR();
+    monthlyPayment = pmt(principal, apr, term);
+    totalInterest = monthlyPayment * term - principal;
+  }
+
+  const priceToSavings = savings > 0 ? price / savings : 999;
+  const priceToIncome  = price / income;
+  const ptiRatio = income > 0 && monthlyPayment > 0 ? monthlyPayment / income : 0;
+
+  // New leftover after financing
+  const leftoverAfter = method === 'finance' ? leftover - monthlyPayment
+    : method === 'cash' || method === 'savings' ? leftover
+    : leftover;
+
+  // --- DIMENSION SCORES ----------------------------------------------------
+
+  // Emergency fund
+  let efScore;
+  if (efMonths >= 6) efScore = 10;
+  else if (efMonths >= 4) efScore = 8;
+  else if (efMonths >= 3) efScore = 6;
+  else if (efMonths >= 2) efScore = 4;
+  else if (efMonths >= 1) efScore = 2;
+  else efScore = 0;
+  if ((method === 'cash' || method === 'savings') && savings > 0) {
+    const newEF = (savings - price) / totalExp;
+    if (newEF < 1) efScore = Math.max(0, efScore - 4);
+    else if (newEF < 3) efScore = Math.max(0, efScore - 2);
+  }
+
+  // Affordability
+  let affordScore;
+  const refPrice = method === 'finance' ? monthlyPayment * 12 : price;
+  const priceRatio = refPrice / (income * 12);
+  if (priceRatio <= 0.04) affordScore = 10;
+  else if (priceRatio <= 0.08) affordScore = 8;
+  else if (priceRatio <= 0.15) affordScore = 6;
+  else if (priceRatio <= 0.25) affordScore = 4;
+  else if (priceRatio <= 0.40) affordScore = 2;
+  else affordScore = 0;
+  if (leftoverAfter < 100) affordScore = Math.max(0, affordScore - 3);
+  else if (leftoverAfter < 300) affordScore = Math.max(0, affordScore - 1);
+
+  // Debt
+  let debtScore;
+  if (debt === 0) debtScore = 10;
+  else if (debtRatio < 1) debtScore = 8;
+  else if (debtRatio < 3) debtScore = 5;
+  else if (debtRatio < 6) debtScore = 3;
+  else debtScore = 1;
+  if (debt > 0 && method !== 'finance') debtScore = Math.max(0, debtScore - 2);
+
+  // Savings health
+  let savScore;
+  if (priceToSavings <= 0.10) savScore = 10;
+  else if (priceToSavings <= 0.25) savScore = 8;
+  else if (priceToSavings <= 0.50) savScore = 6;
+  else if (priceToSavings <= 0.75) savScore = 3;
+  else if (priceToSavings <= 1.0)  savScore = 1;
+  else savScore = 0;
+
+  // Savings behavior
+  let savBehavScore;
+  if (savRatio >= 0.20) savBehavScore = 10;
+  else if (savRatio >= 0.15) savBehavScore = 8;
+  else if (savRatio >= 0.10) savBehavScore = 6;
+  else if (savRatio >= 0.05) savBehavScore = 4;
+  else if (savRatio > 0) savBehavScore = 2;
+  else savBehavScore = 0;
+
+  // Category mods
+  const catMod = { car:0, house:1, boat:-1, vacation:-1, electronics:0, furniture:0, dining:-2, other:0 }[selectedType] || 0;
+
+  const weights = { ef:0.25, afford:0.25, debt:0.20, sav:0.15, savB:0.15 };
+  const raw = efScore*weights.ef + affordScore*weights.afford + debtScore*weights.debt + savScore*weights.sav + savBehavScore*weights.savB;
+  const finalScore = Math.min(10, Math.max(0, Math.round(raw + catMod)));
+
+  const scoreCls = cls(finalScore);
+
+  // --- VERDICTS -------------------------------------------------------------
+  const verdicts = {
+    good: ['GREEN LIGHT','YOU\'RE SOLID','LOOKS FINE','GO FOR IT'],
+    warn: ['PROCEED WITH CAUTION','THINK TWICE','BORDERLINE','NOT IDEAL'],
+    bad:  ['DON\'T DO IT','BAD IDEA','HOLD OFF','NOT RIGHT NOW'],
+  };
+  const headline = verdicts[scoreCls][Math.floor(Math.random() * 4)];
+  const purchaseLabel = desc || `$${price.toLocaleString()} ${selectedType} purchase`;
+
+  // Summary
+  const summaryParts = [];
+  if (leftover < 0) summaryParts.push(`You\'re currently spending more than you earn by ${fmt(Math.abs(leftover))}/month before this purchase.`);
+  else summaryParts.push(`After expenses you have ${fmt(leftover)}/month left over.`);
+  if (efMonths < 3) summaryParts.push(`Your emergency fund covers only ${efMonths.toFixed(1)} months — below the 3-month minimum.`);
+  else summaryParts.push(`Your emergency fund is ${efMonths >= 6 ? 'solid' : 'acceptable'} at ${efMonths.toFixed(1)} months.`);
+  if (leisurePct > 0.15) summaryParts.push(`Your invisible spending (${fmt(expLeisure)}/mo) is ${Math.round(leisurePct*100)}% of income — that\'s worth examining.`);
+  if (debt > 0) summaryParts.push(`You have ${fmt(debt)} in high-interest debt outstanding.`);
+
+  // Honest take
+  let honestTake = '';
+  if (finalScore >= 8) {
+    honestTake = `Your finances are in solid shape for this. The numbers don\'t raise major red flags.${debt > 0 ? ' That said, paying down your high-interest debt first is the mathematically optimal move.' : ' If this aligns with your actual needs, you\'re in a reasonable position to proceed.'}`;
+  } else if (finalScore >= 6) {
+    honestTake = `This is doable but not ideal. ${efMonths < 3 ? 'Your emergency fund is thin -- one unexpected expense after this could really hurt.' : ''} ${debt > 0 ? 'Making a discretionary purchase while carrying high-interest debt costs you more than the price tag.' : ''} ${method === 'finance' && ptiRatio > 0.2 ? 'The monthly payment (' + fmt(monthlyPayment) + ') is a meaningful slice of your income.' : ''} Not a disaster, but worth slowing down on.`;
+  } else if (finalScore >= 4) {
+    honestTake = `<strong>This isn\'t a great idea right now.</strong> ${leftoverAfter < 0 ? 'After this payment, you\'d have negative monthly margin -- that\'s a fragile position.' : ''} ${efMonths < 2 ? 'You don\'t have enough savings to absorb a financial shock.' : ''} ${debt > 0 ? 'The ' + fmt(debt) + ' in high-interest debt should come first.' : ''} Something needs to change before this makes sense.`;
+  } else {
+    honestTake = '<strong>Objectively, this is not a sound financial decision right now.</strong> ' + (leftover <= 0 ? 'You\'re already spending more than you earn.' : 'Your margin is only ' + fmt(leftover) + '/month.') + ' ' + (efMonths < 1 ? 'You have almost no financial cushion.' : '') + ' ' + (debt > 0 ? 'You\'re carrying ' + fmt(debt) + ' in high-interest debt.' : '') + ' The math simply doesn\'t support this purchase at this time.';
+  }
+
+  // Actions
+  const actions = [];
+  if (debt > 0) actions.push(`<strong>Pay down the high-interest debt first.</strong> At typical rates (18–25%), paying ${fmt(Math.min(debt, 500))}/month extra saves you more than almost any investment return.`);
+  if (efMonths < 3) {
+    const gap = totalExp * 3 - savings;
+    actions.push('<strong>Build your emergency fund to ' + fmt(totalExp * 3) + '</strong> (3 months of expenses). You\'re ' + fmt(gap) + ' short. ' + (saveRate > 0 ? 'At your savings rate, that\'s ' + Math.ceil(gap/saveRate) + ' months away.' : 'Start with any amount consistently.'));
+  }
+  if (method === 'finance' && monthlyPayment > leftover * 0.4) {
+    actions.push(`<strong>The payment stretches your budget thin.</strong> Consider a lower price point — dropping the purchase price by ${fmt(price * 0.2)} would bring the monthly payment to roughly ${fmt(pmt(Math.max(0,(price*0.8)-(down||0)), getAPR(), term))}.`);
+  }
+  if (leisurePct > 0.15) {
+    actions.push(`<strong>Look hard at your invisible spending (${fmt(expLeisure)}/mo).</strong> Cutting that by even 20% frees up ${fmt(expLeisure * 0.2)}/month — ${fmt(expLeisure * 0.2 * 12)}/year — which could change what\'s possible.`);
+  }
+  if (saveRate === 0) actions.push(`<strong>Start a savings habit before this purchase.</strong> Even $100–200/month consistently will change your options significantly within a year.`);
+  if (actions.length === 0) actions.push(`<strong>You\'re in a solid position.</strong> Make sure this purchase is need-driven, not impulse-driven, and you can feel good about it.`);
+
+  // Opp cost
+  const oppVal = Math.round(price * Math.pow(1.07, 10));
+
+  // --- RENDER ---------------------------------------------------------------
+  document.getElementById('results').style.display = 'block';
+
+  const sc = document.getElementById('scoreCircle');
+  sc.className = 'score-circle ' + scoreCls;
+  document.getElementById('scoreNum').textContent = finalScore;
+
+  const vh = document.getElementById('vtHeadline');
+  vh.className = 'vt-headline ' + scoreCls;
+  vh.textContent = headline;
+  document.getElementById('vtPurchase').textContent = purchaseLabel;
+  document.getElementById('vtSummary').textContent = summaryParts.join(' ');
+
+  // Key numbers
+  const lo = document.getElementById('numLeftover');
+  lo.textContent = (leftoverAfter < 0 ? '-' : '') + fmt(leftoverAfter);
+  lo.className = 'num-val ' + (leftoverAfter < 0 ? 'bad' : leftoverAfter < 300 ? 'warn' : 'good');
+
+  const ef = document.getElementById('numEF');
+  ef.textContent = efMonths.toFixed(1) + ' mo';
+  ef.className = 'num-val ' + (efMonths < 2 ? 'bad' : efMonths < 4 ? 'warn' : 'good');
+  document.getElementById('numEFsub').textContent = efMonths >= 6 ? 'fully funded ✓' : efMonths >= 3 ? 'acceptable' : 'underfunded ⚠';
+
+  const lEl = document.getElementById('numLeisure');
+  lEl.textContent = fmt(expLeisure) + '/mo';
+  lEl.className = 'num-val ' + (leisurePct > 0.20 ? 'bad' : leisurePct > 0.12 ? 'warn' : 'good');
+  document.getElementById('numLeisureSub').textContent = Math.round(leisurePct*100) + '% of income · ' + fmt(expLeisure*12) + '/yr';
+
+  // Purchase impact
+  const impactItems = [];
+  if (method === 'finance') {
+    impactItems.push({ label:'Monthly Payment', val: fmt(monthlyPayment)+'/mo', c: cls(monthlyPayment < leftover*0.3 ? 8 : monthlyPayment < leftover*0.5 ? 5 : 2) });
+    impactItems.push({ label:'Total Interest', val: fmt(totalInterest), c: cls(totalInterest < price*0.1 ? 8 : totalInterest < price*0.3 ? 5 : 2) });
+    impactItems.push({ label:'New Monthly Margin', val: (leftoverAfter>=0?'':'-')+fmt(leftoverAfter), c: cls(leftoverAfter > 400 ? 8 : leftoverAfter > 0 ? 5 : 0) });
+  } else {
+    impactItems.push({ label:'Purchase Price', val: fmt(price), c:'good' });
+    impactItems.push({ label:'% of Savings', val: Math.min(999,Math.round(priceToSavings*100))+'%', c: cls(priceToSavings<0.25?8:priceToSavings<0.5?5:2) });
+    impactItems.push({ label:'Savings After', val: fmt(Math.max(0,savings-price)), c: cls((savings-price)/totalExp >= 3 ? 8 : (savings-price)/totalExp >= 1 ? 5 : 2) });
+  }
+  document.getElementById('impactTitle').textContent = method === 'finance' ? 'Financing Impact' : 'Cash Purchase Impact';
+  document.getElementById('impactGrid').innerHTML = impactItems.map(i =>
+    `<div class="imp-stat"><div class="imp-val ${i.c}">${i.val}</div><div class="imp-label">${i.label}</div></div>`
+  ).join('');
+
+  // Big Picture
+  const loans = getExistingLoans();
+  renderBigPicture(loans, price, method, income, totalExp, monthlyPayment);
+
+  // Score bars
+  const dims = [
+    { name:'Emergency Fund', score:efScore, note:`${efMonths.toFixed(1)} months of expenses covered` },
+    { name:'Affordability',  score:affordScore, note: method==='finance' ? 'Payment = ' + Math.round(ptiRatio*100) + '% of monthly income' : 'Purchase = ' + priceToIncome.toFixed(1) + 'x monthly income' },
+    { name:'Debt Load',      score:debtScore, note: debt > 0 ? `${fmt(debt)} high-interest debt outstanding` : 'No high-interest debt ✓' },
+    { name:'Savings Health', score:savScore, note:`Purchase = ${Math.min(999,Math.round(priceToSavings*100))}% of liquid savings` },
+    { name:'Savings Habit',  score:savBehavScore, note: saveRate > 0 ? `Saving ${fmt(saveRate)}/mo (${Math.round(savRatio*100)}% of income)` : 'No regular savings detected' },
+  ];
+  document.getElementById('barRows').innerHTML = dims.map(d => {
+    const c = cls(d.score);
+    return `<div class="score-bar-row">
+      <div class="sbr-top"><span class="sbr-name">${d.name}</span><span class="sbr-val ${c}">${d.score}/10</span></div>
+      <div class="sbr-track"><div class="sbr-fill ${c}" style="width:${d.score*10}%"></div></div>
+      <div class="sbr-note">${d.note}</div>
+    </div>`;
+  }).join('');
+
+  // Honest take
+  const tc = document.getElementById('theCall');
+  tc.className = 'the-call ' + scoreCls;
+  document.getElementById('callText').innerHTML = honestTake;
+
+  // Opp cost
+  document.getElementById('oppAmount').textContent = '$' + oppVal.toLocaleString();
+  document.getElementById('oppNote').textContent = `${fmt(price)} invested at 7% avg annual return grows to $${oppVal.toLocaleString()} in 10 years. That's the real price of this decision.`;
+
+  // Actions
+  document.getElementById('actionItems').innerHTML = actions.map((a,i) =>
+    `<div class="action-item" style="animation-delay:${i*.07}s">
+      <span class="action-num">${String(i+1).padStart(2,'0')}</span>
+      <div class="action-text">${a}</div>
+    </div>`).join('');
+
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.sbr-fill').forEach(b => {
+      const w = b.style.width; b.style.width='0';
+      setTimeout(()=>b.style.width=w, 60);
+    });
+  }, 100);
+
+  document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+
+  // Share
+  currentShareText = buildShareText(finalScore, headline, purchaseLabel, scoreCls);
+  const sp = document.getElementById('sharePreview');
+  sp.textContent = currentShareText + ' [your link]';
+  sp.classList.add('visible');
+  document.getElementById('shareBox').style.display = 'block';
+}
+
+function reset() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('shareBox').style.display = 'none';
+  document.getElementById('sharePreview').classList.remove('visible');
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+let currentShareText = '';
+
+function shareTwitter() {
+  const url = encodeURIComponent(window.location.href);
+  const text = encodeURIComponent(currentShareText);
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+}
+
+function copyLink() {
+  const full = currentShareText + ' ' + window.location.href;
+  navigator.clipboard.writeText(full).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.classList.add('copied');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link`;
+    }, 2500);
+  }).catch(() => {
+    prompt('Copy this:', currentShareText + ' ' + window.location.href);
+  });
+}
+
+function buildShareText(score, headline, purchaseLabel, scoreCls) {
+  const emoji = scoreCls === 'good' ? '\u2705' : scoreCls === 'warn' ? '\u26A0' : '\u274C';
+  return `${emoji} I scored my financial decision ${score}/10 on Objectively — "${headline}" (${purchaseLabel}). Get an honest score on yours:`;
+}
+
+// Init
+buildPanel();
+</script>
+</body>
+</html>

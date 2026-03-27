@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Am I On Track Financially? — Find Your Financial Archetype</title>
+  <meta name="description" content="Find out exactly where you stand financially compared to everyone your age. Get your percentile ranking, financial archetype, and a 10-year projection in 30 seconds.">
+  <meta name="keywords" content="am I on track financially, net worth by age, financial archetype, where do I stand financially, savings by age calculator">
+  <meta property="og:title" content="Am I On Track Financially? — Find Your Financial Archetype">
+  <meta property="og:description" content="Find out exactly where you stand financially compared to everyone your age. Get your percentile ranking, financial archetype, and a 10-year projection in 30 seconds.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Objectively">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Am I On Track Financially? — Find Your Financial Archetype">
+  <meta name="twitter:description" content="Find out exactly where you stand financially compared to everyone your age. Get your percentile ranking, financial archetype, and a 10-year projection in 30 seconds.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0c10;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --border: #252532;
+  --border2: #32324a;
+  --text: #f0eee8;
+  --muted: #7a7890;
+  --muted2: #4a4860;
+  --display: 'Playfair Display', serif;
+  --body: 'Barlow', sans-serif;
+  --cond: 'Barlow Condensed', sans-serif;
+
+  /* archetype colors */
+  --gold: #f5c842;
+  --teal: #2dd4bf;
+  --coral: #ff6b6b;
+  --violet: #a78bfa;
+  --emerald: #34d399;
+  --amber: #fb923c;
+  --sky: #38bdf8;
+  --rose: #fb7185;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* animated grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HEADER ── */
+header {
+  padding: 60px 0 48px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--border2);
+}
+
+.headline {
+  font-family: var(--display);
+  font-size: clamp(42px, 10vw, 68px);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+}
+
+.headline em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.subhead {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 16px auto 0;
+}
+
+.subhead strong { color: var(--text); font-weight: 500; }
+
+/* ── FORM ── */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--teal), var(--violet));
+}
+
+.field-group {
+  display: grid;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label {
+  font-family: var(--cond);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.field .hint {
+  font-size: 12px;
+  color: var(--muted2);
+  margin-top: -4px;
+  line-height: 1.4;
+}
+
+.iw { position: relative; }
+.iw .pre {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--cond);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  pointer-events: none;
+}
+.iw .suf {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--cond);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted2);
+  pointer-events: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+input, select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--cond);
+  font-size: 22px;
+  font-weight: 600;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  -webkit-appearance: none;
+  appearance: none;
+  letter-spacing: .5px;
+}
+
+.iw.has-pre input { padding-left: 30px; }
+.iw.has-suf input { padding-right: 60px; }
+
+input:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(245,200,66,.1);
+}
+
+input::placeholder { color: var(--muted2); font-weight: 400; }
+select { cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7890' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+select option { background: #1a1a24; }
+
+/* home owner toggle */
+.owner-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.owner-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 13px;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--cond);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  transition: all .15s;
+  text-transform: uppercase;
+}
+.owner-btn:hover { border-color: var(--border2); color: var(--text); }
+.owner-btn.active {
+  background: rgba(245,200,66,.1);
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* submit */
+.go-btn {
+  width: 100%;
+  background: var(--gold);
+  color: #0c0c10;
+  border: none;
+  border-radius: 8px;
+  padding: 18px;
+  font-family: var(--cond);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 8px;
+}
+.go-btn:hover { background: #ffd84d; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(245,200,66,.25); }
+.go-btn:active { transform: translateY(0); }
+
+/* ── RESULTS ── */
+#results {
+  display: none;
+  margin-top: 48px;
+  animation: rise .5s cubic-bezier(.2,0,.1,1);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* archetype card */
+.archetype-card {
+  border-radius: 16px;
+  padding: 36px 32px 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid;
+}
+
+.archetype-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top right, var(--arch-color-a) 0%, transparent 60%);
+  opacity: .12;
+  pointer-events: none;
+}
+
+.arch-eyebrow {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: .7;
+  margin-bottom: 10px;
+}
+
+.arch-name {
+  font-family: var(--display);
+  font-size: clamp(32px, 8vw, 52px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+
+.arch-name em { font-style: italic; }
+
+.arch-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  opacity: .85;
+  max-width: 480px;
+  font-weight: 400;
+}
+
+.arch-emoji {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  font-size: 48px;
+  opacity: .6;
+}
+
+/* percentile bar */
+.percentile-section {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+}
+
+.pct-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+
+.pct-label {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pct-number {
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.pct-track {
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.pct-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+
+.pct-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 3px;
+  height: 100%;
+  background: rgba(255,255,255,.5);
+  border-radius: 2px;
+}
+
+/* percentile tier badge */
+.pct-badge {
+  display: inline-block;
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.pct-plain {
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 400;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.pct-plain strong { font-weight: 600; }
+
+.people-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.person-icon {
+  font-size: 18px;
+  line-height: 1;
+  transition: opacity .3s;
+}
+
+.person-icon.behind { opacity: .18; }
+
+/* stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 16px 14px;
+  text-align: center;
+}
+
+.stat-val {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.stat-lbl {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* real talk */
+.real-talk {
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  border: 1px solid;
+  position: relative;
+}
+
+.rt-label {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.rt-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.rt-text strong { font-weight: 600; }
+
+/* projection */
+.projection {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+
+.proj-title {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.proj-item { text-align: center; }
+
+.proj-year {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.proj-amt {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.proj-note {
+  font-size: 11px;
+  color: var(--muted2);
+  margin-top: 3px;
+}
+
+/* hope / habit section */
+.hope-section {
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+.hope-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .06;
+}
+
+.hope-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.hope-title-block {}
+
+.hope-label {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.hope-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.hope-monthly {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.hope-monthly-amt {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.hope-monthly-sub {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.hope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.hope-tile {
+  background: rgba(0,0,0,.2);
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.hope-tile-amt {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hope-tile-lbl {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+.hope-note {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: .8;
+}
+
+.hope-note strong { font-weight: 600; opacity: 1; }
+.one-thing {
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.one-thing::before {
+  content: '01';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-size: 80px;
+  font-weight: 900;
+  opacity: .06;
+  line-height: 1;
+}
+
+.ot-label {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.ot-text {
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.ot-text strong { font-weight: 600; }
+
+/* share */
+.share-section {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+
+.share-title {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.share-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.s-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--cond);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all .15s;
+}
+
+.s-btn.tw { background: var(--text); color: var(--bg); }
+.s-btn.tw:hover { background: #fff; transform: translateY(-1px); }
+.s-btn.cp { background: var(--surface2); color: var(--muted); border: 1px solid var(--border2); }
+.s-btn.cp:hover { border-color: var(--gold); color: var(--gold); }
+.s-btn.cp.done { border-color: var(--emerald); color: var(--emerald); }
+
+.share-preview {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--surface2);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-style: italic;
+  display: none;
+}
+
+.share-preview.show { display: block; }
+
+/* reset */
+.reset-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: var(--cond);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.reset-btn:hover { border-color: var(--text); color: var(--text); }
+
+/* disclaimer */
+.disclaimer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted2);
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .form-card { padding: 24px 20px; }
+  .archetype-card { padding: 28px 22px 24px; }
+  .arch-emoji { display: none; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .proj-grid { grid-template-columns: 1fr 1fr; }
+  .share-btns { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid #282828;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
+  <a href="/" style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c8f135;text-decoration:none;font-weight:500;">&#8592; Objectively.net</a>
+  <div style="display:flex;gap:16px;">
+    <a href="/decision/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">Decision</a>
+    <a href="/realdeal/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">RealDeal</a>
+    <a href="/track/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">On Track</a>
+    <a href="/paycheck/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#555;text-decoration:none;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#555'">Paycheck</a>
+  </div>
+</nav>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">Financial Archetype Quiz</div>
+  <div class="headline">Am I<br><em>On Track?</em></div>
+  <p class="subhead">5 questions. Instant result. Find out <strong>exactly where you stand</strong> compared to everyone your age — and what archetype you are.</p>
+</header>
+
+<div class="form-card">
+  <div class="field-group">
+
+    <div class="field">
+      <label>How old are you?</label>
+      <div class="iw has-suf">
+        <input type="number" id="age" placeholder="34" min="18" max="80">
+        <span class="suf">YRS</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Total Savings & Investments</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="assets" placeholder="47000" min="0">
+      </div>
+      <div class="hint">Everything — checking, savings, 401k, IRA, brokerage, crypto. One combined number.</div>
+    </div>
+
+    <div class="field">
+      <label>Annual Household Income</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="income" placeholder="72000" min="0">
+      </div>
+      <div class="hint">Before taxes. Include all earners in your household.</div>
+    </div>
+
+    <div class="field">
+      <label>High-Interest Debt</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="debt" placeholder="0" min="0" value="0">
+      </div>
+      <div class="hint">Credit cards + personal loans only. Not your mortgage or car loan.</div>
+    </div>
+
+    <div class="field">
+      <label>Do You Own Your Home?</label>
+      <div class="owner-toggle">
+        <button class="owner-btn active" data-val="no" onclick="setOwner(this)">No / Renting</button>
+        <button class="owner-btn" data-val="yes" onclick="setOwner(this)">Yes, I Own</button>
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+  <button class="go-btn" onclick="grade()">REVEAL MY ARCHETYPE →</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+
+  <!-- Archetype card -->
+  <div class="archetype-card" id="archCard">
+    <span class="arch-emoji" id="archEmoji"></span>
+    <div class="arch-eyebrow" id="archEyebrow">Your Financial Archetype</div>
+    <div class="arch-name" id="archName"></div>
+    <div class="arch-desc" id="archDesc"></div>
+  </div>
+
+  <!-- Percentile -->
+  <div class="percentile-section">
+    <div class="pct-top">
+      <span class="pct-label">Where You Stand</span>
+      <span class="pct-number" id="pctNum"></span>
+    </div>
+    <div id="pctBadge" class="pct-badge"></div>
+    <div class="pct-plain" id="pctPlain"></div>
+    <div class="people-row" id="peopleRow"></div>
+    <div class="pct-track">
+      <div class="pct-fill" id="pctFill" style="width:0%"></div>
+    </div>
+    <div class="pct-context" id="pctContext"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-tile">
+      <div class="stat-val" id="statSavRate"></div>
+      <div class="stat-lbl">Savings Rate</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val" id="statMultiple"></div>
+      <div class="stat-lbl">Income Multiple</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-val" id="statTarget"></div>
+      <div class="stat-lbl">Target By Now</div>
+    </div>
+  </div>
+
+  <!-- Real talk -->
+  <div class="real-talk" id="realTalk">
+    <div class="rt-label">Real Talk</div>
+    <div class="rt-text" id="rtText"></div>
+  </div>
+
+  <!-- Projection -->
+  <div class="projection">
+    <div class="proj-title">Where You're Headed — At 7% Annual Growth</div>
+    <div class="proj-grid" id="projGrid"></div>
+  </div>
+
+  <!-- Hope / Habit section -->
+  <div class="hope-section" id="hopeSection">
+    <div class="hope-header">
+      <div class="hope-title-block">
+        <div class="hope-label">The Habit That Changes Everything</div>
+        <div class="hope-title" id="hopeTitle"></div>
+      </div>
+      <div class="hope-monthly">
+        <div class="hope-monthly-amt" id="hopeAmt"></div>
+        <div class="hope-monthly-sub">per month</div>
+      </div>
+    </div>
+    <div class="hope-grid" id="hopeGrid"></div>
+    <div class="hope-note" id="hopeNote"></div>
+  </div>
+  <div class="one-thing" id="oneThing">
+    <div class="ot-label">The One Thing That Would Change Everything</div>
+    <div class="ot-text" id="otText"></div>
+  </div>
+
+  <!-- Share -->
+  <div class="share-section">
+    <div class="share-title">Share Your Archetype</div>
+    <div class="share-btns">
+      <button class="s-btn tw" onclick="doShare('twitter')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Post on X
+      </button>
+      <button class="s-btn cp" id="cpBtn" onclick="doShare('copy')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
+    </div>
+    <div class="share-preview" id="sharePreview"></div>
+  </div>
+
+  <button class="reset-btn" onclick="doReset()">← Try Different Numbers</button>
+
+</div>
+
+<div class="disclaimer">
+  For entertainment and general education only. Percentile rankings based on 2022 Federal Reserve Survey of Consumer Finances median net worth data by age. Not personalized financial advice.<br>
+  A tool by <strong>objectively.net</strong>
+</div>
+
+</div>
+
+<script>
+let ownerVal = 'no';
+let shareText = '';
+
+function ordinal(n) {
+  const s = ['th','st','nd','rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+function setOwner(btn) {
+  document.querySelectorAll('.owner-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ownerVal = btn.dataset.val;
+}
+
+function fmt(n) {
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return '$' + Math.round(n / 1000) + 'k';
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function fmtFull(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+// ── BENCHMARKS (2022 Federal Reserve Survey of Consumer Finances - most current) ──
+// Fidelity savings targets: 1x income by 30, 3x by 40, 6x by 50, 8x by 60, 10x by 67
+function getTargetMultiple(age) {
+  if (age <= 25) return 0.25;
+  if (age <= 30) return 1.0;
+  if (age <= 35) return 2.0;
+  if (age <= 40) return 3.0;
+  if (age <= 45) return 4.0;
+  if (age <= 50) return 6.0;
+  if (age <= 55) return 7.0;
+  if (age <= 60) return 8.0;
+  return 10.0;
+}
+
+// Actual median net worth by age from 2022 Fed Survey of Consumer Finances
+// Source: Federal Reserve Board, Changes in U.S. Family Finances 2019-2022
+function getMedianNW(age) {
+  if (age < 25) return 10400;   // Under 35 group starts low - interpolated
+  if (age < 30) return 25000;   // Interpolated within under-35 bracket
+  if (age < 35) return 39000;   // Fed bracket: under 35 = $39,000
+  if (age < 40) return 87000;   // Interpolated 35-44 bracket
+  if (age < 45) return 135600;  // Fed bracket: 35-44 = $135,600
+  if (age < 50) return 191000;  // Interpolated 45-54 bracket
+  if (age < 55) return 247200;  // Fed bracket: 45-54 = $247,200
+  if (age < 60) return 305000;  // Interpolated 55-64 bracket
+  if (age < 65) return 364500;  // Fed bracket: 55-64 = $364,500
+  if (age < 70) return 409900;  // Fed bracket: 65-74 = $409,900
+  return 335600;                 // Fed bracket: 75+ = $335,600
+}
+
+function getPercentile(assets, debt, income, age, isOwner) {
+  const netWorth = assets - debt + (isOwner ? income * 0.5 : 0);
+  const median = getMedianNW(age);
+  const ratio = netWorth / median;
+  // Percentile curve calibrated to actual wealth distribution
+  // U.S. wealth is highly skewed - bottom 50% have little, top 10% have most
+  if (ratio <= 0) return 8;
+  if (ratio <= 0.10) return 20;
+  if (ratio <= 0.25) return 30;
+  if (ratio <= 0.50) return 38;
+  if (ratio <= 0.75) return 44;
+  if (ratio <= 1.0)  return 50;
+  if (ratio <= 1.5)  return 60;
+  if (ratio <= 2.0)  return 68;
+  if (ratio <= 3.0)  return 76;
+  if (ratio <= 5.0)  return 84;
+  if (ratio <= 8.0)  return 90;
+  if (ratio <= 15.0) return 95;
+  return 98;
+}
+
+// ── ARCHETYPES ────────────────────────────────────────────────────────────────
+function getArchetype(age, assets, income, debt, isOwner, multiple, targetMultiple, percentile) {
+  const ratio = multiple / targetMultiple;
+  const debtBurden = income > 0 ? debt / income : 0;
+  const highDebt = debtBurden > 0.5;
+  const highIncome = income > 120000;
+  const lowSaver = ratio < 0.4;
+  const onTrack = ratio >= 0.85 && ratio <= 1.3;
+  const ahead = ratio > 1.3;
+  const wayAhead = ratio > 2.5;
+
+  // PERCENTILE is the source of truth - archetype description must NEVER contradict it
+  // Secondary factors add nuance (debt, income vs savings gap, age)
+
+  // Top tier - genuinely crushing it vs real Americans
+  if (percentile >= 85 && !highDebt) return {
+    name: 'The <em>Wealth Builder</em>',
+    emoji: '🏔️',
+    color: '#f5c842',
+    colorB: '#fb923c',
+    desc: 'You are genuinely ahead of the vast majority of Americans your age. Whether through discipline, income, or smart decisions early on — your financial foundation is strong.',
+    realTalk: `At ${age} with ${fmtFull(assets)} saved, you're ahead of ${percentile}% of people your age. The risk now isn't falling behind — it's <strong>lifestyle creep and complacency</strong>. Keep the habits that got you here.`,
+    oneThing: `At your level the biggest lever is <strong>tax optimization</strong> — maxing your 401k, HSA, and backdoor Roth if eligible. The difference in after-tax returns over 20 years is enormous.`,
+    pctContext: `The median ${age}-year-old has roughly ${fmtFull(getMedianNW(age))} in net worth. You've cleared that bar significantly — you're in genuinely strong shape.`,
+  };
+
+  if (percentile >= 85 && highDebt) return {
+    name: 'The <em>Debt Fighter</em>',
+    emoji: '⚔️',
+    color: '#a78bfa',
+    colorB: '#fb7185',
+    desc: 'Your assets put you well ahead of most people your age — but high-interest debt is quietly working against you every day. You have real wealth to protect here.',
+    realTalk: `You're in the ${ordinal(percentile)} percentile for your age, which is genuinely strong. But <strong>high-interest debt is a guaranteed negative return</strong> — whatever your savings are earning, the debt is costing you more.`,
+    oneThing: `<strong>Attack the high-interest debt with the same energy that built your savings.</strong> Avalanche method — highest rate first. You have the assets and likely the income to knock this out fast.`,
+    pctContext: `Strong overall position. Eliminating the high-interest debt would push your net worth — and your percentile — even higher.`,
+  };
+
+  // Above average - doing well vs real Americans
+  if (percentile >= 65 && !highDebt) return {
+    name: 'The <em>Quiet Accumulator</em>',
+    emoji: '🧲',
+    color: '#2dd4bf',
+    colorB: '#38bdf8',
+    desc: 'You\'re ahead of most people your age and probably don\'t make a big deal about it. Steady habits have quietly put you in a better position than you might realize.',
+    realTalk: `You're ahead of ${percentile}% of Americans your age — that's a real accomplishment. <strong>The danger zone now is lifestyle creep</strong>: as income grows, expenses tend to follow. Protecting the gap is the game.`,
+    oneThing: `<strong>Make sure your money is working as hard as you are.</strong> Check your investment allocation — cash sitting in low-yield savings accounts at this stage is leaving real returns on the table.`,
+    pctContext: `The median ${age}-year-old has about ${fmtFull(getMedianNW(age))} saved. You're clearly above that — you've built a genuine cushion.`,
+  };
+
+  if (percentile >= 65 && highDebt) return {
+    name: 'The <em>Debt Fighter</em>',
+    emoji: '⚔️',
+    color: '#a78bfa',
+    colorB: '#fb7185',
+    desc: 'Above average assets but high-interest debt is holding you back from where you could be. You\'re in a strong position — just with one anchor dragging.',
+    realTalk: `You're ahead of ${percentile}% of people your age in assets, which is solid. But <strong>high-interest debt is quietly eroding that edge</strong>. The faster you clear it, the faster your net worth accelerates.`,
+    oneThing: `<strong>Redirect any extra cash to the highest-rate debt first.</strong> Once that's gone, everything you were paying in interest becomes wealth-building instead.`,
+    pctContext: `You're above the median for your age. Clear the debt and your percentile ranking gets even stronger.`,
+  };
+
+  // Near average
+  if (percentile >= 45 && !highDebt) return {
+    name: 'The <em>Steady Climber</em>',
+    emoji: '📈',
+    color: '#34d399',
+    colorB: '#2dd4bf',
+    desc: 'You\'re right in the mix with your peers — tracking near the median for your age. That\'s more respectable than it sounds given how little most Americans have saved.',
+    realTalk: `You're around the middle of the pack for your age. <strong>The Steady Climber's risk is staying comfortable</strong> — near average feels okay until you realize average isn't going to fund a comfortable retirement.`,
+    oneThing: `<strong>Automate one more thing this week.</strong> Even $100-200/month more into a retirement account compounds significantly over time. Set it up automatically so you never have to decide.`,
+    pctContext: `The median net worth for your age is around ${fmtFull(getMedianNW(age))}. You're near that mark — which puts you ahead of a lot of people who have nothing saved at all.`,
+  };
+
+  if (percentile >= 45 && highIncome && lowSaver) return {
+    name: 'The <em>High Earner, Low Saver</em>',
+    emoji: '💸',
+    color: '#fb923c',
+    colorB: '#f5c842',
+    desc: 'Strong income but savings haven\'t kept pace. You\'re making good money — it\'s just not sticking. This is one of the most common and most fixable situations.',
+    realTalk: `Your income is well above average but your savings rate hasn't matched it. <strong>This is a conversion problem, not an earning problem.</strong> Lifestyle has grown with income — the fix is straightforward, just not easy.`,
+    oneThing: `<strong>Increase your 401k contribution by 5% this week.</strong> You've already proven you can live on your current take-home. You won't notice the difference — but in 20 years you absolutely will.`,
+    pctContext: `You're near the median in net worth despite an above-average income — which means there's significant upside available if the savings rate improves.`,
+  };
+
+  // Below average - but needs encouragement not piling on
+  if (percentile < 45 && age < 30) return {
+    name: 'The <em>Early Stage</em>',
+    emoji: '🌱',
+    color: '#34d399',
+    colorB: '#2dd4bf',
+    desc: 'You\'re early in the game — and that\'s actually the best place to be. The habits you build now compound into everything that comes after.',
+    realTalk: `At ${age}, <strong>time is your biggest financial asset</strong> — more valuable than income or the amount you save right now. A dollar invested today is worth dramatically more than a dollar invested at 40. The urgency is starting, not the amount.`,
+    oneThing: `<strong>Open a Roth IRA if you don't have one.</strong> Contribute anything — even $50/month. Tax-free growth over 30-40 years is one of the most powerful financial tools available to you right now.`,
+    pctContext: `Most people your age have very little saved — the under-35 median net worth is only about $39,000 nationally. You're early. The ones who start now are the ones who feel genuinely secure at 50.`,
+  };
+
+  if (percentile < 45 && age >= 50) return {
+    name: 'The <em>Late Starter</em>',
+    emoji: '⚡',
+    color: '#fb7185',
+    colorB: '#fb923c',
+    desc: 'Behind where the benchmarks say you should be — but the window isn\'t closed. The 50s are actually your highest earning years for most people. This decade matters.',
+    realTalk: `The numbers are behind, but <strong>the next 10-15 years are genuinely your best wealth-building window</strong>. Kids may be out of the house, the mortgage closer to done. This is the moment to accelerate.`,
+    oneThing: `<strong>Max out catch-up contributions immediately.</strong> At 50+ you can contribute $30,500 to a 401k and $8,000 to an IRA annually. That's the fastest legal path to closing the gap.`,
+    pctContext: `You're below the median for your age group — but you have more runway than most people realize. Aggressive saving in this decade can close the gap more than you'd expect.`,
+  };
+
+  if (highDebt) return {
+    name: 'The <em>Debt Fighter</em>',
+    emoji: '⚔️',
+    color: '#a78bfa',
+    colorB: '#fb7185',
+    desc: 'High-interest debt is the main thing working against you right now. Everything else is secondary until that\'s handled.',
+    realTalk: `<strong>High-interest debt is a guaranteed negative return.</strong> Whatever you're earning on savings, credit card debt at 20%+ costs you more. Every extra dollar toward that debt is the highest-return "investment" available to you.`,
+    oneThing: `<strong>List your debts highest rate to lowest. Attack the top one with everything.</strong> Minimum payments on the rest. This is called the avalanche method and it's mathematically optimal.`,
+    pctContext: `The high-interest debt is the main drag on your financial position. Clear it and your net worth — and your ranking — improves significantly.`,
+  };
+
+  if (highIncome && lowSaver) return {
+    name: 'The <em>High Earner, Low Saver</em>',
+    emoji: '💸',
+    color: '#fb923c',
+    colorB: '#f5c842',
+    desc: 'Great income, savings haven\'t followed. You\'re making good money — it\'s just not converting into wealth. Extremely common, extremely fixable.',
+    realTalk: `An income of ${fmtFull(income)}/year with ${fmtFull(assets)} saved tells a clear story: <strong>lifestyle has outpaced savings</strong>. This isn't an income problem. It's a conversion problem. The good news is you have the income to fix it fast.`,
+    oneThing: `<strong>Pay yourself first before you see the money.</strong> Raise your 401k contribution 5% this week. You've already proven you can live on your take-home — this is just redirecting what you'd spend anyway.`,
+    pctContext: `Your income is above average but savings haven't kept up. With your earnings, a focused 2-3 year savings push could move your percentile ranking dramatically.`,
+  };
+
+  // Default - below average, needs honest but hopeful message
+  return {
+    name: 'The <em>Late Bloomer</em>',
+    emoji: '🌅',
+    color: '#fb7185',
+    colorB: '#a78bfa',
+    desc: 'Behind the benchmarks right now — but aware of it, which is the actual first step. Most people in this position never look at the numbers at all.',
+    realTalk: `You're below the median for your age in net worth. <strong>That's honest, but it's not permanent.</strong> The people who close gaps like this aren't smarter or luckier — they just get consistent and stop waiting for the right moment.`,
+    oneThing: `<strong>Build a savings rate, not a savings amount.</strong> Commit to saving 15% of every paycheck — automate it before you spend anything. The habit is everything. The amount follows the habit.`,
+    pctContext: `The median net worth for your age is around ${fmtFull(getMedianNW(age))}. You're below that right now — but knowing where you stand is how you start changing it.`,
+  };
+}
+
+function grade() {
+  const age    = parseInt(document.getElementById('age').value) || 0;
+  const assets = parseFloat(document.getElementById('assets').value) || 0;
+  const income = parseFloat(document.getElementById('income').value) || 0;
+  const debt   = parseFloat(document.getElementById('debt').value) || 0;
+  const isOwner = ownerVal === 'yes';
+
+  if (!age || !income) {
+    alert('Please enter your age and annual income to continue.');
+    return;
+  }
+
+  const targetMultiple = getTargetMultiple(age);
+  const targetAmt = income * targetMultiple;
+  const multiple = income > 0 ? assets / income : 0;
+  const percentile = getPercentile(assets, debt, income, age, isOwner);
+  const arch = getArchetype(age, assets, income, debt, isOwner, multiple, targetMultiple, percentile);
+
+  // Projections at 7% growth
+  const yrs10 = Math.round(assets * Math.pow(1.07, 10));
+  const yrs20 = Math.round(assets * Math.pow(1.07, 20));
+  const yrs30 = Math.round(assets * Math.pow(1.07, 30));
+  const retireAge = Math.min(age + 30, 67);
+
+  // Savings rate (rough — assuming 20% savings rate if we don't have expenses)
+  const impliedSavings = income * 0.20;
+  const savRate = income > 0 ? Math.round((impliedSavings / income) * 100) : 0;
+
+  // Share text
+  shareText = `I just found out I'm "${arch.name.replace(/<[^>]+>/g, '')}" 💰 — I'm in the ${ordinal(percentile)} percentile for my age. Find your financial archetype:`;
+
+  // ── RENDER ────────────────────────────────────────────────────────────────
+  document.getElementById('results').style.display = 'block';
+
+  // Archetype card
+  const card = document.getElementById('archCard');
+  card.style.borderColor = arch.color + '44';
+  card.style.setProperty('--arch-color-a', arch.color);
+  card.style.background = `linear-gradient(135deg, ${arch.color}08 0%, ${arch.colorB}05 100%)`;
+
+  document.getElementById('archEmoji').textContent = arch.emoji;
+  document.getElementById('archEyebrow').style.color = arch.color;
+  document.getElementById('archName').innerHTML = arch.name;
+  document.getElementById('archName').style.color = arch.color;
+  document.getElementById('archDesc').textContent = arch.desc;
+
+  // Percentile — rich version
+  const pctTier = percentile >= 90 ? { label: 'Top 10%', bg: arch.color + '22', color: arch.color }
+    : percentile >= 75 ? { label: 'Above Average', bg: '#34d39922', color: '#34d399' }
+    : percentile >= 50 ? { label: 'Near Average', bg: '#fb923c22', color: '#fb923c' }
+    : percentile >= 25 ? { label: 'Below Average', bg: '#fb718522', color: '#fb7185' }
+    : { label: 'Bottom 25%', bg: '#fb718522', color: '#fb7185' };
+
+  document.getElementById('pctNum').textContent = ordinal(percentile);
+  document.getElementById('pctNum').style.color = arch.color;
+
+  const badge = document.getElementById('pctBadge');
+  badge.textContent = pctTier.label;
+  badge.style.background = pctTier.bg;
+  badge.style.color = pctTier.color;
+
+  // Plain English — "you're ahead of X out of 100 people your age"
+  const aheadOf = percentile;
+  document.getElementById('pctPlain').innerHTML =
+    `You're ahead of <strong>${aheadOf} out of every 100 people</strong> your age when it comes to financial position.`;
+
+  // People icons — 10 icons, filled = ahead
+  const filledCount = Math.round(percentile / 10);
+  document.getElementById('peopleRow').innerHTML =
+    Array.from({ length: 10 }, (_, i) =>
+      `<span class="person-icon${i < filledCount ? '' : ' behind'}">👤</span>`
+    ).join('');
+
+  const fill = document.getElementById('pctFill');
+  fill.style.background = `linear-gradient(90deg, ${arch.color}, ${arch.colorB})`;
+  setTimeout(() => fill.style.width = percentile + '%', 100);
+  document.getElementById('pctContext').innerHTML = arch.pctContext;
+
+  // Stats
+  const savingsRatePct = income > 0 && assets > 0 ? Math.min(99, Math.round((assets / (income * Math.max(1, age - 22))) * 100)) : 0;
+  document.getElementById('statSavRate').textContent = savingsRatePct + '%';
+  document.getElementById('statSavRate').style.color = savingsRatePct > 15 ? '#34d399' : savingsRatePct > 8 ? '#fb923c' : '#fb7185';
+  document.getElementById('statMultiple').textContent = multiple.toFixed(1) + 'x';
+  document.getElementById('statMultiple').style.color = multiple >= targetMultiple ? '#34d399' : multiple >= targetMultiple * 0.7 ? '#fb923c' : '#fb7185';
+  document.getElementById('statTarget').textContent = fmt(targetAmt);
+
+  // Real talk
+  const rt = document.getElementById('realTalk');
+  rt.style.borderColor = arch.color + '33';
+  rt.style.background = arch.color + '08';
+  document.getElementById('rtText').innerHTML = arch.realTalk;
+
+  // Projection
+  const projYears = [
+    { label: '10 Years', val: yrs10, note: `Age ${age + 10}` },
+    { label: '20 Years', val: yrs20, note: `Age ${age + 20}` },
+    { label: `${retireAge - age} Years`, val: yrs30, note: `Age ${retireAge}` },
+  ];
+  document.getElementById('projGrid').innerHTML = projYears.map(p => `
+    <div class="proj-item">
+      <div class="proj-year">${p.label}</div>
+      <div class="proj-amt">${fmt(p.val)}</div>
+      <div class="proj-note">${p.note}</div>
+    </div>`).join('');
+
+  // ── HOPE SECTION ─────────────────────────────────────────────────────────
+  // Pick a monthly contribution amount that feels achievable for their income
+  // Scale: under $30k → $100, $30-50k → $150, $50-75k → $200, $75-100k → $300, $100k+ → $500
+  const monthlyContrib = income < 30000 ? 100
+    : income < 50000 ? 150
+    : income < 75000 ? 200
+    : income < 100000 ? 300
+    : 500;
+
+  // Future value of monthly contributions: FV = PMT * ((1+r)^n - 1) / r
+  const r = 0.07 / 12;
+  const yearsLeft = Math.max(10, retireAge - age);
+  function fvMonthly(pmt, years) {
+    const n = years * 12;
+    return Math.round(pmt * (Math.pow(1 + r, n) - 1) / r);
+  }
+
+  const hope10 = fvMonthly(monthlyContrib, 10);
+  const hope20 = fvMonthly(monthlyContrib, 20);
+  const hopeRetire = fvMonthly(monthlyContrib, yearsLeft);
+  const totalContributed = monthlyContrib * yearsLeft * 12;
+  const interestEarned = hopeRetire - totalContributed;
+
+  const hopeSection = document.getElementById('hopeSection');
+  hopeSection.style.borderColor = arch.color + '33';
+  hopeSection.style.background = `linear-gradient(135deg, ${arch.color}10, ${arch.colorB}08)`;
+  hopeSection.querySelector('::before') // handled by CSS
+
+  document.getElementById('hopeTitle').textContent = `Add $${monthlyContrib.toLocaleString()}/mo and watch what happens`;
+  document.getElementById('hopeTitle').style.color = arch.color;
+  document.getElementById('hopeAmt').textContent = `$${monthlyContrib}`;
+  document.getElementById('hopeAmt').style.color = arch.color;
+
+  document.getElementById('hopeGrid').innerHTML = [
+    { lbl: '10 Years', amt: hope10 },
+    { lbl: '20 Years', amt: hope20 },
+    { lbl: `By Age ${retireAge}`, amt: hopeRetire },
+  ].map(h => `
+    <div class="hope-tile">
+      <div class="hope-tile-amt" style="color:${arch.color}">${fmt(h.amt)}</div>
+      <div class="hope-tile-lbl">${h.lbl}</div>
+    </div>`).join('');
+
+  const pctIncome = Math.round(monthlyContrib / (income / 12) * 100);
+  document.getElementById('hopeNote').innerHTML =
+    `That's just <strong>${pctIncome}% of your monthly income</strong> — about what most people spend on dining out. 
+    Of that ${fmt(hopeRetire)} at age ${retireAge}, you'd only contribute <strong>${fmt(totalContributed)}</strong>. 
+    The other <strong>${fmt(interestEarned)}</strong> is pure compound growth doing the work for you.`;
+
+  // One thing
+  const ot = document.getElementById('oneThing');
+  ot.style.background = arch.color + '0d';
+  ot.style.border = `1px solid ${arch.color}22`;
+  document.getElementById('otText').innerHTML = arch.oneThing;
+
+  // Share preview
+  document.getElementById('sharePreview').textContent = shareText + ' objectively.net';
+  document.getElementById('sharePreview').classList.add('show');
+
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function doShare(type) {
+  const url = 'https://objectively.net';
+  const full = shareText + ' ' + url;
+  if (type === 'twitter') {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(full)}`, '_blank');
+  } else {
+    navigator.clipboard.writeText(full).then(() => {
+      const btn = document.getElementById('cpBtn');
+      btn.classList.add('done');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => {
+        btn.classList.remove('done');
+        btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+      }, 2500);
+    }).catch(() => prompt('Copy this:', full));
+  }
+}
+
+function doReset() {
+  document.getElementById('results').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

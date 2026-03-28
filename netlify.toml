@@ -18,6 +18,10 @@
   to = "/paycheck/index.html"
   status = 200
 [[redirects]]
+  from = "/invest/"
+  to = "/invest/index.html"
+  status = 200
+[[redirects]]
   from = "/decision"
   to = "/decision/index.html"
   status = 200
@@ -32,4 +36,8 @@
 [[redirects]]
   from = "/paycheck"
   to = "/paycheck/index.html"
+  status = 200
+[[redirects]]
+  from = "/invest"
+  to = "/invest/index.html"
   status = 200

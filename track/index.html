@@ -850,7 +850,16 @@ select option { background: #1a1a24; }
         <span class="pre">$</span>
         <input type="number" id="debt" placeholder="0" min="0" value="0">
       </div>
-      <div class="hint">Credit cards + personal loans only. Not your mortgage or car loan.</div>
+      <div class="hint">Credit cards + personal loans only.</div>
+    </div>
+
+    <div class="field">
+      <label>Other Loans</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="otherDebt" placeholder="0" min="0" value="0">
+      </div>
+      <div class="hint">Car loans, student loans — just the balance you owe. Not your mortgage.</div>
     </div>
 
     <div class="field">
@@ -858,6 +867,26 @@ select option { background: #1a1a24; }
       <div class="owner-toggle">
         <button class="owner-btn active" data-val="no" onclick="setOwner(this)">No / Renting</button>
         <button class="owner-btn" data-val="yes" onclick="setOwner(this)">Yes, I Own</button>
+      </div>
+    </div>
+
+    <!-- Home equity fields - shown when owner = yes -->
+    <div id="homeEquityFields" style="display:none;gap:12px;grid-template-columns:1fr 1fr;" class="grid2">
+      <div class="field">
+        <label>Home Value</label>
+        <div class="iw has-pre">
+          <span class="pre">$</span>
+          <input type="number" id="homeValue" placeholder="320000" min="0">
+        </div>
+        <div class="hint">Rough current market value</div>
+      </div>
+      <div class="field">
+        <label>Mortgage Balance</label>
+        <div class="iw has-pre">
+          <span class="pre">$</span>
+          <input type="number" id="mortgageBalance" placeholder="240000" min="0">
+        </div>
+        <div class="hint">What you still owe on it</div>
       </div>
     </div>
 
@@ -982,6 +1011,10 @@ function setOwner(btn) {
   document.querySelectorAll('.owner-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   ownerVal = btn.dataset.val;
+  const homeFields = document.getElementById('homeEquityFields');
+  if (homeFields) {
+    homeFields.style.display = ownerVal === 'yes' ? 'grid' : 'none';
+  }
 }
 
 function fmt(n) {
@@ -1024,12 +1057,15 @@ function getMedianNW(age) {
   return 335600;                 // Fed bracket: 75+ = $335,600
 }
 
-function getPercentile(assets, debt, income, age, isOwner) {
-  const netWorth = assets - debt + (isOwner ? income * 0.5 : 0);
+function getPercentile(assets, debt, otherDebt, income, age, homeEquity) {
+  // Real net worth calculation:
+  // + liquid assets (savings, investments)
+  // + home equity (value - mortgage) if owner
+  // - high interest debt (counts fully - it's genuinely bad)
+  // - other loans at 50% (car/student loans - asset has some value)
+  const netWorth = assets + homeEquity - debt - (otherDebt * 0.5);
   const median = getMedianNW(age);
   const ratio = netWorth / median;
-  // Percentile curve calibrated to actual wealth distribution
-  // U.S. wealth is highly skewed - bottom 50% have little, top 10% have most
   if (ratio <= 0) return 8;
   if (ratio <= 0.10) return 20;
   if (ratio <= 0.25) return 30;
@@ -1187,11 +1223,20 @@ function getArchetype(age, assets, income, debt, isOwner, multiple, targetMultip
 }
 
 function grade() {
-  const age    = parseInt(document.getElementById('age').value) || 0;
-  const assets = parseFloat(document.getElementById('assets').value) || 0;
-  const income = parseFloat(document.getElementById('income').value) || 0;
-  const debt   = parseFloat(document.getElementById('debt').value) || 0;
-  const isOwner = ownerVal === 'yes';
+  const age       = parseInt(document.getElementById('age').value) || 0;
+  const assets    = parseFloat(document.getElementById('assets').value) || 0;
+  const income    = parseFloat(document.getElementById('income').value) || 0;
+  const debt      = parseFloat(document.getElementById('debt').value) || 0;
+  const otherDebt = parseFloat((document.getElementById('otherDebt')||{value:'0'}).value) || 0;
+  const isOwner   = ownerVal === 'yes';
+
+  // Home equity calculation
+  const homeValue       = parseFloat((document.getElementById('homeValue')||{value:'0'}).value) || 0;
+  const mortgageBalance = parseFloat((document.getElementById('mortgageBalance')||{value:'0'}).value) || 0;
+  const homeEquity      = isOwner && homeValue > 0 ? Math.max(0, homeValue - mortgageBalance) : 0;
+
+  // Real net worth for display
+  const realNetWorth = assets + homeEquity - debt - (otherDebt * 0.5);
 
   if (!age || !income) {
     alert('Please enter your age and annual income to continue.');
@@ -1199,10 +1244,10 @@ function grade() {
   }
 
   const targetMultiple = getTargetMultiple(age);
-  const targetAmt = income * targetMultiple;
-  const multiple = income > 0 ? assets / income : 0;
-  const percentile = getPercentile(assets, debt, income, age, isOwner);
-  const arch = getArchetype(age, assets, income, debt, isOwner, multiple, targetMultiple, percentile);
+  const targetAmt      = income * targetMultiple;
+  const multiple       = income > 0 ? assets / income : 0;
+  const percentile     = getPercentile(assets, debt, otherDebt, income, age, homeEquity);
+  const arch           = getArchetype(age, assets, income, debt, isOwner, multiple, targetMultiple, percentile);
 
   // Projections at 7% growth
   const yrs10 = Math.round(assets * Math.pow(1.07, 10));
@@ -1272,6 +1317,15 @@ function grade() {
   document.getElementById('statMultiple').style.color = multiple >= targetMultiple ? '#34d399' : multiple >= targetMultiple * 0.7 ? '#fb923c' : '#fb7185';
   document.getElementById('statTarget').textContent = fmt(targetAmt);
 
+  // Show real net worth in a 4th tile if we have equity or other debt data
+  const hasExtraData = homeEquity > 0 || otherDebt > 0;
+  if (hasExtraData) {
+    const nwColor = realNetWorth > 0 ? '#34d399' : '#fb7185';
+    document.getElementById('statTarget').parentElement.insertAdjacentHTML('afterend',
+      '<div class="stat-tile" id="nwTile"><div class="stat-val" style="color:' + nwColor + '">' + fmt(realNetWorth) + '</div><div class="stat-lbl">Real Net Worth</div></div>'
+    );
+  }
+
   // Real talk
   const rt = document.getElementById('realTalk');
   rt.style.borderColor = arch.color + '33';
@@ -1319,26 +1373,28 @@ function grade() {
   hopeSection.style.background = `linear-gradient(135deg, ${arch.color}10, ${arch.colorB}08)`;
   hopeSection.querySelector('::before') // handled by CSS
 
-  document.getElementById('hopeTitle').textContent = `Add $${monthlyContrib.toLocaleString()}/mo and watch what happens`;
+  document.getElementById('hopeTitle').textContent = `Add $${monthlyContrib.toLocaleString()}/mo — here's your combined total`;
   document.getElementById('hopeTitle').style.color = arch.color;
   document.getElementById('hopeAmt').textContent = `$${monthlyContrib}`;
   document.getElementById('hopeAmt').style.color = arch.color;
 
   document.getElementById('hopeGrid').innerHTML = [
-    { lbl: '10 Years', amt: hope10 },
-    { lbl: '20 Years', amt: hope20 },
-    { lbl: `By Age ${retireAge}`, amt: hopeRetire },
+    { lbl: '10 Years', amt: hope10 + yrs10, contrib: hope10 },
+    { lbl: '20 Years', amt: hope20 + yrs20, contrib: hope20 },
+    { lbl: `By Age ${retireAge}`, amt: hopeRetire + Math.round(assets * Math.pow(1.07, yearsLeft)), contrib: hopeRetire },
   ].map(h => `
     <div class="hope-tile">
       <div class="hope-tile-amt" style="color:${arch.color}">${fmt(h.amt)}</div>
       <div class="hope-tile-lbl">${h.lbl}</div>
     </div>`).join('');
 
+  const totalAtRetire = hopeRetire + Math.round(assets * Math.pow(1.07, yearsLeft));
   const pctIncome = Math.round(monthlyContrib / (income / 12) * 100);
   document.getElementById('hopeNote').innerHTML =
-    `That's just <strong>${pctIncome}% of your monthly income</strong> — about what most people spend on dining out. 
-    Of that ${fmt(hopeRetire)} at age ${retireAge}, you'd only contribute <strong>${fmt(totalContributed)}</strong>. 
-    The other <strong>${fmt(interestEarned)}</strong> is pure compound growth doing the work for you.`;
+    `That's just <strong>${pctIncome}% of your monthly income</strong>. Combined with your existing assets growing at 7%, 
+    you'd have <strong>${fmt(totalAtRetire)}</strong> by age ${retireAge}. 
+    Of the <strong>${fmt(hopeRetire)}</strong> from new contributions alone, you'd only put in <strong>${fmt(totalContributed)}</strong> — 
+    the other <strong>${fmt(interestEarned)}</strong> is pure compound growth.`;
 
   // One thing
   const ot = document.getElementById('oneThing');
@@ -1373,6 +1429,8 @@ function doShare(type) {
 
 function doReset() {
   document.getElementById('results').style.display = 'none';
+  const nwTile = document.getElementById('nwTile');
+  if (nwTile) nwTile.remove();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>

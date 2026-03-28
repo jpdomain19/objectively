@@ -768,14 +768,14 @@ function calculate() {
   const spicy = [
     {
       name: 'Bitcoin',
-      rate: 0.60,
-      note: '~60% historical avg (2013-2023)',
+      rate: 0.45,
+      note: '~45% historical avg (if you held through everything)',
       joke: ['or $0 -- genuinely both are possible', 'or a very expensive lesson', 'or a conversation starter at parties'],
       zeroChance: 0.3
     },
     {
       name: 'High-Growth Tech Stock',
-      rate: 0.85,
+      rate: 0.50,
       note: 'Tesla, AI plays, P/E ratio of "trust me bro"',
       joke: ['you would have had to hold through -70% drops', 'most people panic sold at the bottom', 'the ones who held are either geniuses or lucky -- nobody knows which'],
       zeroChance: 0
@@ -789,14 +789,14 @@ function calculate() {
     },
     {
       name: 'Dogecoin',
-      rate: 1.50,
+      rate: 0.60,
       note: 'Started as a joke. Still kind of is.',
       joke: ['much wow. very returns. such regret.', 'Elon tweets may apply', 'or a receipt for a mistake'],
       zeroChance: 0.6
     },
     {
       name: 'AI Startup Equity',
-      rate: 10.0,
+      rate: 0.80,
       note: 'Valued at "disrupting everything" -- 90% fail',
       joke: ['90% of startups fail. the other 10% get acqui-hired', 'your vesting cliff is longer than most AI companies survive', 'but the hoodie was free'],
       zeroChance: 0.9
@@ -807,31 +807,43 @@ function calculate() {
     const jokeIdx = Math.floor(Math.random() * inv.joke.length);
 
     const cells = timeCols.map((y, i) => {
-      const raw = fv(amount, 0, inv.rate, y);
-      if (inv.zeroChance > 0.5 && i === timeCols.length - 1) {
-        return `<div class="spicy-val zero">
-          $0 or ${fmt(raw)}
-          <span class="joke">${inv.joke[jokeIdx]}</span>
-        </div>`;
+      const raw = fv(amount, monthly, inv.rate, y);
+      const isLast = i === timeCols.length - 1;
+
+      // Cap display at $999T to prevent layout breaking
+      const capped = Math.min(raw, 999e12);
+      const isCapped = raw > 999e12;
+
+      if (inv.zeroChance > 0.5 && isLast) {
+        return '<div class="spicy-val zero">' +
+          '$0 or ' + fmt(capped) +
+          '<span class="joke">' + inv.joke[jokeIdx] + '</span>' +
+          '</div>';
       }
-      if (raw > 1e15) {
-        return `<div class="spicy-val">
-          ${fmt(raw)}
-          <span class="joke">this number isn't real</span>
-        </div>`;
+      if (isCapped) {
+        return '<div class="spicy-val">' +
+          '$&#x221E;' +
+          '<span class="joke">this number broke math</span>' +
+          '</div>';
       }
-      return `<div class="spicy-val">${fmt(raw)}</div>`;
+      if (raw > 1e12) {
+        return '<div class="spicy-val">' +
+          fmt(raw) +
+          '<span class="joke">this number isn\'t real</span>' +
+          '</div>';
+      }
+      return '<div class="spicy-val">' + fmt(raw) + '</div>';
     });
 
     const emptyCells = Array(5 - timeCols.length).fill('<div class="spicy-val"></div>').join('');
 
-    return `<div class="spicy-row" style="animation-delay:${idx * .06}s">
-      <div class="inv-name">
-        <span class="inv-label" style="color:#ff9999">${inv.name}</span>
-        <span class="inv-rate" style="color:#553333">${inv.note}</span>
-      </div>
-      ${cells.join('')}${emptyCells}
-    </div>`;
+    return '<div class="spicy-row" style="animation-delay:' + (idx * .06) + 's">' +
+      '<div class="inv-name">' +
+      '<span class="inv-label" style="color:#ff9999">' + inv.name + '</span>' +
+      '<span class="inv-rate" style="color:#553333">' + inv.note + '</span>' +
+      '</div>' +
+      cells.join('') + emptyCells +
+      '</div>';
   }).join('');
 
   // Share text

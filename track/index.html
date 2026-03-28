@@ -4,212 +4,801 @@
 <meta charset="UTF-8">
   <meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Real Car Payment Calculator — Know Before You Sign</title>
-  <meta name="description" content="Built by an F&I manager. Find your real car payment, approval odds, and what to watch for — including subprime credit. Covers all 50 states with exact local tax rates.">
-  <meta name="keywords" content="car payment calculator, auto loan calculator, subprime car loan, what will my car payment be, car loan approval odds">
-  <meta property="og:title" content="Real Car Payment Calculator — Know Before You Sign">
-  <meta property="og:description" content="Built by an F&I manager. Find your real car payment, approval odds, and what to watch for — including subprime credit. Covers all 50 states with exact local tax rates.">
+  <title>Am I On Track Financially? — Find Your Financial Archetype</title>
+  <meta name="description" content="Find out exactly where you stand financially compared to everyone your age. Get your percentile ranking, financial archetype, and a 10-year projection in 30 seconds.">
+  <meta name="keywords" content="am I on track financially, net worth by age, financial archetype, where do I stand financially, savings by age calculator">
+  <meta property="og:title" content="Am I On Track Financially? — Find Your Financial Archetype">
+  <meta property="og:description" content="Find out exactly where you stand financially compared to everyone your age. Get your percentile ranking, financial archetype, and a 10-year projection in 30 seconds.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Objectively">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0a;
-  --s1: #131313;
-  --s2: #1a1a1a;
-  --s3: #222;
-  --border: #282828;
-  --border2: #333;
-  --accent: #c8f135;
-  --accent2: #ff6b35;
-  --blue: #4db8ff;
-  --danger: #ff4545;
-  --warn: #ffaa00;
-  --good: #3ddc84;
-  --text: #efefef;
-  --muted: #777;
-  --muted2: #555;
-  --mono: 'DM Mono', monospace;
-  --sans: 'DM Sans', sans-serif;
-  --display: 'Syne', sans-serif;
+  --bg: #0c0c10;
+  --surface: #13131a;
+  --surface2: #1a1a24;
+  --border: #252532;
+  --border2: #32324a;
+  --text: #f0eee8;
+  --muted: #7a7890;
+  --muted2: #4a4860;
+  --display: 'Playfair Display', serif;
+  --body: 'Barlow', sans-serif;
+  --cond: 'Barlow Condensed', sans-serif;
+
+  /* archetype colors */
+  --gold: #f5c842;
+  --teal: #2dd4bf;
+  --coral: #ff6b6b;
+  --violet: #a78bfa;
+  --emerald: #34d399;
+  --amber: #fb923c;
+  --sky: #38bdf8;
+  --rose: #fb7185;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden}
 
-/* grain */
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-.wrap{max-width:700px;margin:0 auto;padding:0 20px 80px;position:relative;z-index:1}
+/* animated grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
 
-/* HEADER */
-header{padding:52px 0 36px;position:relative}
-.logo-row{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
-.logo{font-family:var(--display);font-weight:800;font-size:32px;letter-spacing:-1.5px;color:var(--accent)}
-.logo-badge{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted);background:var(--s2);border:1px solid var(--border2);border-radius:4px;padding:3px 8px;text-transform:uppercase}
-.tagline{font-size:15px;color:var(--muted);line-height:1.6;max-width:520px}
-.tagline strong{color:var(--text);font-weight:500}
-.header-line{height:1px;background:linear-gradient(90deg,var(--accent) 0%,transparent 60%);margin-top:28px;opacity:.3}
+.wrap {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0 20px 100px;
+  position: relative;
+  z-index: 1;
+}
 
-/* SECTION LABELS */
-.slabel{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:10px}
-.slabel::after{content:'';flex:1;height:1px;background:var(--border)}
-.slabel .snum{color:var(--muted2);font-size:9px}
+/* ── HEADER ── */
+header {
+  padding: 60px 0 48px;
+  text-align: center;
+}
 
-/* FORM */
-.fsec{margin-bottom:28px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.grid1{display:grid;grid-template-columns:1fr;gap:12px}
+.eyebrow {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
 
-.field{display:flex;flex-direction:column;gap:5px}
-.field label{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
-.field .hint{font-size:11px;color:var(--muted2);margin-top:3px}
+.eyebrow::before, .eyebrow::after {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--border2);
+}
 
-.iw{position:relative}
-.iw .pre{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-family:var(--mono);font-size:14px;pointer-events:none}
-.iw .suf{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted2);font-family:var(--mono);font-size:11px;pointer-events:none}
+.headline {
+  font-family: var(--display);
+  font-size: clamp(42px, 10vw, 68px);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+}
 
-input,select{width:100%;background:var(--s1);border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:var(--mono);font-size:15px;padding:12px 14px;outline:none;transition:border-color .18s,background .18s;-webkit-appearance:none;appearance:none}
-.iw.has-pre input{padding-left:26px}
-input:focus,select:focus{border-color:var(--accent);background:var(--s2)}
-input::placeholder{color:var(--muted2)}
-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
-select option{background:#1a1a1a}
+.headline em {
+  font-style: italic;
+  color: var(--gold);
+}
 
-/* ZIP STATUS */
-.zip-status{font-family:var(--mono);font-size:11px;margin-top:5px;height:14px;transition:color .2s}
-.zip-status.ok{color:var(--good)}
-.zip-status.err{color:var(--danger)}
-.zip-status.loading{color:var(--muted)}
+.subhead {
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  max-width: 420px;
+  margin: 16px auto 0;
+}
 
-/* CREDIT TIERS */
-.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.tbtn{background:var(--s1);border:1px solid var(--border);border-radius:7px;padding:11px 6px;cursor:pointer;text-align:center;transition:all .15s;color:var(--muted);font-family:var(--sans)}
-.tbtn .tn{font-family:var(--display);font-weight:700;font-size:13px;display:block;margin-bottom:2px}
-.tbtn .ts{font-family:var(--mono);font-size:10px;display:block;opacity:.7}
-.tbtn:hover{border-color:var(--border2);color:var(--text)}
-.tbtn.active[data-t="great"]{border-color:var(--good);color:var(--good);background:rgba(61,220,132,.07)}
-.tbtn.active[data-t="good"]{border-color:var(--blue);color:var(--blue);background:rgba(77,184,255,.07)}
-.tbtn.active[data-t="fair"]{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.07)}
-.tbtn.active[data-t="poor"]{border-color:var(--danger);color:var(--danger);background:rgba(255,69,69,.07)}
+.subhead strong { color: var(--text); font-weight: 500; }
 
-/* SUBMIT */
-.submit-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:7px;padding:17px;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.5px;cursor:pointer;transition:all .15s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:10px}
-.submit-btn:hover{background:#deff55;transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,241,53,.2)}
-.submit-btn:active{transform:translateY(0)}
-.submit-btn .arr{font-size:20px;transition:transform .2s}
-.submit-btn:hover .arr{transform:translateX(4px)}
+/* ── FORM ── */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 32px;
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+}
 
-/* RESULTS */
-#results{display:none;margin-top:48px;animation:fadeUp .4s ease}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.form-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--teal), var(--violet));
+}
 
-/* DEAL HEALTH */
-.health-card{border-radius:10px;padding:22px 24px;margin-bottom:20px;border:1px solid;position:relative;overflow:hidden}
-.health-card::before{content:'';position:absolute;inset:0;opacity:.06}
-.health-card.green{border-color:var(--good)}.health-card.green::before{background:var(--good)}
-.health-card.yellow{border-color:var(--warn)}.health-card.yellow::before{background:var(--warn)}
-.health-card.red{border-color:var(--danger)}.health-card.red::before{background:var(--danger)}
-.health-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.health-tag{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
-.health-verdict{font-family:var(--display);font-weight:800;font-size:24px;letter-spacing:-.5px}
-.health-card.green .health-verdict{color:var(--good)}
-.health-card.yellow .health-verdict{color:var(--warn)}
-.health-card.red .health-verdict{color:var(--danger)}
-.health-desc{font-size:13.5px;color:var(--muted);line-height:1.6}
+.field-group {
+  display: grid;
+  gap: 20px;
+}
 
-/* PAYMENT */
-.pay-box{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:28px 24px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden}
-.pay-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
-.pay-num{font-family:var(--display);font-weight:800;font-size:44px;letter-spacing:-2px;color:var(--accent);line-height:1}
-.pay-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:2px;margin-top:6px}
-.pay-note{font-size:12px;color:var(--muted2);margin-top:8px}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-/* STATS */
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
-.scard{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
-.scard-l{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.scard-v{font-family:var(--display);font-weight:700;font-size:20px;color:var(--text)}
-.scard-v.warn{color:var(--warn)}.scard-v.danger{color:var(--danger)}.scard-v.good{color:var(--good)}
-.scard-sub{font-size:11px;color:var(--muted2);margin-top:3px}
+.field label {
+  font-family: var(--cond);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
 
-/* TAX BREAKDOWN */
-.tax-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
-.tax-row:last-child{border-bottom:none;padding-top:10px;font-weight:600;color:var(--text)}
-.tax-row span:first-child{color:var(--muted)}
-.tax-row span:last-child{font-family:var(--mono)}
+.field .hint {
+  font-size: 12px;
+  color: var(--muted2);
+  margin-top: -4px;
+  line-height: 1.4;
+}
 
-/* APPROVAL ODDS */
-.approval-section{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-bottom:20px}
-.approval-title{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:4px}
-.approval-sub{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.iw { position: relative; }
+.iw .pre {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--cond);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--muted);
+  pointer-events: none;
+}
+.iw .suf {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--cond);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted2);
+  pointer-events: none;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
-.lender-row{margin-bottom:16px}
-.lender-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
-.lender-name{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
-.lender-pct{font-family:var(--display);font-weight:700;font-size:18px}
-.lender-pct.high{color:var(--good)}.lender-pct.med{color:var(--warn)}.lender-pct.low{color:var(--danger)}.lender-pct.none{color:var(--muted2)}
+input, select {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--cond);
+  font-size: 22px;
+  font-weight: 600;
+  padding: 14px 16px;
+  outline: none;
+  transition: border-color .18s, box-shadow .18s;
+  -webkit-appearance: none;
+  appearance: none;
+  letter-spacing: .5px;
+}
 
-.bar-track{background:var(--s3);border-radius:4px;height:7px;overflow:hidden}
-.bar-fill{height:100%;border-radius:4px;transition:width .8s cubic-bezier(.4,0,.2,1)}
-.bar-fill.high{background:var(--good)}.bar-fill.med{background:var(--warn)}.bar-fill.low{background:var(--danger)}.bar-fill.none{background:var(--muted2)}
-.lender-note{font-size:11px;color:var(--muted2);margin-top:4px;line-height:1.4}
+.iw.has-pre input { padding-left: 30px; }
+.iw.has-suf input { padding-right: 60px; }
 
-/* OVERALL ODDS */
-.overall-odds{background:var(--s2);border-radius:8px;padding:16px;margin-top:16px;display:flex;align-items:center;gap:16px}
-.odds-circle{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative}
-.odds-circle svg{position:absolute;inset:0;transform:rotate(-90deg)}
-.odds-num{font-family:var(--display);font-weight:800;font-size:16px;position:relative;z-index:1}
-.odds-text .odds-label{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
-.odds-text .odds-desc{font-size:12px;color:var(--muted);line-height:1.5}
+input:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(245,200,66,.1);
+}
 
-/* APR */
-.apr-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:20px}
-.apr-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.apr-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
-.apr-val{font-family:var(--display);font-weight:800;font-size:22px;color:var(--text)}
-.apr-spectrum{display:flex;gap:3px;margin-bottom:10px}
-.apr-seg{height:6px;border-radius:3px;flex:1}
-.apr-seg.active{transform:scaleY(2);transform-origin:center}
-.apr-note{font-size:12px;color:var(--muted);line-height:1.5}
+input::placeholder { color: var(--muted2); font-weight: 400; }
+select { cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a7890' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+select option { background: #1a1a24; }
 
-/* SUBPRIME TIPS */
-.subprime-box{background:rgba(255,107,53,.07);border:1px solid rgba(255,107,53,.25);border-radius:8px;padding:16px 18px;margin-bottom:20px}
-.subprime-box .sb-title{font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent2);margin-bottom:8px}
-.subprime-box p{font-size:13px;color:var(--muted);line-height:1.6}
+/* home owner toggle */
+.owner-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.owner-btn {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 13px;
+  cursor: pointer;
+  text-align: center;
+  font-family: var(--cond);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  transition: all .15s;
+  text-transform: uppercase;
+}
+.owner-btn:hover { border-color: var(--border2); color: var(--text); }
+.owner-btn.active {
+  background: rgba(245,200,66,.1);
+  border-color: var(--gold);
+  color: var(--gold);
+}
 
-/* WATCH OUT */
-.watch-item{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;background:var(--s1);border:1px solid var(--border);border-radius:7px;margin-bottom:8px;animation:fadeUp .3s ease both}
-.watch-icon{font-size:15px;flex-shrink:0;margin-top:1px}
-.watch-body{font-size:13px;color:var(--muted);line-height:1.5}
-.watch-body strong{color:var(--text);font-weight:500}
+/* submit */
+.go-btn {
+  width: 100%;
+  background: var(--gold);
+  color: #0c0c10;
+  border: none;
+  border-radius: 8px;
+  padding: 18px;
+  font-family: var(--cond);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 8px;
+}
+.go-btn:hover { background: #ffd84d; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(245,200,66,.25); }
+.go-btn:active { transform: translateY(0); }
 
-/* EMPOWERMENT */
-.power-section{background:linear-gradient(135deg,rgba(200,241,53,.05),rgba(200,241,53,.02));border:1px solid rgba(200,241,53,.15);border-radius:10px;padding:20px 24px;margin-top:24px}
-.power-title{font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent);margin-bottom:12px}
-.power-tips{display:grid;gap:8px}
-.power-tip{font-size:13px;color:var(--muted);line-height:1.5;padding-left:16px;position:relative}
-.power-tip::before{content:'→';position:absolute;left:0;color:var(--accent);font-size:11px;top:1px}
-.power-tip strong{color:var(--text);font-weight:500}
+/* ── RESULTS ── */
+#results {
+  display: none;
+  margin-top: 48px;
+  animation: rise .5s cubic-bezier(.2,0,.1,1);
+}
 
-/* DISCLAIMER */
-.disclaimer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:11px;color:var(--muted2);line-height:1.6}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-@media(max-width:520px){
-  .grid2{grid-template-columns:1fr}
-  .grid3{grid-template-columns:1fr 1fr}
-  .tiers{grid-template-columns:repeat(2,1fr)}
-  .stats{grid-template-columns:1fr}
-  .pay-num{font-size:34px}
+/* archetype card */
+.archetype-card {
+  border-radius: 16px;
+  padding: 36px 32px 28px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid;
+}
+
+.archetype-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top right, var(--arch-color-a) 0%, transparent 60%);
+  opacity: .12;
+  pointer-events: none;
+}
+
+.arch-eyebrow {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  opacity: .7;
+  margin-bottom: 10px;
+}
+
+.arch-name {
+  font-family: var(--display);
+  font-size: clamp(32px, 8vw, 52px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+
+.arch-name em { font-style: italic; }
+
+.arch-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  opacity: .85;
+  max-width: 480px;
+  font-weight: 400;
+}
+
+.arch-emoji {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  font-size: 48px;
+  opacity: .6;
+}
+
+/* percentile bar */
+.percentile-section {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+}
+
+.pct-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+}
+
+.pct-label {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.pct-number {
+  font-family: var(--display);
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.pct-track {
+  height: 8px;
+  background: var(--surface2);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.pct-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+  position: relative;
+}
+
+.pct-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 3px;
+  height: 100%;
+  background: rgba(255,255,255,.5);
+  border-radius: 2px;
+}
+
+/* percentile tier badge */
+.pct-badge {
+  display: inline-block;
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.pct-plain {
+  font-size: 15px;
+  color: var(--text);
+  font-weight: 400;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+.pct-plain strong { font-weight: 600; }
+
+.people-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.person-icon {
+  font-size: 18px;
+  line-height: 1;
+  transition: opacity .3s;
+}
+
+.person-icon.behind { opacity: .18; }
+
+/* stats row */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-tile {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 16px 14px;
+  text-align: center;
+}
+
+.stat-val {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.stat-lbl {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* real talk */
+.real-talk {
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 16px;
+  border: 1px solid;
+  position: relative;
+}
+
+.rt-label {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.rt-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.rt-text strong { font-weight: 600; }
+
+/* projection */
+.projection {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+
+.proj-title {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.proj-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.proj-item { text-align: center; }
+
+.proj-year {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.proj-amt {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.proj-note {
+  font-size: 11px;
+  color: var(--muted2);
+  margin-top: 3px;
+}
+
+/* hope / habit section */
+.hope-section {
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+.hope-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .06;
+}
+
+.hope-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.hope-title-block {}
+
+.hope-label {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.hope-title {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.hope-monthly {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.hope-monthly-amt {
+  font-family: var(--display);
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.hope-monthly-sub {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+.hope-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.hope-tile {
+  background: rgba(0,0,0,.2);
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.hope-tile-amt {
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.hope-tile-lbl {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: .6;
+}
+
+.hope-note {
+  font-size: 13px;
+  line-height: 1.6;
+  opacity: .8;
+}
+
+.hope-note strong { font-weight: 600; opacity: 1; }
+.one-thing {
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.one-thing::before {
+  content: '01';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--display);
+  font-size: 80px;
+  font-weight: 900;
+  opacity: .06;
+  line-height: 1;
+}
+
+.ot-label {
+  font-family: var(--cond);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.ot-text {
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
+.ot-text strong { font-weight: 600; }
+
+/* share */
+.share-section {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 22px 24px;
+  margin-bottom: 16px;
+}
+
+.share-title {
+  font-family: var(--cond);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.share-btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.s-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--cond);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all .15s;
+}
+
+.s-btn.tw { background: var(--text); color: var(--bg); }
+.s-btn.tw:hover { background: #fff; transform: translateY(-1px); }
+.s-btn.cp { background: var(--surface2); color: var(--muted); border: 1px solid var(--border2); }
+.s-btn.cp:hover { border-color: var(--gold); color: var(--gold); }
+.s-btn.cp.done { border-color: var(--emerald); color: var(--emerald); }
+
+.share-preview {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: var(--surface2);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  font-style: italic;
+  display: none;
+}
+
+.share-preview.show { display: block; }
+
+/* reset */
+.reset-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: var(--cond);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.reset-btn:hover { border-color: var(--text); color: var(--text); }
+
+/* disclaimer */
+.disclaimer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted2);
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .form-card { padding: 24px 20px; }
+  .archetype-card { padding: 28px 22px 24px; }
+  .arch-emoji { display: none; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .proj-grid { grid-template-columns: 1fr 1fr; }
+  .share-btns { grid-template-columns: 1fr; }
 }
 </style>
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@objectivelynet">
-  <meta name="twitter:title" content="What Is My Real Car Payment? — RealDeal Calculator">
-  <meta name="twitter:description" content="Built by an F&I manager. Know your real car payment, approval odds, and what to watch for before you sit down at the dealership.">
+  <meta name="twitter:title" content="Am I On Track Financially? — Find Your Archetype">
+  <meta name="twitter:description" content="Find out exactly where you stand vs everyone your age. Get your percentile ranking, financial archetype, and 10-year projection in 30 seconds.">
   <meta name="twitter:image" content="https://objectively.net/og-image.png">
-  <meta property="og:url" content="https://objectively.net/realdeal/">
+  <meta property="og:url" content="https://objectively.net/track/">
   <meta property="og:image" content="https://objectively.net/og-image.png">
 </head>
 <body>
@@ -225,892 +814,628 @@ select option{background:#1a1a1a}
 <div class="wrap">
 
 <header>
-  <div class="logo-row">
-    <div class="logo">RealDeal</div>
-    <div class="logo-badge">Beta</div>
-  </div>
-  <p class="tagline">The car payment calculator <strong>built by an F&I manager</strong> — the person who's seen exactly how these deals get structured. Know your numbers before you sit down.</p>
-  <div class="header-line"></div>
+  <div class="eyebrow">Financial Archetype Quiz</div>
+  <div class="headline">Am I<br><em>On Track?</em></div>
+  <p class="subhead">5 questions. Instant result. Find out <strong>exactly where you stand</strong> compared to everyone your age — and what archetype you are.</p>
 </header>
 
-<!-- 1: VEHICLE -->
-<div class="fsec">
-  <div class="slabel"><span class="snum">01</span> Vehicle & Location</div>
-  <div class="grid2">
+<div class="form-card">
+  <div class="field-group">
+
     <div class="field">
-      <label>Vehicle Price</label>
+      <label>How old are you?</label>
+      <div class="iw has-suf">
+        <input type="number" id="age" placeholder="34" min="18" max="80">
+        <span class="suf">YRS</span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Total Savings & Investments</label>
       <div class="iw has-pre">
         <span class="pre">$</span>
-        <input type="number" id="price" placeholder="18500" min="0">
+        <input type="number" id="assets" placeholder="47000" min="0">
       </div>
+      <div class="hint">Everything — checking, savings, 401k, IRA, brokerage, crypto. One combined number.</div>
     </div>
-    <div class="field">
-      <label>Your ZIP Code</label>
-      <div class="iw">
-        <input type="text" id="zip" placeholder="44146" maxlength="5" inputmode="numeric">
-      </div>
-      <div class="zip-status" id="zipStatus">&nbsp;</div>
-    </div>
-  </div>
-</div>
 
-<!-- 2: TRADE -->
-<div class="fsec">
-  <div class="slabel"><span class="snum">02</span> Trade-In</div>
-  <div class="grid2">
     <div class="field">
-      <label>Trade Value (ACV)</label>
+      <label>Annual Household Income</label>
       <div class="iw has-pre">
         <span class="pre">$</span>
-        <input type="number" id="tradeACV" placeholder="0" min="0" value="0">
+        <input type="number" id="income" placeholder="72000" min="0">
       </div>
-      <div class="hint">What the dealer will give you</div>
+      <div class="hint">Before taxes. Include all earners in your household.</div>
     </div>
+
     <div class="field">
-      <label>You Owe on Trade</label>
+      <label>High-Interest Debt</label>
       <div class="iw has-pre">
         <span class="pre">$</span>
-        <input type="number" id="tradePayoff" placeholder="0" min="0" value="0">
+        <input type="number" id="debt" placeholder="0" min="0" value="0">
       </div>
-      <div class="hint">Remaining loan balance</div>
+      <div class="hint">Credit cards + personal loans only.</div>
     </div>
-  </div>
-</div>
 
-<!-- 3: MONEY -->
-<div class="fsec">
-  <div class="slabel"><span class="snum">03</span> Down Payment & Income</div>
-  <div class="grid2">
     <div class="field">
-      <label>Cash Down</label>
+      <label>Other Loans</label>
       <div class="iw has-pre">
         <span class="pre">$</span>
-        <input type="number" id="down" placeholder="1500" min="0" value="0">
+        <input type="number" id="otherDebt" placeholder="0" min="0" value="0">
+      </div>
+      <div class="hint">Car loans, student loans — just the balance you owe. Not your mortgage.</div>
+    </div>
+
+    <div class="field">
+      <label>Do You Own Your Home?</label>
+      <div class="owner-toggle">
+        <button class="owner-btn active" data-val="no" onclick="setOwner(this)">No / Renting</button>
+        <button class="owner-btn" data-val="yes" onclick="setOwner(this)">Yes, I Own</button>
       </div>
     </div>
-    <div class="field">
-      <label>Gross Monthly Income</label>
-      <div class="iw has-pre">
-        <span class="pre">$</span>
-        <input type="number" id="income" placeholder="3200" min="0">
+
+    <!-- Home equity fields - shown when owner = yes -->
+    <div id="homeEquityFields" style="display:none;gap:12px;grid-template-columns:1fr 1fr;" class="grid2">
+      <div class="field">
+        <label>Home Value</label>
+        <div class="iw has-pre">
+          <span class="pre">$</span>
+          <input type="number" id="homeValue" placeholder="320000" min="0">
+        </div>
+        <div class="hint">Rough current market value</div>
       </div>
-      <div class="hint">Before taxes — all sources</div>
+      <div class="field">
+        <label>Mortgage Balance</label>
+        <div class="iw has-pre">
+          <span class="pre">$</span>
+          <input type="number" id="mortgageBalance" placeholder="240000" min="0">
+        </div>
+        <div class="hint">What you still owe on it</div>
+      </div>
     </div>
-  </div>
-</div>
 
-<!-- 4: CREDIT -->
-<div class="fsec">
-  <div class="slabel"><span class="snum">04</span> Credit Tier</div>
-  <div class="tiers">
-    <button class="tbtn" data-t="great" onclick="setTier(this)">
-      <span class="tn">Great</span><span class="ts">720+</span>
-    </button>
-    <button class="tbtn" data-t="good" onclick="setTier(this)">
-      <span class="tn">Good</span><span class="ts">660–719</span>
-    </button>
-    <button class="tbtn" data-t="fair" onclick="setTier(this)">
-      <span class="tn">Fair</span><span class="ts">580–659</span>
-    </button>
-    <button class="tbtn active" data-t="poor" onclick="setTier(this)">
-      <span class="tn">Poor</span><span class="ts">Below 580</span>
-    </button>
   </div>
-</div>
 
-<!-- 5: TERM -->
-<div class="fsec">
-  <div class="slabel"><span class="snum">05</span> Loan Term</div>
-  <div class="grid1">
-    <div class="field">
-      <select id="term">
-        <option value="48">48 months — 4 years</option>
-        <option value="60" selected>60 months — 5 years</option>
-        <option value="72">72 months — 6 years</option>
-        <option value="84">84 months — 7 years</option>
-      </select>
-    </div>
-  </div>
+  <br>
+  <button class="go-btn" onclick="grade()">REVEAL MY ARCHETYPE →</button>
 </div>
-
-<button class="submit-btn" onclick="calculate()">
-  Calculate My Real Deal <span class="arr">→</span>
-</button>
 
 <!-- RESULTS -->
 <div id="results">
 
-  <div class="slabel" style="margin-top:0">Your Deal Analysis</div>
-
-  <!-- Health -->
-  <div id="healthCard" class="health-card">
-    <div class="health-top">
-      <span class="health-tag">Deal Health</span>
-      <span class="health-verdict" id="healthVerdict"></span>
-    </div>
-    <p class="health-desc" id="healthDesc"></p>
+  <!-- Archetype card -->
+  <div class="archetype-card" id="archCard">
+    <span class="arch-emoji" id="archEmoji"></span>
+    <div class="arch-eyebrow" id="archEyebrow">Your Financial Archetype</div>
+    <div class="arch-name" id="archName"></div>
+    <div class="arch-desc" id="archDesc"></div>
   </div>
 
-  <!-- Payment -->
-  <div class="pay-box">
-    <div class="pay-num" id="payNum"></div>
-    <div class="pay-sub">ESTIMATED MONTHLY PAYMENT</div>
-    <div class="pay-note" id="payNote"></div>
+  <!-- Percentile -->
+  <div class="percentile-section">
+    <div class="pct-top">
+      <span class="pct-label">Where You Stand</span>
+      <span class="pct-number" id="pctNum"></span>
+    </div>
+    <div id="pctBadge" class="pct-badge"></div>
+    <div class="pct-plain" id="pctPlain"></div>
+    <div class="people-row" id="peopleRow"></div>
+    <div class="pct-track">
+      <div class="pct-fill" id="pctFill" style="width:0%"></div>
+    </div>
+    <div class="pct-context" id="pctContext"></div>
   </div>
 
   <!-- Stats -->
-  <div class="stats">
-    <div class="scard">
-      <div class="scard-l">Amount Financed</div>
-      <div class="scard-v" id="statAF"></div>
-      <div class="scard-sub" id="statAFsub"></div>
+  <div class="stats-row">
+    <div class="stat-tile">
+      <div class="stat-val" id="statSavRate"></div>
+      <div class="stat-lbl">Savings Rate</div>
     </div>
-    <div class="scard">
-      <div class="scard-l">Sales Tax</div>
-      <div class="scard-v" id="statTax"></div>
-      <div class="scard-sub" id="statTaxSub"></div>
+    <div class="stat-tile">
+      <div class="stat-val" id="statMultiple"></div>
+      <div class="stat-lbl">Income Multiple</div>
     </div>
-    <div class="scard">
-      <div class="scard-l">Total Interest</div>
-      <div class="scard-v" id="statInt"></div>
-      <div class="scard-sub">over full loan term</div>
-    </div>
-    <div class="scard">
-      <div class="scard-l">PTI Ratio</div>
-      <div class="scard-v" id="statPTI"></div>
-      <div class="scard-sub" id="statPTIsub"></div>
+    <div class="stat-tile">
+      <div class="stat-val" id="statTarget"></div>
+      <div class="stat-lbl">Target By Now</div>
     </div>
   </div>
 
-  <!-- APPROVAL ODDS -->
-  <div class="approval-section">
-    <div class="approval-title">Approval Odds</div>
-    <div class="approval-sub" id="approvalIntro"></div>
+  <!-- Real talk -->
+  <div class="real-talk" id="realTalk">
+    <div class="rt-label">Real Talk</div>
+    <div class="rt-text" id="rtText"></div>
+  </div>
 
-    <div id="lenderRows"></div>
+  <!-- Projection -->
+  <div class="projection">
+    <div class="proj-title">Where You're Headed — At 7% Annual Growth</div>
+    <div class="proj-grid" id="projGrid"></div>
+  </div>
 
-    <div class="overall-odds">
-      <div class="odds-circle" id="oddsCircle">
-        <svg width="64" height="64" viewBox="0 0 64 64">
-          <circle cx="32" cy="32" r="26" fill="none" stroke="#222" stroke-width="6"/>
-          <circle cx="32" cy="32" r="26" fill="none" stroke-width="6" stroke-linecap="round"
-            id="oddsArc" stroke-dasharray="163.4" stroke-dashoffset="163.4"/>
-        </svg>
-        <span class="odds-num" id="oddsNum"></span>
+  <!-- Hope / Habit section -->
+  <div class="hope-section" id="hopeSection">
+    <div class="hope-header">
+      <div class="hope-title-block">
+        <div class="hope-label">The Habit That Changes Everything</div>
+        <div class="hope-title" id="hopeTitle"></div>
       </div>
-      <div class="odds-text">
-        <div class="odds-label">Overall Approval Likelihood</div>
-        <div class="odds-desc" id="oddsDesc"></div>
+      <div class="hope-monthly">
+        <div class="hope-monthly-amt" id="hopeAmt"></div>
+        <div class="hope-monthly-sub">per month</div>
       </div>
     </div>
+    <div class="hope-grid" id="hopeGrid"></div>
+    <div class="hope-note" id="hopeNote"></div>
+  </div>
+  <div class="one-thing" id="oneThing">
+    <div class="ot-label">The One Thing That Would Change Everything</div>
+    <div class="ot-text" id="otText"></div>
   </div>
 
-  <!-- APR -->
-  <div class="apr-card">
-    <div class="apr-header">
-      <span class="apr-label">Expected APR Range</span>
-      <span class="apr-val" id="aprVal"></span>
+  <!-- Share -->
+  <div class="share-section">
+    <div class="share-title">Share Your Archetype</div>
+    <div class="share-btns">
+      <button class="s-btn tw" onclick="doShare('twitter')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Post on X
+      </button>
+      <button class="s-btn cp" id="cpBtn" onclick="doShare('copy')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy
+      </button>
     </div>
-    <div class="apr-spectrum" id="aprSpectrum"></div>
-    <p class="apr-note" id="aprNote"></p>
+    <div class="share-preview" id="sharePreview"></div>
   </div>
 
-  <!-- Subprime box (conditional) -->
-  <div id="subprimeBox" class="subprime-box" style="display:none">
-    <div class="sb-title">⚠ Subprime Buyer — Here's What That Means</div>
-    <p id="subprimeText"></p>
-  </div>
+  <button class="reset-btn" onclick="doReset()">← Try Different Numbers</button>
 
-  <!-- Watch out -->
-  <div class="slabel">Watch Out For</div>
-  <div id="watchItems"></div>
-
-  <!-- Empowerment tips -->
-  <div class="power-section">
-    <div class="power-title">Your Leverage Points</div>
-    <div class="power-tips" id="powerTips"></div>
-  </div>
-
-</div><!-- /results -->
-
-<div class="disclaimer">
-  <strong style="color:#444">Heads up:</strong> RealDeal provides educational estimates. Actual approval, rate, and payment depend on your full credit profile, lender decisions, vehicle specifics, and other factors. Tax rates are based on Ohio county data and may not reflect recent changes. Always review your contract line by line before signing anything.
 </div>
 
-</div><!-- /wrap -->
+<div class="disclaimer">
+  For entertainment and general education only. Percentile rankings based on 2022 Federal Reserve Survey of Consumer Finances median net worth data by age. Not personalized financial advice.<br>
+  A tool by <strong>objectively.net</strong>
+</div>
+
+</div>
 
 <script>
-// ─── OHIO COUNTY TAX RATES BY ZIP PREFIX ─────────────────────────────────────
-// Ohio state rate: 5.75%. Counties add their own on top.
-// Source: Ohio Dept of Taxation combined rates (state + county)
-const ohioZipCounty = {
-  // Cuyahoga (8%)
-  "440":8.00,"441":8.00,"442":8.00,"443":8.00,"444":8.00,
-  // Summit (6.75%)
-  "442":6.75,"443":6.75,"444":6.75,
-  // Franklin / Columbus (7.5%)
-  "430":7.50,"431":7.50,"432":7.50,"433":7.50,
-  // Hamilton / Cincinnati (7.8%)
-  "450":7.80,"451":7.80,"452":7.80,"453":7.80,
-  // Montgomery / Dayton (7.5%)
-  "454":7.50,"455":7.50,
-  // Lucas / Toledo (7.25%)
-  "436":7.25,"437":7.25,"438":7.25,
-  // Stark / Canton (6.5%)
-  "446":6.50,"447":6.50,
-  // Mahoning / Youngstown (7.25%)
-  "444":7.25,"445":7.25,
-  // Lake (7%)
-  "440":7.00,
-  // Lorain (6.5%)
-  "440":6.50,
-  // Medina (6.75%)
-  "442":6.75,
-  // Wayne (6.5%)
-  "446":6.50,
-  // Portage (7%)
-  "442":7.00,"443":7.00,
-  // Geauga (7%)
-  "440":7.00,
-  // Trumbull (6.75%)
-  "444":6.75,
-  // Licking / Newark (7%)
-  "430":7.00,
-  // Delaware (7%)
-  "430":7.00,
-  // Butler (6.5%)
-  "450":6.50,
-  // Clark / Springfield (7.25%)
-  "455":7.25,
-  // Clermont (6.75%)
-  "451":6.75,
-  // Greene (6.75%)
-  "453":6.75,
-  // Warren (6.75%)
-  "450":6.75,
-  // Richland (7%)
-  "448":7.00,"449":7.00,
-  // Allen / Lima (6.75%)
-  "458":6.75,"459":6.75,
-  // Muskingum / Zanesville (7%)
-  "437":7.00,
-  // Erie / Sandusky (6.75%)
-  "448":6.75,
-  // Ashland (6.75%)
-  "448":6.75,
-  // Ashtabula (6.75%)
-  "440":6.75,
-  // Athens (7%)
-  "457":7.00,
-  // Belmont (7%)
-  "439":7.00,
-  // Carroll (6.75%)
-  "446":6.75,
-  // Champaign (7%)
-  "430":7.00,
-  // Clinton (6.75%)
-  "451":6.75,
-  // Columbiana (7.25%)
-  "444":7.25,
-  // Coshocton (7.25%)
-  "438":7.25,
-  // Crawford (7%)
-  "448":7.00,
-  // Darke (7%)
-  "453":7.00,
-  // Defiance (6.75%)
-  "435":6.75,
-  // Fayette (7.25%)
-  "431":7.25,
-  // Fulton (6.75%)
-  "435":6.75,
-  // Gallia (7.25%)
-  "456":7.25,
-  // Guernsey (7%)
-  "437":7.00,
-  // Hancock (6.75%)
-  "458":6.75,
-  // Hardin (7.25%)
-  "433":7.25,
-  // Harrison (6.75%)
-  "446":6.75,
-  // Henry (6.75%)
-  "435":6.75,
-  // Highland (7%)
-  "451":7.00,
-  // Hocking (7.25%)
-  "431":7.25,
-  // Holmes (7%)
-  "446":7.00,
-  // Huron (6.75%)
-  "448":6.75,
-  // Jackson (7.5%)
-  "456":7.50,
-  // Jefferson (7.5%)
-  "439":7.50,
-  // Knox (7%)
-  "430":7.00,
-  // Lawrence (7.25%)
-  "456":7.25,
-  // Logan (7%)
-  "433":7.00,
-  // Madison (7%)
-  "431":7.00,
-  // Marion (7%)
-  "433":7.00,
-  // Meigs (7%)
-  "456":7.00,
-  // Mercer (7%)
-  "458":7.00,
-  // Miami (7%)
-  "453":7.00,
-  // Monroe (7%)
-  "457":7.00,
-  // Morgan (7%)
-  "437":7.00,
-  // Morrow (7%)
-  "430":7.00,
-  // Noble (7%)
-  "437":7.00,
-  // Ottawa (6.75%)
-  "434":6.75,
-  // Paulding (7%)
-  "458":7.00,
-  // Perry (7%)
-  "437":7.00,
-  // Pickaway (7%)
-  "431":7.00,
-  // Pike (7.25%)
-  "456":7.25,
-  // Preble (6.75%)
-  "453":6.75,
-  // Putnam (6.75%)
-  "458":6.75,
-  // Ross (7.25%)
-  "456":7.25,
-  // Sandusky (6.75%)
-  "434":6.75,
-  // Scioto (7.25%)
-  "456":7.25,
-  // Seneca (6.75%)
-  "448":6.75,
-  // Shelby (7%)
-  "453":7.00,
-  // Tuscarawas (6.75%)
-  "446":6.75,
-  // Union (7%)
-  "430":7.00,
-  // Van Wert (6.75%)
-  "458":6.75,
-  // Vinton (7.25%)
-  "456":7.25,
-  // Washington (7.25%)
-  "457":7.25,
-  // Williams (6.75%)
-  "435":6.75,
-  // Wood (6.75%)
-  "434":6.75,
-  // Wyandot (7%)
-  "433":7.00,
-};
+let ownerVal = 'no';
+let shareText = '';
 
-// More precise zip→county mapping for common Ohio zips
-const zipExact = {
-  // Cuyahoga County (8%)
-  "44001":8.00,"44012":8.00,"44017":8.00,"44022":8.00,"44023":8.00,
-  "44024":8.00,"44026":8.00,"44028":8.00,"44035":8.00,"44039":8.00,
-  "44040":8.00,"44044":8.00,"44052":8.00,"44053":8.00,"44054":8.00,
-  "44055":8.00,"44056":8.00,"44060":8.00,"44070":8.00,"44072":8.00,
-  "44092":8.00,"44094":8.00,"44102":8.00,"44103":8.00,"44104":8.00,
-  "44105":8.00,"44106":8.00,"44107":8.00,"44108":8.00,"44109":8.00,
-  "44110":8.00,"44111":8.00,"44112":8.00,"44113":8.00,"44114":8.00,
-  "44115":8.00,"44116":8.00,"44117":8.00,"44118":8.00,"44119":8.00,
-  "44120":8.00,"44121":8.00,"44122":8.00,"44123":8.00,"44124":8.00,
-  "44125":8.00,"44126":8.00,"44127":8.00,"44128":8.00,"44129":8.00,
-  "44130":8.00,"44131":8.00,"44132":8.00,"44133":8.00,"44134":8.00,
-  "44135":8.00,"44136":8.00,"44137":8.00,"44138":8.00,"44139":8.00,
-  "44140":8.00,"44141":8.00,"44142":8.00,"44143":8.00,"44144":8.00,
-  "44145":8.00,"44146":8.00,"44147":8.00,"44149":8.00,
-  // Summit County (6.75%)
-  "44202":6.75,"44203":6.75,"44210":6.75,"44212":6.75,"44215":6.75,
-  "44216":6.75,"44221":6.75,"44222":6.75,"44223":6.75,"44224":6.75,
-  "44230":6.75,"44233":6.75,"44236":6.75,"44240":6.75,"44241":6.75,
-  "44243":6.75,"44250":6.75,"44251":6.75,"44253":6.75,"44254":6.75,
-  "44256":6.75,"44260":6.75,"44262":6.75,"44264":6.75,"44266":6.75,
-  "44272":6.75,"44273":6.75,"44275":6.75,"44278":6.75,"44281":6.75,
-  "44286":6.75,"44301":6.75,"44302":6.75,"44303":6.75,"44304":6.75,
-  "44305":6.75,"44306":6.75,"44307":6.75,"44308":6.75,"44310":6.75,
-  "44311":6.75,"44312":6.75,"44313":6.75,"44314":6.75,"44315":6.75,
-  "44316":6.75,"44317":6.75,"44319":6.75,"44320":6.75,"44321":6.75,
-  "44325":6.75,"44326":6.75,"44328":6.75,"44333":6.75,"44334":6.75,
-  // Franklin County (7.5%)
-  "43002":7.50,"43004":7.50,"43016":7.50,"43017":7.50,"43021":7.50,
-  "43026":7.50,"43054":7.50,"43068":7.50,"43081":7.50,"43082":7.50,
-  "43085":7.50,"43109":7.50,"43110":7.50,"43119":7.50,"43123":7.50,
-  "43125":7.50,"43137":7.50,"43146":7.50,"43195":7.50,"43201":7.50,
-  "43202":7.50,"43203":7.50,"43204":7.50,"43205":7.50,"43206":7.50,
-  "43207":7.50,"43209":7.50,"43210":7.50,"43211":7.50,"43212":7.50,
-  "43213":7.50,"43214":7.50,"43215":7.50,"43216":7.50,"43217":7.50,
-  "43218":7.50,"43219":7.50,"43220":7.50,"43221":7.50,"43222":7.50,
-  "43223":7.50,"43224":7.50,"43227":7.50,"43228":7.50,"43229":7.50,
-  "43230":7.50,"43231":7.50,"43232":7.50,"43235":7.50,"43240":7.50,
-};
+function ordinal(n) {
+  const s = ['th','st','nd','rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
 
-// State defaults for non-Ohio
-const stateTaxDefaults = {
-  "MI":6.00,"IN":7.00,"PA":6.00,"KY":6.00,"TN":7.00,"GA":8.90,
-  "TX":6.25,"CA":7.25,"FL":6.00,"NC":3.00,"IL":6.25,"VA":5.30,
-  "MO":4.225,"NV":6.85,"NH":0,"OR":0,"MT":0,"WY":4.00,
-  "WV":6.00,"SC":6.00,"AL":4.00,"MS":7.00,"AR":6.50,"LA":4.45,
-  "OK":4.50,"KS":6.50,"NE":5.50,"SD":4.50,"ND":5.00,"MN":6.875,
-  "WI":5.00,"IA":6.00,"CO":2.90,"UT":4.85,"AZ":5.60,"NM":4.875,
-  "ID":6.00,"WA":6.50,"AK":0,"HI":4.00,"ME":5.50,"VT":6.00,
-  "NH":0,"MA":6.25,"RI":7.00,"CT":6.35,"NJ":6.625,"DE":0,
-  "MD":6.00,"DC":6.00,"NY":4.00,
-};
-
-let selectedTier = 'poor';
-let currentTaxRate = null;
-let currentTaxLabel = '';
-let taxLookupDone = false;
-
-function setTier(btn) {
-  document.querySelectorAll('.tbtn').forEach(b => b.classList.remove('active'));
+function setOwner(btn) {
+  document.querySelectorAll('.owner-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  selectedTier = btn.dataset.t;
+  ownerVal = btn.dataset.val;
+  const homeFields = document.getElementById('homeEquityFields');
+  if (homeFields) {
+    homeFields.style.display = ownerVal === 'yes' ? 'grid' : 'none';
+  }
 }
 
-// ZIP LOOKUP
-document.getElementById('zip').addEventListener('input', function() {
-  const z = this.value.trim();
-  const el = document.getElementById('zipStatus');
-  if (z.length < 5) {
-    el.textContent = '';
-    el.className = 'zip-status';
-    currentTaxRate = null;
-    taxLookupDone = false;
-    return;
-  }
-  lookupZip(z);
-});
-
-function lookupZip(zip) {
-  const el = document.getElementById('zipStatus');
-  el.className = 'zip-status loading';
-  el.textContent = 'Looking up...';
-
-  // Ohio exact zip table first -- instant, no API call needed
-  if (zipExact[zip]) {
-    const rate = zipExact[zip];
-    currentTaxRate = rate / 100;
-    currentTaxLabel = 'Ohio -- ' + rate.toFixed(2) + '% combined';
-    el.className = 'zip-status ok';
-    el.textContent = 'checkmark ' + currentTaxLabel;
-    el.textContent = '\u2713 ' + currentTaxLabel;
-    taxLookupDone = true;
-    return;
-  }
-
-  // Ohio 3-digit prefix table -- instant
-  const prefix3 = zip.substring(0, 3);
-  if (ohioZipCounty[prefix3]) {
-    const rate = ohioZipCounty[prefix3];
-    currentTaxRate = rate / 100;
-    currentTaxLabel = 'Ohio -- ~' + rate.toFixed(2) + '% combined';
-    el.className = 'zip-status ok';
-    el.textContent = '\u2713 ' + currentTaxLabel;
-    taxLookupDone = true;
-    return;
-  }
-
-  // Any other Ohio prefix range -- instant fallback
-  const prefix3num = parseInt(prefix3);
-  if (prefix3num >= 430 && prefix3num <= 459) {
-    currentTaxRate = 0.0725;
-    currentTaxLabel = 'Ohio -- ~7.25% (avg)';
-    el.className = 'zip-status ok';
-    el.textContent = '\u2713 ' + currentTaxLabel;
-    taxLookupDone = true;
-    return;
-  }
-
-  // All other states -- call our proxy function which hits Ziptax server-side
-  fetch('/.netlify/functions/tax?zip=' + zip)
-    .then(function(res) { return res.json(); })
-    .then(function(data) {
-      if (data && data.rate !== null && data.rate !== undefined) {
-        const combined = data.rate;
-        const state = data.state || '';
-        const county = data.county || '';
-        const city = data.city || '';
-
-        currentTaxRate = combined;
-        currentTaxLabel = state + (county ? ' / ' + county : '') + ' -- ' + (combined * 100).toFixed(3) + '% combined';
-        el.className = 'zip-status ok';
-        el.textContent = '\u2713 ' + city + ', ' + state + ' -- ' + (combined * 100).toFixed(2) + '% sales tax';
-        taxLookupDone = true;
-      } else {
-        currentTaxRate = 0.06;
-        currentTaxLabel = 'Unknown (~6% est.)';
-        el.className = 'zip-status err';
-        el.textContent = '\u26A0 ZIP not found -- using 6% estimate';
-        taxLookupDone = true;
-      }
-    })
-    .catch(function() {
-      currentTaxRate = 0.06;
-      currentTaxLabel = 'Lookup failed (~6% est.)';
-      el.className = 'zip-status err';
-      el.textContent = '\u26A0 Could not look up tax rate -- using 6% estimate';
-      taxLookupDone = true;
-    });
+function fmt(n) {
+  if (n >= 1000000) return '$' + (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return '$' + Math.round(n / 1000) + 'k';
+  return '$' + Math.round(n).toLocaleString();
 }
 
-function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
-function pct(n) { return (n * 100).toFixed(1) + '%'; }
-
-function pmt(principal, annualRate, months) {
-  if (annualRate === 0) return principal / months;
-  const r = annualRate / 12;
-  return principal * r / (1 - Math.pow(1 + r, -months));
+function fmtFull(n) {
+  return '$' + Math.round(n).toLocaleString();
 }
 
-const tierConfig = {
-  great: {
-    aprLow: 0.049, aprHigh: 0.079,
-    name: 'Prime',
-    approvalBase: { prime: 92, nearPrime: 99, subprime: 99, deepSub: 99 },
-  },
-  good: {
-    aprLow: 0.079, aprHigh: 0.139,
-    name: 'Near-Prime',
-    approvalBase: { prime: 55, nearPrime: 88, subprime: 97, deepSub: 99 },
-  },
-  fair: {
-    aprLow: 0.149, aprHigh: 0.219,
-    name: 'Subprime',
-    approvalBase: { prime: 5, nearPrime: 30, subprime: 75, deepSub: 90 },
-  },
-  poor: {
-    aprLow: 0.189, aprHigh: 0.299,
-    name: 'Deep Subprime',
-    approvalBase: { prime: 0, nearPrime: 5, subprime: 45, deepSub: 78 },
-  },
-};
-
-const lenderTypes = [
-  { key: 'prime', label: 'Prime Banks & Credit Unions', desc: 'Best rates, strictest approval criteria' },
-  { key: 'nearPrime', label: 'Near-Prime / Indirect Lenders', desc: 'Mid-tier banks, regional lenders' },
-  { key: 'subprime', label: 'Subprime Specialists', desc: 'Capital One, Westlake, DriveTime lenders' },
-  { key: 'deepSub', label: 'Deep Subprime / Buy Here Pay Here', desc: 'Last resort — highest rates, watch terms carefully' },
-];
-
-function calculateApprovalOdds(baseOdds, amtFinanced, price, income, down, tradeEquity, tier) {
-  const odds = { ...baseOdds };
-
-  // PTI adjustment — lenders want payment under 20% of income
-  const midAPR = (tierConfig[tier].aprLow + tierConfig[tier].aprHigh) / 2;
-  const term = parseInt(document.getElementById('term').value);
-  const estPayment = pmt(amtFinanced, midAPR, term);
-  const ptiRatio = income > 0 ? estPayment / income : 1;
-
-  let ptiMod = 0;
-  if (ptiRatio < 0.10) ptiMod = 12;
-  else if (ptiRatio < 0.15) ptiMod = 6;
-  else if (ptiRatio < 0.20) ptiMod = 0;
-  else if (ptiRatio < 0.25) ptiMod = -12;
-  else if (ptiRatio < 0.30) ptiMod = -22;
-  else ptiMod = -35;
-
-  // LTV adjustment
-  const ltv = amtFinanced / price;
-  let ltvMod = 0;
-  if (ltv < 0.90) ltvMod = 10;
-  else if (ltv < 1.00) ltvMod = 5;
-  else if (ltv < 1.10) ltvMod = 0;
-  else if (ltv < 1.20) ltvMod = -10;
-  else if (ltv < 1.30) ltvMod = -20;
-  else ltvMod = -35;
-
-  // Down payment boost
-  const downPct = income > 0 ? down / (price * 0.1) : 1;
-  const downMod = downPct >= 1 ? 8 : downPct >= 0.5 ? 3 : -8;
-
-  // Income floor check
-  if (income > 0 && income < 1500) {
-    Object.keys(odds).forEach(k => { odds[k] = Math.max(0, odds[k] - 25); });
-  } else if (income > 0 && income < 2000) {
-    Object.keys(odds).forEach(k => { odds[k] = Math.max(0, odds[k] - 12); });
-  }
-
-  const totalMod = ptiMod + ltvMod + downMod;
-  Object.keys(odds).forEach(k => {
-    odds[k] = Math.min(98, Math.max(0, odds[k] + totalMod));
-  });
-
-  return { odds, ptiRatio, estPayment };
+// ── BENCHMARKS (2022 Federal Reserve Survey of Consumer Finances - most current) ──
+// Fidelity savings targets: 1x income by 30, 3x by 40, 6x by 50, 8x by 60, 10x by 67
+function getTargetMultiple(age) {
+  if (age <= 25) return 0.25;
+  if (age <= 30) return 1.0;
+  if (age <= 35) return 2.0;
+  if (age <= 40) return 3.0;
+  if (age <= 45) return 4.0;
+  if (age <= 50) return 6.0;
+  if (age <= 55) return 7.0;
+  if (age <= 60) return 8.0;
+  return 10.0;
 }
 
-function oddsClass(pct) {
-  if (pct >= 70) return 'high';
-  if (pct >= 40) return 'med';
-  if (pct >= 10) return 'low';
-  return 'none';
+// Actual median net worth by age from 2022 Fed Survey of Consumer Finances
+// Source: Federal Reserve Board, Changes in U.S. Family Finances 2019-2022
+function getMedianNW(age) {
+  if (age < 25) return 10400;   // Under 35 group starts low - interpolated
+  if (age < 30) return 25000;   // Interpolated within under-35 bracket
+  if (age < 35) return 39000;   // Fed bracket: under 35 = $39,000
+  if (age < 40) return 87000;   // Interpolated 35-44 bracket
+  if (age < 45) return 135600;  // Fed bracket: 35-44 = $135,600
+  if (age < 50) return 191000;  // Interpolated 45-54 bracket
+  if (age < 55) return 247200;  // Fed bracket: 45-54 = $247,200
+  if (age < 60) return 305000;  // Interpolated 55-64 bracket
+  if (age < 65) return 364500;  // Fed bracket: 55-64 = $364,500
+  if (age < 70) return 409900;  // Fed bracket: 65-74 = $409,900
+  return 335600;                 // Fed bracket: 75+ = $335,600
 }
 
-function calculate() {
-  const price = parseFloat(document.getElementById('price').value) || 0;
-  const tradeACV = parseFloat(document.getElementById('tradeACV').value) || 0;
-  const tradePayoff = parseFloat(document.getElementById('tradePayoff').value) || 0;
-  const down = parseFloat(document.getElementById('down').value) || 0;
-  const income = parseFloat(document.getElementById('income').value) || 0;
-  const term = parseInt(document.getElementById('term').value);
-  const zip = document.getElementById('zip').value.trim();
+function getPercentile(assets, debt, otherDebt, income, age, homeEquity) {
+  // Real net worth calculation:
+  // + liquid assets (savings, investments)
+  // + home equity (value - mortgage) if owner
+  // - high interest debt (counts fully - it's genuinely bad)
+  // - other loans at 50% (car/student loans - asset has some value)
+  const netWorth = assets + homeEquity - debt - (otherDebt * 0.5);
+  const median = getMedianNW(age);
+  const ratio = netWorth / median;
+  if (ratio <= 0) return 8;
+  if (ratio <= 0.10) return 20;
+  if (ratio <= 0.25) return 30;
+  if (ratio <= 0.50) return 38;
+  if (ratio <= 0.75) return 44;
+  if (ratio <= 1.0)  return 50;
+  if (ratio <= 1.5)  return 60;
+  if (ratio <= 2.0)  return 68;
+  if (ratio <= 3.0)  return 76;
+  if (ratio <= 5.0)  return 84;
+  if (ratio <= 8.0)  return 90;
+  if (ratio <= 15.0) return 95;
+  return 98;
+}
 
-  if (!price) { alert('Please enter a vehicle price.'); return; }
+// ── ARCHETYPES ────────────────────────────────────────────────────────────────
+function getArchetype(age, assets, income, debt, isOwner, multiple, targetMultiple, percentile) {
+  const ratio = multiple / targetMultiple;
+  const debtBurden = income > 0 ? debt / income : 0;
+  const highDebt = debtBurden > 0.5;
+  const highIncome = income > 120000;
+  const lowSaver = ratio < 0.4;
+  const onTrack = ratio >= 0.85 && ratio <= 1.3;
+  const ahead = ratio > 1.3;
+  const wayAhead = ratio > 2.5;
 
-  // Tax
-  if (zip.length === 5 && !taxLookupDone) lookupZip(zip);
-  const taxRate = currentTaxRate !== null ? currentTaxRate : 0.0575;
-  const taxLabel = currentTaxLabel || 'Ohio base (5.75%)';
+  // PERCENTILE is the source of truth - archetype description must NEVER contradict it
+  // Secondary factors add nuance (debt, income vs savings gap, age)
 
-  const tc = tierConfig[selectedTier];
-
-  // Tax base: full price (used — no trade credit in Ohio)
-  const tax = price * taxRate;
-  const fees = 494; // doc $398 + temp tag $23 + title processing $50 taxed + title $23
-
-  // Equity
-  const tradeEquity = tradeACV - tradePayoff;
-  const amtFinanced = Math.max(0, price - tradeEquity - down + tax + fees);
-
-  // Payments
-  const payLow = pmt(amtFinanced, tc.aprLow, term);
-  const payHigh = pmt(amtFinanced, tc.aprHigh, term);
-  const payMid = (payLow + payHigh) / 2;
-
-  const totalLow = payLow * term;
-  const totalHigh = payHigh * term;
-  const intLow = totalLow - amtFinanced;
-  const intHigh = totalHigh - amtFinanced;
-
-  const ptiLow = income > 0 ? payLow / income : null;
-  const ptiHigh = income > 0 ? payHigh / income : null;
-  const ptiMid = income > 0 ? payMid / income : null;
-
-  // ─── APPROVAL ODDS ───────────────────────────────────────────────────────
-  const baseOdds = tc.approvalBase;
-  const { odds, ptiRatio, estPayment } = calculateApprovalOdds(
-    baseOdds, amtFinanced, price, income, down, tradeEquity, selectedTier
-  );
-
-  // Overall odds (weighted: deep sub is last resort)
-  const weights = { prime: 0.30, nearPrime: 0.35, subprime: 0.25, deepSub: 0.10 };
-  const overallOdds = Math.round(
-    Object.keys(weights).reduce((sum, k) => sum + weights[k] * odds[k], 0)
-  );
-
-  // ─── DEAL HEALTH ────────────────────────────────────────────────────────
-  const ltv = amtFinanced / price;
-  let healthClass, healthVerdict, healthDesc;
-
-  const ptiOk = ptiMid !== null ? ptiMid < 0.20 : true;
-  const ltvOk = ltv < 1.15;
-  const downOk = down >= price * 0.05;
-
-  if (ltvOk && ptiOk && (selectedTier === 'great' || selectedTier === 'good')) {
-    healthClass = 'green'; healthVerdict = 'SOLID DEAL';
-    healthDesc = 'Your numbers are in good shape. You have real negotiating leverage — don\'t feel rushed.';
-  } else if ((ltvOk && ptiOk) || selectedTier === 'great') {
-    healthClass = 'green'; healthVerdict = 'LOOKS GOOD';
-    healthDesc = 'Deal structure is reasonable. Read every line before signing and ask about the buy rate.';
-  } else if (!ltvOk && !ptiOk) {
-    healthClass = 'red'; healthVerdict = 'HIGH RISK';
-    healthDesc = 'High amount financed AND high payment-to-income. This deal needs more down payment or a cheaper vehicle to be manageable.';
-  } else if (!ltvOk || !ptiOk || selectedTier === 'poor') {
-    healthClass = 'yellow'; healthVerdict = 'WATCH IT';
-    healthDesc = selectedTier === 'poor'
-      ? 'Deep subprime deals carry high rates. Know your total cost — not just the monthly payment.'
-      : 'One or more factors are stretched. Proceed carefully and don\'t let payment alone drive your decision.';
-  } else {
-    healthClass = 'green'; healthVerdict = 'LOOKS GOOD';
-    healthDesc = 'Deal structure is reasonable. Review the contract carefully before signing.';
-  }
-
-  // ─── WATCH OUTS ─────────────────────────────────────────────────────────
-  const allWatchouts = {
-    great: [
-      { i:'📋', t:'Rate Markup', d:'Dealers earn money by marking up your rate above what the lender approved. Ask what your "buy rate" is and what the dealer is adding.' },
-      { i:'📦', t:'Product Packing', d:'F&I products will be presented in a way that buries their individual cost. Ask for an itemized breakdown before you discuss any payment.' },
-    ],
-    good: [
-      { i:'📋', t:'Rate Markup', d:'You were probably approved at a lower rate than you\'re being shown. Ask directly: "What\'s the buy rate from the lender?"' },
-      { i:'📦', t:'Payment Packing', d:'Products added to your payment without clearly showing the price. Always get itemized numbers first.' },
-      { i:'📅', t:'Term Stretching', d:'72–84 month loans look affordable but cost significantly more in interest. You\'ll likely be upside down for years.' },
-    ],
-    fair: [
-      { i:'🚗', t:'Vehicle Restrictions', d:'Subprime lenders often have caps on vehicle age, mileage, and loan-to-value. A $20k car might not qualify at your credit tier.' },
-      { i:'💳', t:'GAP Insurance', d:'At higher rates and longer terms, GAP is legitimately worth it — but shop the price. Dealers often mark it up significantly.' },
-      { i:'📋', t:'Spot Delivery (Yo-Yo)', d:'Driving home before financing is final is risky. If the dealer calls you back saying terms changed, you have the right to return the vehicle.' },
-      { i:'📦', t:'Payment Focus', d:'Dealers trained to keep you focused on monthly payment, not total cost. Always ask what the total payoff is.' },
-    ],
-    poor: [
-      { i:'💰', t:'Down Payment Is Everything', d:'At deep subprime, your down payment tells the lender you\'re serious. Every $500 more significantly improves your odds and rate.' },
-      { i:'🚗', t:'Vehicle Age & Mileage Caps', d:'Most deep subprime lenders won\'t finance vehicles over 10 years old or 120k miles. Your choices will be limited.' },
-      { i:'📋', t:'Know the Total Cost', d:'At 25%+ APR on 72 months, you could pay close to double the vehicle\'s value by payoff. Look at the total, not the monthly.' },
-      { i:'🔄', t:'Build Credit First?', d:'If this purchase isn\'t urgent, 6 months of on-time payments on a secured card can meaningfully improve your tier and save thousands.' },
-    ],
+  // Top tier - genuinely crushing it vs real Americans
+  if (percentile >= 85 && !highDebt) return {
+    name: 'The <em>Wealth Builder</em>',
+    emoji: '🏔️',
+    color: '#f5c842',
+    colorB: '#fb923c',
+    desc: 'You are genuinely ahead of the vast majority of Americans your age. Whether through discipline, income, or smart decisions early on — your financial foundation is strong.',
+    realTalk: `At ${age} with ${fmtFull(assets)} saved, you're ahead of ${percentile}% of people your age. The risk now isn't falling behind — it's <strong>lifestyle creep and complacency</strong>. Keep the habits that got you here.`,
+    oneThing: `At your level the biggest lever is <strong>tax optimization</strong> — maxing your 401k, HSA, and backdoor Roth if eligible. The difference in after-tax returns over 20 years is enormous.`,
+    pctContext: `The median ${age}-year-old has roughly ${fmtFull(getMedianNW(age))} in net worth. You've cleared that bar significantly — you're in genuinely strong shape.`,
   };
 
-  const watchouts = allWatchouts[selectedTier];
+  if (percentile >= 85 && highDebt) return {
+    name: 'The <em>Debt Fighter</em>',
+    emoji: '⚔️',
+    color: '#a78bfa',
+    colorB: '#fb7185',
+    desc: 'Your assets put you well ahead of most people your age — but high-interest debt is quietly working against you every day. You have real wealth to protect here.',
+    realTalk: `You're in the ${ordinal(percentile)} percentile for your age, which is genuinely strong. But <strong>high-interest debt is a guaranteed negative return</strong> — whatever your savings are earning, the debt is costing you more.`,
+    oneThing: `<strong>Attack the high-interest debt with the same energy that built your savings.</strong> Avalanche method — highest rate first. You have the assets and likely the income to knock this out fast.`,
+    pctContext: `Strong overall position. Eliminating the high-interest debt would push your net worth — and your percentile — even higher.`,
+  };
 
-  // ─── LEVERAGE TIPS ───────────────────────────────────────────────────────
-  const leverageTips = [];
-  if (tradeEquity < 0) {
-    leverageTips.push(`<strong>Your trade has negative equity ($${Math.abs(Math.round(tradeEquity)).toLocaleString()} owed more than it\'s worth)</strong> — this rolls into your loan and raises your payment. Consider paying it down first if you can.`);
-  }
-  if (ptiMid !== null && ptiMid > 0.20) {
-    leverageTips.push(`<strong>Your payment-to-income ratio is high (${pct(ptiMid)})</strong> — lenders prefer under 20%. A shorter term or more down payment helps.`);
-  }
-  if (ltv > 1.15) {
-    leverageTips.push(`<strong>You\'re financing more than the car is worth (LTV: ${pct(ltv)})</strong> — more down payment or a lower vehicle price will protect you.`);
-  }
-  leverageTips.push(`<strong>Always ask for an itemized worksheet</strong> before discussing a monthly payment. If they won\'t give you one, that\'s a red flag.`);
-  leverageTips.push(`<strong>You can shop your own financing</strong> at your bank or credit union before going to the dealer. Having a pre-approval gives you real leverage.`);
-  if (selectedTier === 'poor' || selectedTier === 'fair') {
-    leverageTips.push(`<strong>Every dollar of down payment helps</strong> — not just for approval odds but for your LTV, your rate tier, and keeping you from going upside down immediately.`);
+  // Above average - doing well vs real Americans
+  if (percentile >= 65 && !highDebt) return {
+    name: 'The <em>Quiet Accumulator</em>',
+    emoji: '🧲',
+    color: '#2dd4bf',
+    colorB: '#38bdf8',
+    desc: 'You\'re ahead of most people your age and probably don\'t make a big deal about it. Steady habits have quietly put you in a better position than you might realize.',
+    realTalk: `You're ahead of ${percentile}% of Americans your age — that's a real accomplishment. <strong>The danger zone now is lifestyle creep</strong>: as income grows, expenses tend to follow. Protecting the gap is the game.`,
+    oneThing: `<strong>Make sure your money is working as hard as you are.</strong> Check your investment allocation — cash sitting in low-yield savings accounts at this stage is leaving real returns on the table.`,
+    pctContext: `The median ${age}-year-old has about ${fmtFull(getMedianNW(age))} saved. You're clearly above that — you've built a genuine cushion.`,
+  };
+
+  if (percentile >= 65 && highDebt) return {
+    name: 'The <em>Debt Fighter</em>',
+    emoji: '⚔️',
+    color: '#a78bfa',
+    colorB: '#fb7185',
+    desc: 'Above average assets but high-interest debt is holding you back from where you could be. You\'re in a strong position — just with one anchor dragging.',
+    realTalk: `You're ahead of ${percentile}% of people your age in assets, which is solid. But <strong>high-interest debt is quietly eroding that edge</strong>. The faster you clear it, the faster your net worth accelerates.`,
+    oneThing: `<strong>Redirect any extra cash to the highest-rate debt first.</strong> Once that's gone, everything you were paying in interest becomes wealth-building instead.`,
+    pctContext: `You're above the median for your age. Clear the debt and your percentile ranking gets even stronger.`,
+  };
+
+  // Near average
+  if (percentile >= 45 && !highDebt) return {
+    name: 'The <em>Steady Climber</em>',
+    emoji: '📈',
+    color: '#34d399',
+    colorB: '#2dd4bf',
+    desc: 'You\'re right in the mix with your peers — tracking near the median for your age. That\'s more respectable than it sounds given how little most Americans have saved.',
+    realTalk: `You're around the middle of the pack for your age. <strong>The Steady Climber's risk is staying comfortable</strong> — near average feels okay until you realize average isn't going to fund a comfortable retirement.`,
+    oneThing: `<strong>Automate one more thing this week.</strong> Even $100-200/month more into a retirement account compounds significantly over time. Set it up automatically so you never have to decide.`,
+    pctContext: `The median net worth for your age is around ${fmtFull(getMedianNW(age))}. You're near that mark — which puts you ahead of a lot of people who have nothing saved at all.`,
+  };
+
+  if (percentile >= 45 && highIncome && lowSaver) return {
+    name: 'The <em>High Earner, Low Saver</em>',
+    emoji: '💸',
+    color: '#fb923c',
+    colorB: '#f5c842',
+    desc: 'Strong income but savings haven\'t kept pace. You\'re making good money — it\'s just not sticking. This is one of the most common and most fixable situations.',
+    realTalk: `Your income is well above average but your savings rate hasn't matched it. <strong>This is a conversion problem, not an earning problem.</strong> Lifestyle has grown with income — the fix is straightforward, just not easy.`,
+    oneThing: `<strong>Increase your 401k contribution by 5% this week.</strong> You've already proven you can live on your current take-home. You won't notice the difference — but in 20 years you absolutely will.`,
+    pctContext: `You're near the median in net worth despite an above-average income — which means there's significant upside available if the savings rate improves.`,
+  };
+
+  // Below average - but needs encouragement not piling on
+  if (percentile < 45 && age < 30) return {
+    name: 'The <em>Early Stage</em>',
+    emoji: '🌱',
+    color: '#34d399',
+    colorB: '#2dd4bf',
+    desc: 'You\'re early in the game — and that\'s actually the best place to be. The habits you build now compound into everything that comes after.',
+    realTalk: `At ${age}, <strong>time is your biggest financial asset</strong> — more valuable than income or the amount you save right now. A dollar invested today is worth dramatically more than a dollar invested at 40. The urgency is starting, not the amount.`,
+    oneThing: `<strong>Open a Roth IRA if you don't have one.</strong> Contribute anything — even $50/month. Tax-free growth over 30-40 years is one of the most powerful financial tools available to you right now.`,
+    pctContext: `Most people your age have very little saved — the under-35 median net worth is only about $39,000 nationally. You're early. The ones who start now are the ones who feel genuinely secure at 50.`,
+  };
+
+  if (percentile < 45 && age >= 50) return {
+    name: 'The <em>Late Starter</em>',
+    emoji: '⚡',
+    color: '#fb7185',
+    colorB: '#fb923c',
+    desc: 'Behind where the benchmarks say you should be — but the window isn\'t closed. The 50s are actually your highest earning years for most people. This decade matters.',
+    realTalk: `The numbers are behind, but <strong>the next 10-15 years are genuinely your best wealth-building window</strong>. Kids may be out of the house, the mortgage closer to done. This is the moment to accelerate.`,
+    oneThing: `<strong>Max out catch-up contributions immediately.</strong> At 50+ you can contribute $30,500 to a 401k and $8,000 to an IRA annually. That's the fastest legal path to closing the gap.`,
+    pctContext: `You're below the median for your age group — but you have more runway than most people realize. Aggressive saving in this decade can close the gap more than you'd expect.`,
+  };
+
+  if (highDebt) return {
+    name: 'The <em>Debt Fighter</em>',
+    emoji: '⚔️',
+    color: '#a78bfa',
+    colorB: '#fb7185',
+    desc: 'High-interest debt is the main thing working against you right now. Everything else is secondary until that\'s handled.',
+    realTalk: `<strong>High-interest debt is a guaranteed negative return.</strong> Whatever you're earning on savings, credit card debt at 20%+ costs you more. Every extra dollar toward that debt is the highest-return "investment" available to you.`,
+    oneThing: `<strong>List your debts highest rate to lowest. Attack the top one with everything.</strong> Minimum payments on the rest. This is called the avalanche method and it's mathematically optimal.`,
+    pctContext: `The high-interest debt is the main drag on your financial position. Clear it and your net worth — and your ranking — improves significantly.`,
+  };
+
+  if (highIncome && lowSaver) return {
+    name: 'The <em>High Earner, Low Saver</em>',
+    emoji: '💸',
+    color: '#fb923c',
+    colorB: '#f5c842',
+    desc: 'Great income, savings haven\'t followed. You\'re making good money — it\'s just not converting into wealth. Extremely common, extremely fixable.',
+    realTalk: `An income of ${fmtFull(income)}/year with ${fmtFull(assets)} saved tells a clear story: <strong>lifestyle has outpaced savings</strong>. This isn't an income problem. It's a conversion problem. The good news is you have the income to fix it fast.`,
+    oneThing: `<strong>Pay yourself first before you see the money.</strong> Raise your 401k contribution 5% this week. You've already proven you can live on your take-home — this is just redirecting what you'd spend anyway.`,
+    pctContext: `Your income is above average but savings haven't kept up. With your earnings, a focused 2-3 year savings push could move your percentile ranking dramatically.`,
+  };
+
+  // Default - below average, needs honest but hopeful message
+  return {
+    name: 'The <em>Late Bloomer</em>',
+    emoji: '🌅',
+    color: '#fb7185',
+    colorB: '#a78bfa',
+    desc: 'Behind the benchmarks right now — but aware of it, which is the actual first step. Most people in this position never look at the numbers at all.',
+    realTalk: `You're below the median for your age in net worth. <strong>That's honest, but it's not permanent.</strong> The people who close gaps like this aren't smarter or luckier — they just get consistent and stop waiting for the right moment.`,
+    oneThing: `<strong>Build a savings rate, not a savings amount.</strong> Commit to saving 15% of every paycheck — automate it before you spend anything. The habit is everything. The amount follows the habit.`,
+    pctContext: `The median net worth for your age is around ${fmtFull(getMedianNW(age))}. You're below that right now — but knowing where you stand is how you start changing it.`,
+  };
+}
+
+function grade() {
+  const age       = parseInt(document.getElementById('age').value) || 0;
+  const assets    = parseFloat(document.getElementById('assets').value) || 0;
+  const income    = parseFloat(document.getElementById('income').value) || 0;
+  const debt      = parseFloat(document.getElementById('debt').value) || 0;
+  const otherDebt = parseFloat((document.getElementById('otherDebt')||{value:'0'}).value) || 0;
+  const isOwner   = ownerVal === 'yes';
+
+  // Home equity calculation
+  const homeValue       = parseFloat((document.getElementById('homeValue')||{value:'0'}).value) || 0;
+  const mortgageBalance = parseFloat((document.getElementById('mortgageBalance')||{value:'0'}).value) || 0;
+  const homeEquity      = isOwner && homeValue > 0 ? Math.max(0, homeValue - mortgageBalance) : 0;
+
+  // Real net worth for display
+  const realNetWorth = assets + homeEquity - debt - (otherDebt * 0.5);
+
+  if (!age || !income) {
+    alert('Please enter your age and annual income to continue.');
+    return;
   }
 
-  // ─── RENDER ─────────────────────────────────────────────────────────────
+  const targetMultiple = getTargetMultiple(age);
+  const targetAmt      = income * targetMultiple;
+  const multiple       = income > 0 ? assets / income : 0;
+  const percentile     = getPercentile(assets, debt, otherDebt, income, age, homeEquity);
+  const arch           = getArchetype(age, assets, income, debt, isOwner, multiple, targetMultiple, percentile);
+
+  // Projections at 7% growth
+  const yrs10 = Math.round(assets * Math.pow(1.07, 10));
+  const yrs20 = Math.round(assets * Math.pow(1.07, 20));
+  const yrs30 = Math.round(assets * Math.pow(1.07, 30));
+  const retireAge = Math.min(age + 30, 67);
+
+  // Savings rate (rough — assuming 20% savings rate if we don't have expenses)
+  const impliedSavings = income * 0.20;
+  const savRate = income > 0 ? Math.round((impliedSavings / income) * 100) : 0;
+
+  // Share text
+  shareText = `I just found out I'm "${arch.name.replace(/<[^>]+>/g, '')}" 💰 — I'm in the ${ordinal(percentile)} percentile for my age. Find your financial archetype:`;
+
+  // ── RENDER ────────────────────────────────────────────────────────────────
   document.getElementById('results').style.display = 'block';
 
-  // Health
-  const hc = document.getElementById('healthCard');
-  hc.className = 'health-card ' + healthClass;
-  document.getElementById('healthVerdict').textContent = healthVerdict;
-  document.getElementById('healthDesc').textContent = healthDesc;
+  // Archetype card
+  const card = document.getElementById('archCard');
+  card.style.borderColor = arch.color + '44';
+  card.style.setProperty('--arch-color-a', arch.color);
+  card.style.background = `linear-gradient(135deg, ${arch.color}08 0%, ${arch.colorB}05 100%)`;
 
-  // Payment
-  document.getElementById('payNum').textContent = `${fmt(payLow)} – ${fmt(payHigh)}/mo`;
-  document.getElementById('payNote').textContent =
-    `Based on ${term}-month term at ${(tc.aprLow*100).toFixed(1)}%–${(tc.aprHigh*100).toFixed(1)}% APR for ${tc.name} credit`;
+  document.getElementById('archEmoji').textContent = arch.emoji;
+  document.getElementById('archEyebrow').style.color = arch.color;
+  document.getElementById('archName').innerHTML = arch.name;
+  document.getElementById('archName').style.color = arch.color;
+  document.getElementById('archDesc').textContent = arch.desc;
+
+  // Percentile — rich version
+  const pctTier = percentile >= 90 ? { label: 'Top 10%', bg: arch.color + '22', color: arch.color }
+    : percentile >= 75 ? { label: 'Above Average', bg: '#34d39922', color: '#34d399' }
+    : percentile >= 50 ? { label: 'Near Average', bg: '#fb923c22', color: '#fb923c' }
+    : percentile >= 25 ? { label: 'Below Average', bg: '#fb718522', color: '#fb7185' }
+    : { label: 'Bottom 25%', bg: '#fb718522', color: '#fb7185' };
+
+  document.getElementById('pctNum').textContent = ordinal(percentile);
+  document.getElementById('pctNum').style.color = arch.color;
+
+  const badge = document.getElementById('pctBadge');
+  badge.textContent = pctTier.label;
+  badge.style.background = pctTier.bg;
+  badge.style.color = pctTier.color;
+
+  // Plain English — "you're ahead of X out of 100 people your age"
+  const aheadOf = percentile;
+  document.getElementById('pctPlain').innerHTML =
+    `You're ahead of <strong>${aheadOf} out of every 100 people</strong> your age when it comes to financial position.`;
+
+  // People icons — 10 icons, filled = ahead
+  const filledCount = Math.round(percentile / 10);
+  document.getElementById('peopleRow').innerHTML =
+    Array.from({ length: 10 }, (_, i) =>
+      `<span class="person-icon${i < filledCount ? '' : ' behind'}">👤</span>`
+    ).join('');
+
+  const fill = document.getElementById('pctFill');
+  fill.style.background = `linear-gradient(90deg, ${arch.color}, ${arch.colorB})`;
+  setTimeout(() => fill.style.width = percentile + '%', 100);
+  document.getElementById('pctContext').innerHTML = arch.pctContext;
 
   // Stats
-  const afEl = document.getElementById('statAF');
-  afEl.textContent = fmt(amtFinanced);
-  afEl.className = 'scard-v' + (ltv > 1.2 ? ' danger' : ltv > 1.1 ? ' warn' : '');
-  document.getElementById('statAFsub').textContent = `LTV: ${pct(ltv)} of vehicle price`;
+  const savingsRatePct = income > 0 && assets > 0 ? Math.min(99, Math.round((assets / (income * Math.max(1, age - 22))) * 100)) : 0;
+  document.getElementById('statSavRate').textContent = savingsRatePct + '%';
+  document.getElementById('statSavRate').style.color = savingsRatePct > 15 ? '#34d399' : savingsRatePct > 8 ? '#fb923c' : '#fb7185';
+  document.getElementById('statMultiple').textContent = multiple.toFixed(1) + 'x';
+  document.getElementById('statMultiple').style.color = multiple >= targetMultiple ? '#34d399' : multiple >= targetMultiple * 0.7 ? '#fb923c' : '#fb7185';
+  document.getElementById('statTarget').textContent = fmt(targetAmt);
 
-  document.getElementById('statTax').textContent = fmt(tax);
-  document.getElementById('statTaxSub').textContent = taxLabel;
-
-  const intEl = document.getElementById('statInt');
-  intEl.textContent = `${fmt(intLow)} – ${fmt(intHigh)}`;
-  intEl.className = 'scard-v' + (selectedTier === 'poor' ? ' danger' : selectedTier === 'fair' ? ' warn' : '');
-
-  if (ptiMid !== null) {
-    const ptiEl = document.getElementById('statPTI');
-    const ptiPct = Math.round(ptiMid * 100);
-    ptiEl.textContent = ptiPct + '%';
-    ptiEl.className = 'scard-v' + (ptiPct > 25 ? ' danger' : ptiPct > 18 ? ' warn' : ' good');
-    document.getElementById('statPTIsub').textContent =
-      ptiPct < 15 ? 'Great ratio — lenders love this' :
-      ptiPct < 20 ? 'Acceptable — within lender guidelines' :
-      ptiPct < 25 ? 'Stretched — may affect approval' :
-      'High — lenders will scrutinize this';
-  } else {
-    document.getElementById('statPTI').textContent = '—';
-    document.getElementById('statPTIsub').textContent = 'Enter income to calculate';
+  // Show real net worth in a 4th tile if we have equity or other debt data
+  const hasExtraData = homeEquity > 0 || otherDebt > 0;
+  if (hasExtraData) {
+    const nwColor = realNetWorth > 0 ? '#34d399' : '#fb7185';
+    document.getElementById('statTarget').parentElement.insertAdjacentHTML('afterend',
+      '<div class="stat-tile" id="nwTile"><div class="stat-val" style="color:' + nwColor + '">' + fmt(realNetWorth) + '</div><div class="stat-lbl">Real Net Worth</div></div>'
+    );
   }
 
-  // Approval Odds
-  const approvalIntro = income > 0
-    ? `Based on your credit tier, income, down payment, and loan-to-value ratio — here\'s how lenders are likely to see this deal.`
-    : `Based on your credit tier, down payment, and loan-to-value. Add your income above for a more accurate picture.`;
-  document.getElementById('approvalIntro').textContent = approvalIntro;
+  // Real talk
+  const rt = document.getElementById('realTalk');
+  rt.style.borderColor = arch.color + '33';
+  rt.style.background = arch.color + '08';
+  document.getElementById('rtText').innerHTML = arch.realTalk;
 
-  const lenderHTML = lenderTypes.map(lt => {
-    const o = Math.round(odds[lt.key]);
-    const cls = oddsClass(o);
-    return `
-      <div class="lender-row">
-        <div class="lender-header">
-          <span class="lender-name">${lt.label}</span>
-          <span class="lender-pct ${cls}">${o > 0 ? o + '%' : 'Unlikely'}</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill ${cls}" style="width:${o}%"></div>
-        </div>
-        <div class="lender-note">${lt.desc}</div>
-      </div>`;
-  }).join('');
-  document.getElementById('lenderRows').innerHTML = lenderHTML;
-
-  // Overall circle
-  const circumference = 163.4;
-  const offset = circumference - (overallOdds / 100) * circumference;
-  const arc = document.getElementById('oddsArc');
-  arc.style.strokeDashoffset = offset;
-  arc.style.stroke = overallOdds >= 70 ? 'var(--good)' : overallOdds >= 40 ? 'var(--warn)' : 'var(--danger)';
-  document.getElementById('oddsNum').textContent = overallOdds + '%';
-  document.getElementById('oddsNum').style.color = overallOdds >= 70 ? 'var(--good)' : overallOdds >= 40 ? 'var(--warn)' : 'var(--danger)';
-
-  const oddsDescText = overallOdds >= 80
-    ? 'Strong likelihood of finding financing at multiple lenders.'
-    : overallOdds >= 60
-    ? 'Decent odds. Will likely require a subprime lender — shop carefully.'
-    : overallOdds >= 40
-    ? 'Challenging. Approval possible but expect high rates and stricter terms.'
-    : 'Difficult. More down payment or a lower price vehicle would significantly help.';
-  document.getElementById('oddsDesc').textContent = oddsDescText;
-
-  // APR
-  document.getElementById('aprVal').textContent = `${(tc.aprLow*100).toFixed(1)}% – ${(tc.aprHigh*100).toFixed(1)}%`;
-  const segments = ['great','good','fair','poor'];
-  const segColors = {'great':'var(--good)','good':'var(--blue)','fair':'var(--warn)','poor':'var(--danger)'};
-  document.getElementById('aprSpectrum').innerHTML = segments.map(s => `
-    <div class="apr-seg" style="background:${segColors[s]};opacity:${s===selectedTier?1:0.18}"></div>
-  `).join('');
-  const aprNotes = {
-    great:'You qualify for the best rates. Pre-approval from your bank or credit union before shopping gives you the strongest negotiating position.',
-    good:'Near-prime rates are manageable but still markupable by the dealer. Know your buy rate and shop competing offers.',
-    fair:'Subprime rates are significantly higher. Focus on minimizing amount financed rather than chasing a specific payment.',
-    poor:'Deep subprime rates mean a high total cost of ownership. Shorter term = less interest even if the payment feels higher.',
-  };
-  document.getElementById('aprNote').textContent = aprNotes[selectedTier];
-
-  // Subprime box
-  const spBox = document.getElementById('subprimeBox');
-  if (selectedTier === 'poor' || selectedTier === 'fair') {
-    spBox.style.display = 'block';
-    document.getElementById('subprimeText').textContent = selectedTier === 'poor'
-      ? 'Deep subprime means lenders see you as higher risk. That risk is priced into your rate — which is why the total cost of the loan is much higher than the vehicle\'s value. Your down payment, income stability, and debt-to-income ratio are what lenders actually focus on, not just your score.'
-      : 'Subprime buyers are a large part of the market and can absolutely get financed. The key is understanding that you\'re paying a premium for your credit history, and knowing exactly what that costs you over the full term.';
-  } else {
-    spBox.style.display = 'none';
-  }
-
-  // Watch outs
-  document.getElementById('watchItems').innerHTML = watchouts.map((w, i) => `
-    <div class="watch-item" style="animation-delay:${i*0.06}s">
-      <span class="watch-icon">${w.i}</span>
-      <div class="watch-body"><strong>${w.t}:</strong> ${w.d}</div>
+  // Projection
+  const projYears = [
+    { label: '10 Years', val: yrs10, note: `Age ${age + 10}` },
+    { label: '20 Years', val: yrs20, note: `Age ${age + 20}` },
+    { label: `${retireAge - age} Years`, val: yrs30, note: `Age ${retireAge}` },
+  ];
+  document.getElementById('projGrid').innerHTML = projYears.map(p => `
+    <div class="proj-item">
+      <div class="proj-year">${p.label}</div>
+      <div class="proj-amt">${fmt(p.val)}</div>
+      <div class="proj-note">${p.note}</div>
     </div>`).join('');
 
-  // Power tips
-  document.getElementById('powerTips').innerHTML = leverageTips.map(t =>
-    `<div class="power-tip">${t}</div>`).join('');
+  // ── HOPE SECTION ─────────────────────────────────────────────────────────
+  // Pick a monthly contribution amount that feels achievable for their income
+  // Scale: under $30k → $100, $30-50k → $150, $50-75k → $200, $75-100k → $300, $100k+ → $500
+  const monthlyContrib = income < 30000 ? 100
+    : income < 50000 ? 150
+    : income < 75000 ? 200
+    : income < 100000 ? 300
+    : 500;
 
-  // Animate bars after a tick
-  setTimeout(() => {
-    document.querySelectorAll('.bar-fill').forEach(b => {
-      const w = b.style.width;
-      b.style.width = '0';
-      setTimeout(() => { b.style.width = w; }, 50);
-    });
-  }, 100);
+  // Future value of monthly contributions: FV = PMT * ((1+r)^n - 1) / r
+  const r = 0.07 / 12;
+  const yearsLeft = Math.max(10, retireAge - age);
+  function fvMonthly(pmt, years) {
+    const n = years * 12;
+    return Math.round(pmt * (Math.pow(1 + r, n) - 1) / r);
+  }
+
+  const hope10 = fvMonthly(monthlyContrib, 10);
+  const hope20 = fvMonthly(monthlyContrib, 20);
+  const hopeRetire = fvMonthly(monthlyContrib, yearsLeft);
+  const totalContributed = monthlyContrib * yearsLeft * 12;
+  const interestEarned = hopeRetire - totalContributed;
+
+  const hopeSection = document.getElementById('hopeSection');
+  hopeSection.style.borderColor = arch.color + '33';
+  hopeSection.style.background = `linear-gradient(135deg, ${arch.color}10, ${arch.colorB}08)`;
+  hopeSection.querySelector('::before') // handled by CSS
+
+  document.getElementById('hopeTitle').textContent = `Add $${monthlyContrib.toLocaleString()}/mo — here's your combined total`;
+  document.getElementById('hopeTitle').style.color = arch.color;
+  document.getElementById('hopeAmt').textContent = `$${monthlyContrib}`;
+  document.getElementById('hopeAmt').style.color = arch.color;
+
+  document.getElementById('hopeGrid').innerHTML = [
+    { lbl: '10 Years', amt: hope10 + yrs10, contrib: hope10 },
+    { lbl: '20 Years', amt: hope20 + yrs20, contrib: hope20 },
+    { lbl: `By Age ${retireAge}`, amt: hopeRetire + Math.round(assets * Math.pow(1.07, yearsLeft)), contrib: hopeRetire },
+  ].map(h => `
+    <div class="hope-tile">
+      <div class="hope-tile-amt" style="color:${arch.color}">${fmt(h.amt)}</div>
+      <div class="hope-tile-lbl">${h.lbl}</div>
+    </div>`).join('');
+
+  const totalAtRetire = hopeRetire + Math.round(assets * Math.pow(1.07, yearsLeft));
+  const pctIncome = Math.round(monthlyContrib / (income / 12) * 100);
+  document.getElementById('hopeNote').innerHTML =
+    `That's just <strong>${pctIncome}% of your monthly income</strong>. Combined with your existing assets growing at 7%, 
+    you'd have <strong>${fmt(totalAtRetire)}</strong> by age ${retireAge}. 
+    Of the <strong>${fmt(hopeRetire)}</strong> from new contributions alone, you'd only put in <strong>${fmt(totalContributed)}</strong> — 
+    the other <strong>${fmt(interestEarned)}</strong> is pure compound growth.`;
+
+  // One thing
+  const ot = document.getElementById('oneThing');
+  ot.style.background = arch.color + '0d';
+  ot.style.border = `1px solid ${arch.color}22`;
+  document.getElementById('otText').innerHTML = arch.oneThing;
+
+  // Share preview
+  document.getElementById('sharePreview').textContent = shareText + ' objectively.net';
+  document.getElementById('sharePreview').classList.add('show');
 
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function doShare(type) {
+  const url = 'https://objectively.net';
+  const full = shareText + ' ' + url;
+  if (type === 'twitter') {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(full)}`, '_blank');
+  } else {
+    navigator.clipboard.writeText(full).then(() => {
+      const btn = document.getElementById('cpBtn');
+      btn.classList.add('done');
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => {
+        btn.classList.remove('done');
+        btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+      }, 2500);
+    }).catch(() => prompt('Copy this:', full));
+  }
+}
+
+function doReset() {
+  document.getElementById('results').style.display = 'none';
+  const nwTile = document.getElementById('nwTile');
+  if (nwTile) nwTile.remove();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>

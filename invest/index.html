@@ -481,6 +481,73 @@ select {
 
 .reset-btn:hover { border-color: var(--green); color: var(--green); }
 
+.tip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  background: var(--s3);
+  border: 1px solid var(--border2);
+  border-radius: 50%;
+  font-size: 9px;
+  color: var(--muted);
+  cursor: help;
+  vertical-align: middle;
+  margin-left: 4px;
+  font-style: normal;
+  font-family: var(--mono);
+  position: relative;
+  transition: border-color .12s, color .12s;
+  flex-shrink: 0;
+}
+
+.tip-icon:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.tip-icon:hover .tip-box {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.tip-box {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  width: 220px;
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.6;
+  color: #888;
+  letter-spacing: .3px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s, transform .15s;
+  z-index: 100;
+  white-space: normal;
+  text-align: left;
+}
+
+.tip-box::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #2e2e2e;
+}
+
+.inv-label { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+
 .disclaimer {
   margin-top: 48px;
   padding-top: 20px;
@@ -719,11 +786,11 @@ function calculate() {
 
   // SERIOUS investments
   const serious = [
-    { name: 'High Yield Savings', rate: 0.045, note: '~4.5% current APY', highlight: false },
-    { name: 'Treasury Bonds', rate: 0.042, note: '~4.2% avg yield', highlight: false },
-    { name: 'REITs', rate: 0.085, note: '~8.5% historical avg', highlight: false },
-    { name: 'Total Market Index', rate: 0.095, note: '~9.5% historical avg', highlight: false },
-    { name: 'S&P 500 Index', rate: 0.105, note: '~10.5% historical avg', highlight: true },
+    { name: 'High Yield Savings', tip: 'A savings account at online banks paying 4-5x more than traditional banks. FDIC insured. Zero risk.', rate: 0.045, note: '~4.5% current APY', highlight: false },
+    { name: 'Treasury Bonds', tip: 'A loan to the US government. Safest investment in the world -- the government has never defaulted.', rate: 0.042, note: '~4.2% avg yield', highlight: false },
+    { name: 'REITs', tip: 'Real Estate Investment Trust. Own a slice of thousands of properties without buying any. Pays dividends from rent.', rate: 0.085, note: '~8.5% historical avg', highlight: false },
+    { name: 'Total Market Index', tip: 'A single fund that owns every publicly traded US company (~3,500 stocks). You grow when the economy grows.', rate: 0.095, note: '~9.5% historical avg', highlight: false },
+    { name: 'S&P 500 Index', tip: 'Tracks the 500 largest US companies. The most common benchmark for the stock market. Warren Buffett recommends it for most people.', rate: 0.105, note: '~10.5% historical avg', highlight: true },
   ];
 
   document.getElementById('seriousRows').innerHTML = serious.map((inv, idx) => {
@@ -746,7 +813,7 @@ function calculate() {
 
     return `<div class="inv-row" style="animation-delay:${idx * .06}s">
       <div class="inv-name">
-        <span class="inv-label">${inv.name}</span>
+        <span class="inv-label">${inv.name} ${inv.tip ? '<span class="tip-icon">?<span class="tip-box">' + inv.tip + '</span></span>' : ''}</span>
         <span class="inv-rate">${inv.note}</span>
       </div>
       ${cells.join('')}${emptyCells}

@@ -643,7 +643,7 @@ textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
       <label>Investments / Retirement</label>
       <div class="iw pre-input">
         <span class="pre">$</span>
-        <input type="number" id="investments" placeholder="0" min="0" value="0">
+        <input type="number" id="investments" placeholder="0" min="0" value="0" oninput="updateTotals()">
       </div>
       <div class="hint">401k, IRA, brokerage (optional)</div>
     </div>
@@ -1470,7 +1470,8 @@ function scoreIt() {
     totalInterest = monthlyPayment * term - principal;
   }
 
-  const priceToSavings = savings > 0 ? price / savings : 999;
+  const totalAssets = savings + invest;
+  const priceToSavings = totalAssets > 0 ? price / totalAssets : 999;
   const priceToIncome  = price / income;
   const ptiRatio = income > 0 && monthlyPayment > 0 ? monthlyPayment / income : 0;
 
@@ -1489,8 +1490,8 @@ function scoreIt() {
   else if (efMonths >= 2) efScore = 4;
   else if (efMonths >= 1) efScore = 2;
   else efScore = 0;
-  if ((method === 'cash' || method === 'savings') && savings > 0) {
-    const newEF = (savings - price) / totalExp;
+  if ((method === 'cash' || method === 'savings') && totalAssets > 0) {
+    const newEF = (totalAssets - price) / totalExp;
     if (newEF < 1) efScore = Math.max(0, efScore - 4);
     else if (newEF < 3) efScore = Math.max(0, efScore - 2);
   }
@@ -1629,8 +1630,8 @@ function scoreIt() {
     impactItems.push({ label:'New Monthly Margin', val: (leftoverAfter>=0?'':'-')+fmt(leftoverAfter), c: cls(leftoverAfter > 400 ? 8 : leftoverAfter > 0 ? 5 : 0) });
   } else {
     impactItems.push({ label:'Purchase Price', val: fmt(price), c:'good' });
-    impactItems.push({ label:'% of Savings', val: Math.min(999,Math.round(priceToSavings*100))+'%', c: cls(priceToSavings<0.25?8:priceToSavings<0.5?5:2) });
-    impactItems.push({ label:'Savings After', val: fmt(Math.max(0,savings-price)), c: cls((savings-price)/totalExp >= 3 ? 8 : (savings-price)/totalExp >= 1 ? 5 : 2) });
+    impactItems.push({ label:'% of Total Assets', val: Math.min(999,Math.round(priceToSavings*100))+'%', c: cls(priceToSavings<0.25?8:priceToSavings<0.5?5:2) });
+    impactItems.push({ label:'Assets After', val: fmt(Math.max(0,totalAssets-price)), c: cls((totalAssets-price)/totalExp >= 3 ? 8 : (totalAssets-price)/totalExp >= 1 ? 5 : 2) });
   }
   document.getElementById('impactTitle').textContent = method === 'finance' ? 'Financing Impact' : 'Cash Purchase Impact';
   document.getElementById('impactGrid').innerHTML = impactItems.map(i =>
@@ -1646,7 +1647,7 @@ function scoreIt() {
     { name:'Emergency Fund', score:efScore, note:`${efMonths.toFixed(1)} months of expenses covered` },
     { name:'Affordability',  score:affordScore, note: method==='finance' ? 'Payment = ' + Math.round(ptiRatio*100) + '% of monthly income' : 'Purchase = ' + priceToIncome.toFixed(1) + 'x monthly income' },
     { name:'Debt Load',      score:debtScore, note: debt > 0 ? `${fmt(debt)} high-interest debt outstanding` : 'No high-interest debt ✓' },
-    { name:'Savings Health', score:savScore, note:`Purchase = ${Math.min(999,Math.round(priceToSavings*100))}% of liquid savings` },
+    { name:'Savings Health', score:savScore, note:'Purchase = ' + Math.min(999,Math.round(priceToSavings*100)) + '% of total assets (savings + investments)' },
     { name:'Savings Habit',  score:savBehavScore, note: saveRate > 0 ? `Saving ${fmt(saveRate)}/mo (${Math.round(savRatio*100)}% of income)` : 'No regular savings detected' },
   ];
   document.getElementById('barRows').innerHTML = dims.map(d => {

@@ -808,15 +808,16 @@ function calculate() {
 
     const cells = timeCols.map((y, i) => {
       const raw = fv(amount, monthly, inv.rate, y);
+      const shown = infl ? adjInflation(raw, y) : raw;
       const isLast = i === timeCols.length - 1;
 
-      // Cap display at $999T to prevent layout breaking
-      const capped = Math.min(raw, 999e12);
-      const isCapped = raw > 999e12;
+      const capped = Math.min(shown, 999e12);
+      const isCapped = shown > 999e12;
 
       if (inv.zeroChance > 0.5 && isLast) {
         return '<div class="spicy-val zero">' +
           '$0 or ' + fmt(capped) +
+          (infl ? '<span class="joke">inflation adj.</span>' : '') +
           '<span class="joke">' + inv.joke[jokeIdx] + '</span>' +
           '</div>';
       }
@@ -826,13 +827,13 @@ function calculate() {
           '<span class="joke">this number broke math</span>' +
           '</div>';
       }
-      if (raw > 1e12) {
+      if (shown > 1e12) {
         return '<div class="spicy-val">' +
-          fmt(raw) +
+          fmt(shown) +
           '<span class="joke">this number isn\'t real</span>' +
           '</div>';
       }
-      return '<div class="spicy-val">' + fmt(raw) + '</div>';
+      return '<div class="spicy-val">' + fmt(shown) + (infl && y > 1 ? '<span class="joke">adj.</span>' : '') + '</div>';
     });
 
     const emptyCells = Array(5 - timeCols.length).fill('<div class="spicy-val"></div>').join('');

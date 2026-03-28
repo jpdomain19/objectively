@@ -1432,6 +1432,7 @@ function scoreIt() {
   const income   = parseFloat(document.getElementById('income').value) || 0;
   const saveRate = parseFloat(document.getElementById('savingsRate').value) || 0;
   const savings  = parseFloat(document.getElementById('savings').value) || 0;
+  const invest   = parseFloat((document.getElementById('investments')||{value:'0'}).value) || 0;
   const debt     = parseFloat(document.getElementById('debt').value) || 0;
   const creditTier = document.getElementById('creditTier').value;
 

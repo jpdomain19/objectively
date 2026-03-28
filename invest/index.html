@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+  <meta name="description" content="See what any dollar amount could become over time — S&P 500, bonds, HYSA, Bitcoin, Dogecoin, AI startups. Serious projections plus a spicy section for entertainment.">
+  <meta name="keywords" content="compound interest calculator, investment calculator, S&P 500 calculator, what could my money become, bitcoin calculator">
+  <meta property="og:title" content="What Could $X Become? — Investment Calculator">
+  <meta property="og:description" content="See where your money could go — serious investments vs the spicy stuff. S&P 500, Bitcoin, Dogecoin, AI startups and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://objectively.net/invest/">
+  <meta property="og:image" content="https://objectively.net/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What Could $X Become? — Investment Calculator">
+  <meta name="twitter:description" content="Serious projections + a spicy section with Bitcoin, Dogecoin, and AI startups. Free, no signup.">
+  <meta name="twitter:image" content="https://objectively.net/og-image.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Could $X Become? — Objectively</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080808;
+  --s1: #101010;
+  --s2: #161616;
+  --s3: #1e1e1e;
+  --border: #242424;
+  --border2: #2e2e2e;
+  --green: #00ff88;
+  --green2: #00cc6a;
+  --muted: #555;
+  --muted2: #3a3a3a;
+  --text: #e8e8e8;
+  --text2: #999;
+  --red: #ff3b3b;
+  --amber: #ffaa00;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --display: 'Unbounded', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* scanline effect */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,136,.008) 2px,
+    rgba(0,255,136,.008) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 100px; position: relative; z-index: 1; }
+
+/* HEADER */
+header { padding: 52px 0 40px; }
+
+.back-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 28px;
+  transition: color .15s;
+}
+.back-link:hover { color: var(--green); }
+
+.brand {
+  font-family: var(--display);
+  font-size: clamp(30px, 8vw, 52px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.brand .dollar { color: var(--green); }
+
+.tagline {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.header-line {
+  height: 1px;
+  background: linear-gradient(90deg, var(--green) 0%, transparent 60%);
+  margin-top: 28px;
+  opacity: .3;
+}
+
+/* INPUT SECTION */
+.input-section {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+.field label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.iw { position: relative; }
+.iw .pre {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 16px;
+  color: var(--green);
+  pointer-events: none;
+  font-weight: 500;
+}
+
+input, select {
+  width: 100%;
+  background: var(--s2);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.iw.pre input { padding-left: 26px; }
+
+input:focus, select:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 2px rgba(0,255,136,.1);
+}
+
+input::placeholder { color: var(--muted2); }
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23555' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-color: var(--s2);
+  padding-right: 32px;
+}
+
+/* Inflation toggle */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.toggle-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle input { opacity: 0; width: 0; height: 0; }
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--s3);
+  border: 1px solid var(--border2);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.toggle input:checked + .toggle-track { background: rgba(0,255,136,.2); border-color: var(--green); }
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: var(--muted);
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+  transition: transform .2s, background .2s;
+}
+
+.toggle input:checked + .toggle-track::after {
+  transform: translateX(18px);
+  background: var(--green);
+}
+
+/* CALCULATE BUTTON */
+.calc-btn {
+  width: 100%;
+  background: var(--green);
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 16px;
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .15s;
+  margin-top: 20px;
+}
+
+.calc-btn:hover { background: var(--green2); transform: translateY(-1px); }
+.calc-btn:active { transform: translateY(1px); }
+
+/* RESULTS */
+#results { display: none; animation: fadeUp .4s ease; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* SECTION HEADER */
+.sec-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sec-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.sec-badge.serious { background: rgba(0,255,136,.1); color: var(--green); border: 1px solid rgba(0,255,136,.2); }
+.sec-badge.spicy { background: rgba(255,59,59,.1); color: var(--red); border: 1px solid rgba(255,59,59,.2); }
+
+.sec-title {
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.sec-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-left: auto;
+}
+
+/* TIME HEADER ROW */
+.time-header {
+  display: grid;
+  grid-template-columns: 1.8fr repeat(5, 1fr);
+  gap: 4px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+}
+
+.time-lbl {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: right;
+}
+
+.time-lbl:first-child { text-align: left; }
+
+/* INVESTMENT ROWS */
+.inv-row {
+  display: grid;
+  grid-template-columns: 1.8fr repeat(5, 1fr);
+  gap: 4px;
+  padding: 12px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  transition: border-color .15s;
+  animation: fadeUp .3s ease both;
+}
+
+.inv-row:hover { border-color: var(--border2); }
+
+.inv-name {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.inv-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.inv-rate {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.inv-val {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: right;
+  color: var(--text2);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.inv-val.highlight { color: var(--green); }
+.inv-val .adj { font-size: 10px; color: var(--muted); }
+
+/* SPICY SECTION */
+.spicy-section {
+  margin-top: 36px;
+  position: relative;
+}
+
+.spicy-warning {
+  background: rgba(255,59,59,.05);
+  border: 1px solid rgba(255,59,59,.15);
+  border-radius: 4px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #ff6b6b;
+  letter-spacing: .5px;
+  line-height: 1.6;
+}
+
+.spicy-row {
+  display: grid;
+  grid-template-columns: 1.8fr repeat(5, 1fr);
+  gap: 4px;
+  padding: 12px;
+  background: rgba(255,59,59,.03);
+  border: 1px solid rgba(255,59,59,.1);
+  border-radius: 4px;
+  margin-bottom: 4px;
+  animation: fadeUp .3s ease both;
+}
+
+.spicy-row:hover { border-color: rgba(255,59,59,.2); }
+
+.spicy-val {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-align: right;
+  color: var(--red);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.spicy-val.zero { color: var(--muted); font-size: 11px; }
+.spicy-val .joke { font-size: 9px; color: var(--muted); font-style: italic; }
+
+/* INSIGHT BOX */
+.insight {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: 4px;
+  padding: 16px 18px;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.insight strong { color: var(--text); font-weight: 500; }
+
+/* SHARE */
+.share-section {
+  margin-top: 28px;
+  display: flex;
+  gap: 10px;
+}
+
+.share-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: all .12s;
+}
+
+.share-btn.tw { background: var(--green); color: #000; }
+.share-btn.tw:hover { background: var(--green2); }
+.share-btn.cp { background: var(--s2); color: var(--muted); border: 1px solid var(--border2); }
+.share-btn.cp:hover { border-color: var(--green); color: var(--green); }
+.share-btn.cp.done { border-color: var(--green); color: var(--green); }
+
+.reset-btn {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .12s;
+  margin-top: 10px;
+}
+
+.reset-btn:hover { border-color: var(--green); color: var(--green); }
+
+.disclaimer {
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted2);
+  line-height: 1.8;
+  letter-spacing: .5px;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,8,8,.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-home {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links { display: flex; gap: 16px; }
+
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .12s;
+}
+
+.nav-links a:hover { color: var(--text2); }
+
+@media (max-width: 600px) {
+  .input-row { grid-template-columns: 1fr 1fr; }
+  .time-header, .inv-row, .spicy-row { grid-template-columns: 1.4fr repeat(3, 1fr); }
+  .time-lbl:nth-child(3), .time-lbl:nth-child(5) { display: none; }
+  .inv-val:nth-child(3), .inv-val:nth-child(5) { display: none; }
+  .spicy-val:nth-child(3), .spicy-val:nth-child(5) { display: none; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-home">&#8592; Objectively.net</a>
+  <div class="nav-links">
+    <a href="/decision/">Decision</a>
+    <a href="/realdeal/">RealDeal</a>
+    <a href="/track/">On Track</a>
+    <a href="/paycheck/">Paycheck</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header>
+  <div class="brand">WHAT COULD<br><span class="dollar">$</span>X BECOME?</div>
+  <p class="tagline">// compound growth calculator -- serious + spicy</p>
+  <div class="header-line"></div>
+</header>
+
+<div class="input-section">
+  <div class="input-row">
+    <div class="field">
+      <label>Starting Amount</label>
+      <div class="iw pre">
+        <span class="pre">$</span>
+        <input type="number" id="amount" placeholder="10000" min="1">
+      </div>
+    </div>
+    <div class="field">
+      <label>Monthly Add</label>
+      <div class="iw pre">
+        <span class="pre">$</span>
+        <input type="number" id="monthly" placeholder="0" min="0" value="0">
+      </div>
+    </div>
+    <div class="field">
+      <label>Time Horizon</label>
+      <select id="horizon">
+        <option value="30">30 years</option>
+        <option value="20">20 years</option>
+        <option value="10">10 years</option>
+        <option value="5">5 years</option>
+        <option value="1">1 year</option>
+      </select>
+    </div>
+  </div>
+  <div class="toggle-row">
+    <label class="toggle">
+      <input type="checkbox" id="inflToggle">
+      <div class="toggle-track"></div>
+    </label>
+    <span class="toggle-label">Show inflation-adjusted values (3% avg)</span>
+  </div>
+  <button class="calc-btn" onclick="calculate()">CALCULATE &rarr;</button>
+</div>
+
+<div id="results">
+
+  <!-- SERIOUS SECTION -->
+  <div class="sec-header">
+    <span class="sec-badge serious">Realistic</span>
+    <span class="sec-title">Where Your Money Could Actually Go</span>
+    <span class="sec-sub">Based on historical averages</span>
+  </div>
+
+  <div class="time-header">
+    <span class="time-lbl">Investment</span>
+    <span class="time-lbl" id="th1"></span>
+    <span class="time-lbl" id="th2"></span>
+    <span class="time-lbl" id="th3"></span>
+    <span class="time-lbl" id="th4"></span>
+    <span class="time-lbl" id="th5"></span>
+  </div>
+
+  <div id="seriousRows"></div>
+
+  <div class="insight" id="insightBox"></div>
+
+  <!-- SPICY SECTION -->
+  <div class="spicy-section">
+    <div class="sec-header" style="margin-top:36px">
+      <span class="sec-badge spicy">Speculative</span>
+      <span class="sec-title">The Spicy Section</span>
+      <span class="sec-sub" style="color:#ff6b6b">For entertainment only</span>
+    </div>
+
+    <div class="spicy-warning">
+      &#9888; Everything below is based on historical highs that may never repeat.
+      Past performance means nothing in these categories.
+      This section exists to make you laugh and/or cry. Do not make financial decisions based on it.
+    </div>
+
+    <div class="time-header">
+      <span class="time-lbl">Asset</span>
+      <span class="time-lbl" id="sh1"></span>
+      <span class="time-lbl" id="sh2"></span>
+      <span class="time-lbl" id="sh3"></span>
+      <span class="time-lbl" id="sh4"></span>
+      <span class="time-lbl" id="sh5"></span>
+    </div>
+
+    <div id="spicyRows"></div>
+  </div>
+
+  <!-- SHARE -->
+  <div class="share-section">
+    <button class="share-btn tw" onclick="doShare('tw')">Post on X</button>
+    <button class="share-btn cp" id="cpBtn" onclick="doShare('cp')">Copy Link</button>
+  </div>
+  <button class="reset-btn" onclick="doReset()">&larr; Try Another Amount</button>
+
+</div>
+
+<div class="disclaimer">
+  All projections use compound interest formulas with historical average rates.<br>
+  Serious section rates: HYSA ~4.5%, Bonds ~4%, REITs ~8%, S&P 500 ~10.5%, Total Market ~9.5%.<br>
+  Speculative section rates are historical peaks -- not predictions or advice.<br>
+  Inflation adjustment assumes 3% annually. A tool by objectively.net
+</div>
+
+</div>
+
+<script>
+function fmt(n) {
+  if (n >= 1e12) return '$' + (n/1e12).toFixed(1) + 'T';
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(1) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + Math.round(n).toLocaleString();
+  return '$' + Math.round(n);
+}
+
+function fv(principal, monthlyAdd, annualRate, years) {
+  const r = annualRate / 12;
+  const n = years * 12;
+  if (annualRate === 0) return principal + monthlyAdd * n;
+  const lumpSum = principal * Math.pow(1 + r, n);
+  const series = monthlyAdd * (Math.pow(1 + r, n) - 1) / r;
+  return lumpSum + series;
+}
+
+function adjInflation(val, years) {
+  return val / Math.pow(1.03, years);
+}
+
+let shareText = '';
+
+function calculate() {
+  const amount  = parseFloat(document.getElementById('amount').value) || 0;
+  const monthly = parseFloat(document.getElementById('monthly').value) || 0;
+  const horizon = parseInt(document.getElementById('horizon').value);
+  const infl    = document.getElementById('inflToggle').checked;
+
+  if (!amount) { alert('Please enter a starting amount.'); return; }
+
+  // Time columns -- 5 checkpoints up to horizon
+  const cols = [];
+  if (horizon >= 1)  cols.push(1);
+  if (horizon >= 5)  cols.push(5);
+  if (horizon >= 10) cols.push(10);
+  if (horizon >= 20) cols.push(20);
+  if (horizon >= 30) cols.push(30);
+  while (cols.length < 5) cols.push(cols[cols.length-1]);
+  const timeCols = [...new Set(cols)].slice(0, 5);
+
+  // Set time headers
+  const thIds = ['th1','th2','th3','th4','th5'];
+  const shIds = ['sh1','sh2','sh3','sh4','sh5'];
+  timeCols.forEach((y, i) => {
+    document.getElementById(thIds[i]).textContent = y + 'yr';
+    document.getElementById(shIds[i]).textContent = y + 'yr';
+  });
+  for (let i = timeCols.length; i < 5; i++) {
+    document.getElementById(thIds[i]).textContent = '';
+    document.getElementById(shIds[i]).textContent = '';
+  }
+
+  // SERIOUS investments
+  const serious = [
+    { name: 'High Yield Savings', rate: 0.045, note: '~4.5% current APY', highlight: false },
+    { name: 'Treasury Bonds', rate: 0.042, note: '~4.2% avg yield', highlight: false },
+    { name: 'REITs', rate: 0.085, note: '~8.5% historical avg', highlight: false },
+    { name: 'Total Market Index', rate: 0.095, note: '~9.5% historical avg', highlight: false },
+    { name: 'S&P 500 Index', rate: 0.105, note: '~10.5% historical avg', highlight: true },
+  ];
+
+  document.getElementById('seriousRows').innerHTML = serious.map((inv, idx) => {
+    const vals = timeCols.map(y => {
+      const raw = fv(amount, monthly, inv.rate, y);
+      const adj = infl ? adjInflation(raw, y) : raw;
+      return { raw, adj };
+    });
+
+    const cells = vals.map((v, i) => {
+      const shown = infl ? v.adj : v.raw;
+      const adjStr = infl ? '' : '';
+      return `<div class="inv-val ${inv.highlight && i === timeCols.length-1 ? 'highlight' : ''}">
+        ${fmt(shown)}
+        ${infl && i > 0 ? '<span class="adj">adj.</span>' : ''}
+      </div>`;
+    });
+
+    const emptyCells = Array(5 - timeCols.length).fill('<div class="inv-val"></div>').join('');
+
+    return `<div class="inv-row" style="animation-delay:${idx * .06}s">
+      <div class="inv-name">
+        <span class="inv-label">${inv.name}</span>
+        <span class="inv-rate">${inv.note}</span>
+      </div>
+      ${cells.join('')}${emptyCells}
+    </div>`;
+  }).join('');
+
+  // INSIGHT
+  const sp500Final = fv(amount, monthly, 0.105, horizon);
+  const hysaFinal  = fv(amount, monthly, 0.045, horizon);
+  const diff = sp500Final - hysaFinal;
+  const totalContrib = amount + (monthly * horizon * 12);
+
+  document.getElementById('insightBox').innerHTML =
+    'Over <strong>' + horizon + ' years</strong>, the difference between leaving <strong>' + fmt(amount) + '</strong> in a high-yield savings account vs investing in the S&P 500 is <strong style="color:var(--green)">' + fmt(diff) + '</strong>. ' +
+    (infl ? 'Numbers adjusted for 3% annual inflation.' : '') +
+    (monthly > 0 ? ' That includes your <strong>' + fmt(monthly) + '/mo</strong> contributions — you\'d put in <strong>' + fmt(totalContrib) + '</strong> total.' : '');
+
+  // SPICY investments
+  const spicy = [
+    {
+      name: 'Bitcoin',
+      rate: 0.60,
+      note: '~60% historical avg (2013-2023)',
+      joke: ['or $0 -- genuinely both are possible', 'or a very expensive lesson', 'or a conversation starter at parties'],
+      zeroChance: 0.3
+    },
+    {
+      name: 'High-Growth Tech Stock',
+      rate: 0.85,
+      note: 'Tesla, AI plays, P/E ratio of "trust me bro"',
+      joke: ['you would have had to hold through -70% drops', 'most people panic sold at the bottom', 'the ones who held are either geniuses or lucky -- nobody knows which'],
+      zeroChance: 0
+    },
+    {
+      name: 'Gold',
+      rate: 0.08,
+      note: '~8% avg -- your grandfather\'s Bitcoin',
+      joke: ['boring, reliable, and slightly smug about it', 'at least you can hold it', 'great for apocalypse scenarios'],
+      zeroChance: 0
+    },
+    {
+      name: 'Dogecoin',
+      rate: 1.50,
+      note: 'Started as a joke. Still kind of is.',
+      joke: ['much wow. very returns. such regret.', 'Elon tweets may apply', 'or a receipt for a mistake'],
+      zeroChance: 0.6
+    },
+    {
+      name: 'AI Startup Equity',
+      rate: 10.0,
+      note: 'Valued at "disrupting everything" -- 90% fail',
+      joke: ['90% of startups fail. the other 10% get acqui-hired', 'your vesting cliff is longer than most AI companies survive', 'but the hoodie was free'],
+      zeroChance: 0.9
+    },
+  ];
+
+  document.getElementById('spicyRows').innerHTML = spicy.map((inv, idx) => {
+    const jokeIdx = Math.floor(Math.random() * inv.joke.length);
+
+    const cells = timeCols.map((y, i) => {
+      const raw = fv(amount, 0, inv.rate, y);
+      if (inv.zeroChance > 0.5 && i === timeCols.length - 1) {
+        return `<div class="spicy-val zero">
+          $0 or ${fmt(raw)}
+          <span class="joke">${inv.joke[jokeIdx]}</span>
+        </div>`;
+      }
+      if (raw > 1e15) {
+        return `<div class="spicy-val">
+          ${fmt(raw)}
+          <span class="joke">this number isn't real</span>
+        </div>`;
+      }
+      return `<div class="spicy-val">${fmt(raw)}</div>`;
+    });
+
+    const emptyCells = Array(5 - timeCols.length).fill('<div class="spicy-val"></div>').join('');
+
+    return `<div class="spicy-row" style="animation-delay:${idx * .06}s">
+      <div class="inv-name">
+        <span class="inv-label" style="color:#ff9999">${inv.name}</span>
+        <span class="inv-rate" style="color:#553333">${inv.note}</span>
+      </div>
+      ${cells.join('')}${emptyCells}
+    </div>`;
+  }).join('');
+
+  // Share text
+  const sp = fmt(fv(amount, monthly, 0.105, horizon));
+  shareText = 'I put ' + fmt(amount) + ' into this calculator and found out it could be ' + sp + ' in ' + horizon + ' years in the S&P 500 (or $0 in Dogecoin). Check what YOUR money could become:';
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function doShare(type) {
+  const url = 'https://objectively.net/invest/';
+  const full = shareText + ' ' + url;
+  if (type === 'tw') {
+    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(full), '_blank');
+  } else {
+    navigator.clipboard.writeText(full).then(function() {
+      const btn = document.getElementById('cpBtn');
+      btn.classList.add('done');
+      btn.textContent = 'Copied!';
+      setTimeout(function() {
+        btn.classList.remove('done');
+        btn.textContent = 'Copy Link';
+      }, 2500);
+    }).catch(function() {
+      prompt('Copy this:', full);
+    });
+  }
+}
+
+function doReset() {
+  document.getElementById('results').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

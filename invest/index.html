@@ -771,8 +771,6 @@ function calculate() {
   // Set time headers and update grid column count
   const thIds = ['th1','th2','th3','th4','th5'];
   const shIds = ['sh1','sh2','sh3','sh4','sh5'];
-  const colTemplate = '1.8fr repeat(' + timeCols.length + ', 1fr)';
-
   timeCols.forEach((y, i) => {
     document.getElementById(thIds[i]).textContent = y + 'yr';
     document.getElementById(shIds[i]).textContent = y + 'yr';
@@ -918,9 +916,8 @@ function calculate() {
   document.getElementById('results').style.display = 'block';
 
   // Apply correct grid columns to all rows now that they're rendered
-  const colTemplate = '1.8fr repeat(' + timeCols.length + ', 1fr)';
   document.querySelectorAll('.time-header, .inv-row, .spicy-row').forEach(function(el) {
-    el.style.gridTemplateColumns = colTemplate;
+    el.style.gridTemplateColumns = '1.8fr repeat(' + timeCols.length + ', 1fr)';
   });
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

@@ -806,7 +806,7 @@ function calculate() {
         '</div>';
     });
 
-    const emptyCells = Array(5 - timeCols.length).fill('<div class="inv-val"></div>').join('');
+    const emptyCells = Array(5 - timeCols.length).fill('<div class="inv-val" style="visibility:hidden"></div>').join('');
 
     return `<div class="inv-row" style="animation-delay:${idx * .06}s">
       <div class="inv-name">
@@ -876,41 +876,38 @@ function calculate() {
       const isLast = i === timeCols.length - 1;
       const capped = Math.min(shown, 999e12);
 
-      // Always show red value for non-last columns
+      // Non-last columns always show the number in red
       if (!isLast) {
         if (shown > 1e12) {
           return '<div class="spicy-val">' + fmt(shown) + '<span class="joke">this number isn\'t real</span></div>';
         }
-        return '<div class="spicy-val">' + fmt(shown) + (infl && y > 1 ? '<span class="joke">adj.</span>' : '') + '</div>';
+        return '<div class="spicy-val">' + fmt(shown) + '</div>';
       }
 
-      // Last column -- show special messaging for high-risk assets
+      // Last column
+      if (shown > 999e12) {
+        return '<div class="spicy-val">$&#x221E;<span class="joke">this number broke math</span></div>';
+      }
+      if (shown > 1e12) {
+        return '<div class="spicy-val">' + fmt(shown) + '<span class="joke">this number isn\'t real</span></div>';
+      }
       if (inv.zeroChance > 0.5) {
-        return '<div class="spicy-val" style="color:var(--red)">' +
+        return '<div class="spicy-val">' +
           '$0 or ' + fmt(capped) +
           '<span class="joke">' + inv.joke[jokeIdx] + '</span>' +
           '</div>';
       }
-
-      if (shown > 999e12) {
-        return '<div class="spicy-val">$&#x221E;<span class="joke">this number broke math</span></div>';
-      }
-
-      if (shown > 1e12) {
-        return '<div class="spicy-val">' + fmt(shown) + '<span class="joke">this number isn\'t real</span></div>';
-      }
-
-      return '<div class="spicy-val">' + fmt(shown) + (infl ? '<span class="joke">adj.</span>' : '') + '</div>';
+      return '<div class="spicy-val">' + fmt(shown) + '</div>';
     });
 
-    const emptyCells = Array(5 - timeCols.length).fill('<div class="spicy-val"></div>').join('');
+    const spicyEmptyCells = Array(5 - timeCols.length).fill('<div class="spicy-val" style="visibility:hidden"></div>').join('');
 
     return '<div class="spicy-row" style="animation-delay:' + (idx * .06) + 's">' +
       '<div class="inv-name">' +
       '<span class="inv-label" style="color:#ff9999">' + inv.name + '</span>' +
       '<span class="inv-rate" style="color:#553333">' + inv.note + '</span>' +
       '</div>' +
-      cells.join('') + emptyCells +
+      cells.join('') + spicyEmptyCells +
       '</div>';
   }).join('');
 

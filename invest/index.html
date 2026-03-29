@@ -363,14 +363,13 @@ select {
   font-size: 13px;
   font-weight: 500;
   text-align: right;
-  color: var(--text2);
+  color: var(--green);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 1px;
 }
 
-.inv-val.highlight { color: var(--green); }
 .inv-val .adj { font-size: 10px; color: var(--muted); }
 
 /* SPICY SECTION */
@@ -418,7 +417,6 @@ select {
   gap: 1px;
 }
 
-.spicy-val.zero { color: var(--muted); font-size: 11px; }
 .spicy-val .joke { font-size: 9px; color: var(--muted); font-style: italic; }
 
 /* INSIGHT BOX */
@@ -762,19 +760,19 @@ function calculate() {
 
   if (!amount) { alert('Please enter a starting amount.'); return; }
 
-  // Time columns -- 5 checkpoints up to horizon
-  const cols = [];
-  if (horizon >= 1)  cols.push(1);
-  if (horizon >= 5)  cols.push(5);
-  if (horizon >= 10) cols.push(10);
-  if (horizon >= 20) cols.push(20);
-  if (horizon >= 30) cols.push(30);
-  while (cols.length < 5) cols.push(cols[cols.length-1]);
-  const timeCols = [...new Set(cols)].slice(0, 5);
+  // Time columns -- smart checkpoints based on horizon
+  let timeCols;
+  if (horizon === 1)  timeCols = [1];
+  else if (horizon === 5)  timeCols = [1, 5];
+  else if (horizon === 10) timeCols = [1, 5, 10];
+  else if (horizon === 20) timeCols = [1, 5, 10, 20];
+  else                     timeCols = [1, 5, 10, 20, 30];
 
-  // Set time headers
+  // Set time headers and update grid column count
   const thIds = ['th1','th2','th3','th4','th5'];
   const shIds = ['sh1','sh2','sh3','sh4','sh5'];
+  const colTemplate = '1.8fr repeat(' + timeCols.length + ', 1fr)';
+
   timeCols.forEach((y, i) => {
     document.getElementById(thIds[i]).textContent = y + 'yr';
     document.getElementById(shIds[i]).textContent = y + 'yr';
@@ -802,11 +800,10 @@ function calculate() {
 
     const cells = vals.map((v, i) => {
       const shown = infl ? v.adj : v.raw;
-      const adjStr = infl ? '' : '';
-      return `<div class="inv-val ${inv.highlight && i === timeCols.length-1 ? 'highlight' : ''}">
-        ${fmt(shown)}
-        ${infl && i > 0 ? '<span class="adj">adj.</span>' : ''}
-      </div>`;
+      return '<div class="inv-val">' +
+        fmt(shown) +
+        (infl && i > 0 ? '<span class="adj">adj.</span>' : '') +
+        '</div>';
     });
 
     const emptyCells = Array(5 - timeCols.length).fill('<div class="inv-val"></div>').join('');
@@ -877,30 +874,33 @@ function calculate() {
       const raw = fv(amount, monthly, inv.rate, y);
       const shown = infl ? adjInflation(raw, y) : raw;
       const isLast = i === timeCols.length - 1;
-
       const capped = Math.min(shown, 999e12);
-      const isCapped = shown > 999e12;
 
-      if (inv.zeroChance > 0.5 && isLast) {
-        return '<div class="spicy-val zero">' +
+      // Always show red value for non-last columns
+      if (!isLast) {
+        if (shown > 1e12) {
+          return '<div class="spicy-val">' + fmt(shown) + '<span class="joke">this number isn\'t real</span></div>';
+        }
+        return '<div class="spicy-val">' + fmt(shown) + (infl && y > 1 ? '<span class="joke">adj.</span>' : '') + '</div>';
+      }
+
+      // Last column -- show special messaging for high-risk assets
+      if (inv.zeroChance > 0.5) {
+        return '<div class="spicy-val" style="color:var(--red)">' +
           '$0 or ' + fmt(capped) +
-          (infl ? '<span class="joke">inflation adj.</span>' : '') +
           '<span class="joke">' + inv.joke[jokeIdx] + '</span>' +
           '</div>';
       }
-      if (isCapped) {
-        return '<div class="spicy-val">' +
-          '$&#x221E;' +
-          '<span class="joke">this number broke math</span>' +
-          '</div>';
+
+      if (shown > 999e12) {
+        return '<div class="spicy-val">$&#x221E;<span class="joke">this number broke math</span></div>';
       }
+
       if (shown > 1e12) {
-        return '<div class="spicy-val">' +
-          fmt(shown) +
-          '<span class="joke">this number isn\'t real</span>' +
-          '</div>';
+        return '<div class="spicy-val">' + fmt(shown) + '<span class="joke">this number isn\'t real</span></div>';
       }
-      return '<div class="spicy-val">' + fmt(shown) + (infl && y > 1 ? '<span class="joke">adj.</span>' : '') + '</div>';
+
+      return '<div class="spicy-val">' + fmt(shown) + (infl ? '<span class="joke">adj.</span>' : '') + '</div>';
     });
 
     const emptyCells = Array(5 - timeCols.length).fill('<div class="spicy-val"></div>').join('');
@@ -919,6 +919,12 @@ function calculate() {
   shareText = 'I put ' + fmt(amount) + ' into this calculator and found out it could be ' + sp + ' in ' + horizon + ' years in the S&P 500 (or $0 in Dogecoin). Check what YOUR money could become:';
 
   document.getElementById('results').style.display = 'block';
+
+  // Apply correct grid columns to all rows now that they're rendered
+  const colTemplate = '1.8fr repeat(' + timeCols.length + ', 1fr)';
+  document.querySelectorAll('.time-header, .inv-row, .spicy-row').forEach(function(el) {
+    el.style.gridTemplateColumns = colTemplate;
+  });
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 

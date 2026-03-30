@@ -93,6 +93,10 @@ select option{background:#1a1a1a}
 .tbtn.active[data-t="good"]{border-color:var(--blue);color:var(--blue);background:rgba(77,184,255,.07)}
 .tbtn.active[data-t="fair"]{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.07)}
 .tbtn.active[data-t="poor"]{border-color:var(--danger);color:var(--danger);background:rgba(255,69,69,.07)}
+.tbtn.active[data-mt="excellent"]{border-color:var(--good);color:var(--good);background:rgba(61,220,132,.07)}
+.tbtn.active[data-mt="good"]{border-color:var(--blue);color:var(--blue);background:rgba(77,184,255,.07)}
+.tbtn.active[data-mt="fair"]{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.07)}
+.tbtn.active[data-mt="poor"]{border-color:var(--danger);color:var(--danger);background:rgba(255,69,69,.07)}
 
 /* SUBMIT */
 .submit-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:7px;padding:17px;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.5px;cursor:pointer;transition:all .15s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:10px}
@@ -208,9 +212,9 @@ select option{background:#1a1a1a}
   <meta name="twitter:site" content="@objectivelynet">
   <meta name="twitter:title" content="What Is My Real Car Payment? — RealDeal Calculator">
   <meta name="twitter:description" content="Built by an F&I manager. Know your real car payment, approval odds, and what to watch for before you sit down at the dealership.">
-  <meta name="twitter:image" content="https://objectively.net/og-image.png">
+  <meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
   <meta property="og:url" content="https://objectively.net/realdeal/">
-  <meta property="og:image" content="https://objectively.net/og-image.png">
+  <meta property="og:image" content="https://objectively.net/og-image.png?v=2">
 </head>
 <body>
 <nav style="position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid #282828;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
@@ -230,11 +234,22 @@ select option{background:#1a1a1a}
     <div class="logo">RealDeal</div>
     <div class="logo-badge">Beta</div>
   </div>
-  <p class="tagline">The car payment calculator <strong>built by an F&I manager</strong> — the person who's seen exactly how these deals get structured. Know your numbers before you sit down.</p>
+  <p class="tagline">The calculator <strong>built by an F&I manager</strong> — the person who's seen exactly how these deals get structured. Know your numbers before you sign anything.</p>
   <div class="header-line"></div>
 </header>
 
-<!-- 1: VEHICLE -->
+<!-- MODE TOGGLE -->
+<div style="display:flex;gap:0;margin-bottom:28px;border:1px solid var(--border2);border-radius:6px;overflow:hidden;">
+  <button id="modeAuto" onclick="setMode('auto')" style="flex:1;padding:14px;background:var(--accent);color:#000;border:none;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .15s;">
+    🚗 Auto Loan
+  </button>
+  <button id="modeMortgage" onclick="setMode('mortgage')" style="flex:1;padding:14px;background:var(--s2);color:var(--muted);border:none;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .15s;">
+    🏠 Mortgage
+  </button>
+</div>
+
+<!-- AUTO CALCULATOR -->
+<div id="autoCalc">
 <div class="fsec">
   <div class="slabel"><span class="snum">01</span> Vehicle & Location</div>
   <div class="grid2">
@@ -433,6 +448,224 @@ select option{background:#1a1a1a}
   </div>
 
 </div><!-- /results -->
+
+</div><!-- /autoCalc -->
+
+<!-- MORTGAGE CALCULATOR -->
+<div id="mortgageCalc" style="display:none">
+
+<!-- M1: PROPERTY -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">01</span> Property Details</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Home Price</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="mPrice" placeholder="280000" min="0">
+      </div>
+    </div>
+    <div class="field">
+      <label>Down Payment</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="mDown" placeholder="56000" min="0" value="0" oninput="updateDownPct()">
+      </div>
+      <div class="hint" id="downPctHint">0% down</div>
+    </div>
+  </div>
+</div>
+
+<!-- M2: INCOME & DEBT -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">02</span> Your Finances</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Gross Monthly Income</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="mIncome" placeholder="6000" min="0">
+      </div>
+      <div class="hint">Before taxes — all sources</div>
+    </div>
+    <div class="field">
+      <label>Monthly Debt Payments</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="mDebt" placeholder="0" min="0" value="0">
+      </div>
+      <div class="hint">Car, student loans, credit cards (minimums)</div>
+    </div>
+  </div>
+</div>
+
+<!-- M3: LOAN -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">03</span> Loan Details</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Loan Term</label>
+      <select id="mTerm">
+        <option value="360" selected>30 years (most common)</option>
+        <option value="180">15 years (lower rate, higher payment)</option>
+        <option value="240">20 years</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Property Tax Rate</label>
+      <select id="mTaxRate">
+        <option value="0.0125">1.25% avg — Most US markets</option>
+        <option value="0.0080">0.80% — Low tax states (TX, FL exemptions)</option>
+        <option value="0.0100">1.00% — Moderate</option>
+        <option value="0.0150">1.50% — Above average</option>
+        <option value="0.0200">2.00% — High tax states (NJ, IL, NH)</option>
+        <option value="0.0250">2.50% — Very high</option>
+      </select>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="field">
+      <label>Homeowners Insurance</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="mInsurance" placeholder="150" min="0" value="150">
+      </div>
+      <div class="hint">Monthly estimate (~$1,200-2,400/yr typical)</div>
+    </div>
+    <div class="field">
+      <label>HOA / Other Monthly</label>
+      <div class="iw has-pre">
+        <span class="pre">$</span>
+        <input type="number" id="mHOA" placeholder="0" min="0" value="0">
+      </div>
+      <div class="hint">Leave 0 if none</div>
+    </div>
+  </div>
+</div>
+
+<!-- M4: CREDIT -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">04</span> Credit Tier</div>
+  <div class="tiers">
+    <button class="tbtn" data-mt="excellent" onclick="setMortgageTier(this)">
+      <span class="tn">Excellent</span><span class="ts">760+</span>
+    </button>
+    <button class="tbtn" data-mt="good" onclick="setMortgageTier(this)">
+      <span class="tn">Good</span><span class="ts">700–759</span>
+    </button>
+    <button class="tbtn" data-mt="fair" onclick="setMortgageTier(this)">
+      <span class="tn">Fair</span><span class="ts">640–699</span>
+    </button>
+    <button class="tbtn active" data-mt="poor" onclick="setMortgageTier(this)">
+      <span class="tn">Challenging</span><span class="ts">Below 640</span>
+    </button>
+  </div>
+</div>
+
+<button class="submit-btn" onclick="calculateMortgage()">
+  Calculate My Real Mortgage <span class="arr">→</span>
+</button>
+
+<!-- MORTGAGE RESULTS -->
+<div id="mortgageResults" style="display:none">
+
+  <div class="slabel" style="margin-top:0">Your Mortgage Analysis</div>
+
+  <!-- Health -->
+  <div id="mHealthCard" class="health-card">
+    <div class="health-top">
+      <span class="health-tag">Deal Health</span>
+      <span class="health-verdict" id="mHealthVerdict"></span>
+    </div>
+    <p class="health-desc" id="mHealthDesc"></p>
+  </div>
+
+  <!-- Payment -->
+  <div class="pay-box">
+    <div class="pay-num" id="mPayNum"></div>
+    <div class="pay-sub">ESTIMATED TOTAL MONTHLY PAYMENT</div>
+    <div class="pay-note" id="mPayNote"></div>
+  </div>
+
+  <!-- Payment breakdown -->
+  <div class="stats">
+    <div class="scard">
+      <div class="scard-l">Principal + Interest</div>
+      <div class="scard-v" id="mStatPI"></div>
+      <div class="scard-sub" id="mStatPIsub"></div>
+    </div>
+    <div class="scard">
+      <div class="scard-l">Property Tax</div>
+      <div class="scard-v" id="mStatTax"></div>
+      <div class="scard-sub">monthly escrow</div>
+    </div>
+    <div class="scard">
+      <div class="scard-l">Total Interest</div>
+      <div class="scard-v" id="mStatInt"></div>
+      <div class="scard-sub">over full loan term</div>
+    </div>
+    <div class="scard">
+      <div class="scard-l">PMI</div>
+      <div class="scard-v" id="mStatPMI"></div>
+      <div class="scard-sub" id="mStatPMIsub"></div>
+    </div>
+  </div>
+
+  <!-- DTI Section -->
+  <div class="apr-card" style="margin-top:20px">
+    <div class="apr-header">
+      <span class="apr-label">Debt-to-Income Ratios</span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Front-End DTI</div>
+        <div style="font-family:var(--mono);font-size:22px;font-weight:500;" id="mFrontDTI"></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">Housing costs vs income<br>Lenders want under 28%</div>
+      </div>
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Back-End DTI</div>
+        <div style="font-family:var(--mono);font-size:22px;font-weight:500;" id="mBackDTI"></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:3px">All debt vs income<br>Lenders max out at 43%</div>
+      </div>
+    </div>
+    <p class="apr-note" id="mDTINote" style="margin-top:14px"></p>
+  </div>
+
+  <!-- Rate -->
+  <div class="apr-card">
+    <div class="apr-header">
+      <span class="apr-label">Expected Rate Range</span>
+      <span class="apr-val" id="mAprVal"></span>
+    </div>
+    <div class="apr-spectrum" id="mAprSpectrum"></div>
+    <p class="apr-note" id="mAprNote"></p>
+  </div>
+
+  <!-- PMI warning -->
+  <div id="mPMIBox" class="subprime-box" style="display:none">
+    <div class="sb-title">⚠ PMI Required — Down Payment Under 20%</div>
+    <p id="mPMIText"></p>
+  </div>
+
+  <!-- What you can actually afford vs qualify for -->
+  <div id="mAffordBox" class="subprime-box" style="display:none;border-color:var(--warn);background:rgba(255,170,0,.05)">
+    <div class="sb-title" style="color:var(--warn)">⚠ Qualified vs Affordable — These Are Different Numbers</div>
+    <p id="mAffordText"></p>
+  </div>
+
+  <!-- Watch out -->
+  <div class="slabel">Watch Out For</div>
+  <div id="mWatchItems"></div>
+
+  <!-- Power tips -->
+  <div class="power-section">
+    <div class="power-title">Your Leverage Points</div>
+    <div class="power-tips" id="mPowerTips"></div>
+  </div>
+
+</div><!-- /mortgageResults -->
+
+</div><!-- /mortgageCalc -->
 
 <div class="disclaimer">
   <strong style="color:#444">Heads up:</strong> RealDeal provides educational estimates. Actual approval, rate, and payment depend on your full credit profile, lender decisions, vehicle specifics, and other factors. Tax rates are based on Ohio county data and may not reflect recent changes. Always review your contract line by line before signing anything.
@@ -1112,6 +1345,220 @@ function calculate() {
   }, 100);
 
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─── MODE TOGGLE ─────────────────────────────────────────────────────────────
+function setMode(mode) {
+  const autoCalc = document.getElementById('autoCalc');
+  const mortCalc = document.getElementById('mortgageCalc');
+  const btnAuto  = document.getElementById('modeAuto');
+  const btnMort  = document.getElementById('modeMortgage');
+
+  if (mode === 'auto') {
+    autoCalc.style.display = 'block';
+    mortCalc.style.display = 'none';
+    btnAuto.style.background  = 'var(--accent)';
+    btnAuto.style.color       = '#000';
+    btnMort.style.background  = 'var(--s2)';
+    btnMort.style.color       = 'var(--muted)';
+  } else {
+    autoCalc.style.display = 'none';
+    mortCalc.style.display = 'block';
+    btnMort.style.background  = 'var(--accent)';
+    btnMort.style.color       = '#000';
+    btnAuto.style.background  = 'var(--s2)';
+    btnAuto.style.color       = 'var(--muted)';
+  }
+}
+
+// ─── MORTGAGE TIER ───────────────────────────────────────────────────────────
+let selectedMortgageTier = 'poor';
+
+function setMortgageTier(btn) {
+  document.querySelectorAll('[data-mt]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedMortgageTier = btn.dataset.mt;
+}
+
+// Mortgage rates by credit tier (30yr fixed, approximate current market)
+const mortgageRates = {
+  excellent: { low: 0.0625, high: 0.0699, label: '6.25% - 6.99%' },
+  good:      { low: 0.0699, high: 0.0799, label: '6.99% - 7.99%' },
+  fair:      { low: 0.0799, high: 0.0924, label: '7.99% - 9.24%' },
+  poor:      { low: 0.0924, high: 0.1200, label: '9.24%+ or denied' },
+};
+
+function updateDownPct() {
+  const price = parseFloat(document.getElementById('mPrice').value) || 0;
+  const down  = parseFloat(document.getElementById('mDown').value) || 0;
+  const pct   = price > 0 ? Math.round(down / price * 100) : 0;
+  document.getElementById('downPctHint').textContent = pct + '% down' + (pct >= 20 ? ' — no PMI' : pct >= 10 ? ' — PMI required' : ' — PMI required, consider saving more');
+}
+
+function mortgagePmt(principal, annualRate, months) {
+  if (annualRate === 0) return principal / months;
+  const r = annualRate / 12;
+  return principal * r / (1 - Math.pow(1 + r, -months));
+}
+
+function calculateMortgage() {
+  const price     = parseFloat(document.getElementById('mPrice').value) || 0;
+  const down      = parseFloat(document.getElementById('mDown').value) || 0;
+  const income    = parseFloat(document.getElementById('mIncome').value) || 0;
+  const debt      = parseFloat(document.getElementById('mDebt').value) || 0;
+  const term      = parseInt(document.getElementById('mTerm').value);
+  const taxRate   = parseFloat(document.getElementById('mTaxRate').value);
+  const insurance = parseFloat(document.getElementById('mInsurance').value) || 150;
+  const hoa       = parseFloat(document.getElementById('mHOA').value) || 0;
+
+  if (!price || !income) {
+    alert('Please enter a home price and your monthly income.');
+    return;
+  }
+
+  const loanAmount  = price - down;
+  const downPct     = price > 0 ? down / price : 0;
+  const tier        = mortgageRates[selectedMortgageTier];
+  const rateMid     = (tier.low + tier.high) / 2;
+
+  // Monthly payment components
+  const piPayment   = mortgagePmt(loanAmount, rateMid, term);
+  const monthlyTax  = (price * taxRate) / 12;
+  const pmi         = downPct < 0.20 ? (loanAmount * 0.0085) / 12 : 0;
+  const totalMonthly = piPayment + monthlyTax + insurance + pmi + hoa;
+
+  // Total interest
+  const totalPaid   = piPayment * term;
+  const totalInterest = totalPaid - loanAmount;
+
+  // DTI ratios
+  const frontEnd    = income > 0 ? totalMonthly / income : 0;
+  const backEnd     = income > 0 ? (totalMonthly + debt) / income : 0;
+
+  // What they can comfortably afford (28% front-end rule)
+  const comfortablePayment = income * 0.28;
+  const comfortableLoan    = comfortablePayment > (monthlyTax + insurance + pmi + hoa)
+    ? mortgagePmt(1, rateMid, term) > 0
+      ? (comfortablePayment - monthlyTax - insurance - pmi - hoa) / (rateMid/12 / (1 - Math.pow(1 + rateMid/12, -term)))
+      : 0
+    : 0;
+  const comfortablePrice   = comfortableLoan + down;
+
+  // Health assessment
+  let healthClass, healthVerdict, healthDesc;
+  if (selectedMortgageTier === 'poor') {
+    healthClass   = 'danger';
+    healthVerdict = 'Approval Unlikely';
+    healthDesc    = 'Most conventional lenders require a minimum 620 credit score. FHA loans are possible at lower scores but require at least 3.5% down and mortgage insurance. Improving your credit score first will save tens of thousands in interest.';
+  } else if (backEnd > 0.50) {
+    healthClass   = 'danger';
+    healthVerdict = 'Debt Load Too High';
+    healthDesc    = 'Your total debt-to-income ratio exceeds 50%. Most lenders will deny this application. You need to either reduce existing debt, increase income, or lower the purchase price significantly.';
+  } else if (backEnd > 0.43) {
+    healthClass   = 'warn';
+    healthVerdict = 'Tight — Borderline';
+    healthDesc    = 'Your back-end DTI exceeds the standard 43% threshold. Some lenders (especially FHA) may still approve this but you will face scrutiny. Consider paying down existing debt before applying.';
+  } else if (frontEnd > 0.31) {
+    healthClass   = 'warn';
+    healthVerdict = 'Stretched Budget';
+    healthDesc    = 'Your housing costs exceed 31% of gross income. You may qualify but this leaves little margin for unexpected expenses, repairs, or job changes. Lenders will likely approve but your budget will feel tight.';
+  } else if (downPct < 0.03) {
+    healthClass   = 'warn';
+    healthVerdict = 'Very Low Down Payment';
+    healthDesc    = 'Under 3% down is possible with certain loan programs but you will have significant PMI costs, limited equity, and higher risk of being underwater if values dip.';
+  } else {
+    healthClass   = 'good';
+    healthVerdict = 'Solid Position';
+    healthDesc    = 'Your DTI ratios and down payment put you in a strong position for approval. ' + (downPct >= 0.20 ? 'No PMI required.' : 'PMI required until you reach 20% equity.');
+  }
+
+  // Build watch-out items
+  const watchItems = [];
+  if (downPct < 0.20) {
+    watchItems.push({ i: '💸', t: 'Private Mortgage Insurance (PMI)', d: 'With under 20% down you will pay PMI of roughly ' + fmt(pmi) + '/mo until you reach 20% equity. This is not building equity — it protects the lender, not you. Request cancellation once you hit 20%.' });
+  }
+  watchItems.push({ i: '🏚', t: 'Maintenance & Repairs', d: 'Budget 1-2% of home value annually for maintenance (' + fmt(price * 0.01 / 12) + '-' + fmt(price * 0.02 / 12) + '/mo). This is not in your payment but it is a real cost of ownership.' });
+  watchItems.push({ i: '📈', t: 'Variable Property Tax', d: 'Property taxes can increase annually. If your tax estimate is based on last year\'s assessed value, your actual escrow may be higher.' });
+  if (term === 360) {
+    watchItems.push({ i: '⏰', t: 'Total Interest Over 30 Years', d: 'At this rate you will pay ' + fmt(totalInterest) + ' in interest over the life of the loan — on top of the ' + fmt(price) + ' home price. A 15-year mortgage at a lower rate saves dramatically.' });
+  }
+  if (selectedMortgageTier === 'fair' || selectedMortgageTier === 'poor') {
+    watchItems.push({ i: '🏦', t: 'FHA vs Conventional', d: 'With your credit tier, an FHA loan may be your best option. FHA requires as little as 3.5% down but carries both upfront and annual mortgage insurance premiums.' });
+  }
+  watchItems.push({ i: '🔎', t: 'Pre-Approval vs Pre-Qualification', d: 'Pre-qualification is just an estimate. Get a real pre-approval with a hard pull before making offers — sellers take pre-approvals seriously, pre-quals less so.' });
+
+  // Power tips
+  const powerTips = [];
+  if (comfortablePrice < price * 0.9) {
+    powerTips.push('<strong>You qualify for more than you can comfortably afford.</strong> Based on the 28% rule, your comfortable price point is around ' + fmt(comfortablePrice) + '. The bank will approve more — but your budget will tell you the truth.');
+  }
+  powerTips.push('<strong>Shop multiple lenders</strong> — rate differences of 0.5% on a ' + fmt(loanAmount) + ' loan cost you ' + fmt(loanAmount * 0.005 * (term/12) * 0.6) + ' over the loan term. Always get at least 3 quotes.');
+  if (downPct < 0.20) {
+    powerTips.push('<strong>Every dollar toward 20% down saves you PMI costs</strong> of ' + fmt(pmi) + '/mo and gives you instant equity protection against market dips.');
+  }
+  powerTips.push('<strong>Ask for a Loan Estimate form</strong> within 3 days of applying — lenders are legally required to provide it. Compare every line item, not just the rate.');
+
+  // RENDER
+  document.getElementById('mortgageResults').style.display = 'block';
+
+  const hc = document.getElementById('mHealthCard');
+  hc.className = 'health-card ' + healthClass;
+  document.getElementById('mHealthVerdict').textContent = healthVerdict;
+  document.getElementById('mHealthDesc').textContent = healthDesc;
+
+  document.getElementById('mPayNum').textContent = fmt(totalMonthly) + '/mo';
+  document.getElementById('mPayNote').textContent = 'Principal + interest + taxes + insurance' + (pmi > 0 ? ' + PMI' : '') + (hoa > 0 ? ' + HOA' : '');
+
+  document.getElementById('mStatPI').textContent = fmt(piPayment) + '/mo';
+  document.getElementById('mStatPIsub').textContent = 'at ~' + (rateMid * 100).toFixed(2) + '% rate';
+  document.getElementById('mStatTax').textContent = fmt(monthlyTax) + '/mo';
+  document.getElementById('mStatInt').textContent = fmt(totalInterest);
+  document.getElementById('mStatPMI').textContent = pmi > 0 ? fmt(pmi) + '/mo' : 'None';
+  document.getElementById('mStatPMIsub').textContent = pmi > 0 ? 'until 20% equity' : downPct >= 0.20 ? '20%+ down — no PMI' : '';
+
+  const feDTIEl = document.getElementById('mFrontDTI');
+  feDTIEl.textContent = Math.round(frontEnd * 100) + '%';
+  feDTIEl.style.color = frontEnd > 0.31 ? 'var(--warn)' : frontEnd > 0.28 ? 'var(--warn)' : 'var(--good)';
+
+  const beDTIEl = document.getElementById('mBackDTI');
+  beDTIEl.textContent = Math.round(backEnd * 100) + '%';
+  beDTIEl.style.color = backEnd > 0.43 ? 'var(--danger)' : backEnd > 0.36 ? 'var(--warn)' : 'var(--good)';
+
+  let dtiNote = '';
+  if (backEnd > 0.43) dtiNote = 'Your back-end DTI exceeds most lender maximums. Paying down existing debt before applying will dramatically improve your position.';
+  else if (backEnd > 0.36) dtiNote = 'Your DTI is in the caution zone. You will likely qualify but some lenders may require compensating factors like large reserves.';
+  else if (frontEnd > 0.28) dtiNote = 'Housing costs are above the standard 28% guideline but your overall DTI is manageable. Many lenders will still approve this.';
+  else dtiNote = 'Both your DTI ratios are within standard guidelines. You are in a solid position for approval.';
+  document.getElementById('mDTINote').textContent = dtiNote;
+
+  document.getElementById('mAprVal').textContent = tier.label;
+  document.getElementById('mAprNote').textContent = selectedMortgageTier === 'poor'
+    ? 'Below 640 credit score, conventional approval is unlikely. FHA loans may be available. Improving your score by even 40-60 points can unlock significantly better rates.'
+    : 'Rate estimates based on current market conditions for a ' + (term === 360 ? '30' : term === 180 ? '15' : '20') + '-year fixed mortgage. Shopping multiple lenders can save 0.25-0.75% — worth thousands over the loan term.';
+
+  if (pmi > 0) {
+    document.getElementById('mPMIBox').style.display = 'block';
+    document.getElementById('mPMIText').textContent = 'With ' + Math.round(downPct * 100) + '% down you owe PMI of approximately ' + fmt(pmi) + '/mo. This cancels automatically at 80% LTV (when you owe ' + fmt(loanAmount * 0.80) + '). You can also request cancellation in writing once you hit that threshold — don\'t wait for the lender to do it automatically. Pro tip: some lenders offer PMI waiver programs at 15% down — always ask, it\'s not advertised.';
+  } else {
+    document.getElementById('mPMIBox').style.display = 'none';
+  }
+
+  if (comfortablePrice < price * 0.92) {
+    document.getElementById('mAffordBox').style.display = 'block';
+    document.getElementById('mAffordText').textContent = 'Based on your income, the bank may approve you for this purchase — but the 28% front-end guideline suggests your comfortable price point is around ' + fmt(comfortablePrice) + '. That is ' + fmt(price - comfortablePrice) + ' less than the asking price. Getting approved and being comfortable are two very different things.';
+  } else {
+    document.getElementById('mAffordBox').style.display = 'none';
+  }
+
+  document.getElementById('mWatchItems').innerHTML = watchItems.map(w =>
+    '<div class="watch-item"><span class="wi-icon">' + w.i + '</span><div class="wi-body"><div class="wi-title">' + w.t + '</div><div class="wi-desc">' + w.d + '</div></div></div>'
+  ).join('');
+
+  document.getElementById('mPowerTips').innerHTML = powerTips.map(t =>
+    '<div class="power-tip">' + t + '</div>'
+  ).join('');
+
+  document.getElementById('mortgageResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
 </body>

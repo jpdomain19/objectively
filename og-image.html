@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; display: flex; align-items: center; justify-content: center; width: 1200px; height: 630px; overflow: hidden; }
+</style>
+</head>
+<body>
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+
+  <!-- Subtle grid -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="#131313" stroke-width="1"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#131313" stroke-width="1"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#131313" stroke-width="1"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#131313" stroke-width="1"/>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="6" height="630" fill="#c8f135"/>
+
+  <!-- Bar chart right -->
+  <rect x="820" y="380" width="44" height="250" fill="#161616" rx="2"/>
+  <rect x="820" y="480" width="44" height="150" fill="#c8f135" opacity="0.2" rx="1"/>
+
+  <rect x="876" y="300" width="44" height="330" fill="#161616" rx="2"/>
+  <rect x="876" y="390" width="44" height="240" fill="#c8f135" opacity="0.3" rx="1"/>
+
+  <rect x="932" y="230" width="44" height="400" fill="#161616" rx="2"/>
+  <rect x="932" y="310" width="44" height="320" fill="#c8f135" opacity="0.45" rx="1"/>
+
+  <rect x="988" y="165" width="44" height="465" fill="#161616" rx="2"/>
+  <rect x="988" y="240" width="44" height="390" fill="#c8f135" opacity="0.6" rx="1"/>
+
+  <rect x="1044" y="110" width="44" height="520" fill="#161616" rx="2"/>
+  <rect x="1044" y="180" width="44" height="450" fill="#ff6b35" opacity="0.7" rx="1"/>
+
+  <rect x="1100" y="70" width="44" height="560" fill="#161616" rx="2"/>
+  <rect x="1100" y="135" width="44" height="495" fill="#ff6b35" opacity="0.9" rx="1"/>
+
+  <!-- Trend line -->
+  <polyline points="842,548 898,448 954,368 1010,290 1066,220 1122,168" fill="none" stroke="#c8f135" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+
+  <circle cx="842" cy="548" r="7" fill="#c8f135" opacity="0.7"/>
+  <circle cx="898" cy="448" r="7" fill="#c8f135" opacity="0.7"/>
+  <circle cx="954" cy="368" r="7" fill="#c8f135" opacity="0.7"/>
+  <circle cx="1010" cy="290" r="7" fill="#c8f135" opacity="0.7"/>
+  <circle cx="1066" cy="220" r="7" fill="#ff6b35"/>
+  <circle cx="1122" cy="168" r="9" fill="#ff6b35" stroke="#0a0a0a" stroke-width="2"/>
+
+  <!-- Baseline -->
+  <line x1="800" y1="630" x2="1200" y2="630" stroke="#1e1e1e" stroke-width="2"/>
+
+  <!-- Left content -->
+  <rect x="50" y="158" width="70" height="4" fill="#c8f135" rx="2"/>
+
+  <text x="50" y="290" font-family="Arial Black, Arial, sans-serif" font-size="88" font-weight="900" fill="#f0f0f0" letter-spacing="-2">OBJECTIVELY</text>
+
+  <text x="54" y="345" font-family="Arial, sans-serif" font-size="20" fill="#555" letter-spacing="6">HONEST FINANCIAL TOOLS</text>
+
+  <!-- Tool tags -->
+  <rect x="54" y="385" width="176" height="34" fill="#161616" rx="17" stroke="#222" stroke-width="1"/>
+  <text x="142" y="406" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#777" letter-spacing="1.5">SHOULD I BUY THIS?</text>
+
+  <rect x="242" y="385" width="148" height="34" fill="#161616" rx="17" stroke="#222" stroke-width="1"/>
+  <text x="316" y="406" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#777" letter-spacing="1.5">AM I ON TRACK?</text>
+
+  <rect x="402" y="385" width="130" height="34" fill="#161616" rx="17" stroke="#222" stroke-width="1"/>
+  <text x="467" y="406" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#777" letter-spacing="1.5">CAR PAYMENT</text>
+
+  <rect x="54" y="432" width="140" height="34" fill="#161616" rx="17" stroke="#222" stroke-width="1"/>
+  <text x="124" y="453" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="#777" letter-spacing="1.5">PAYCHECK REALITY</text>
+
+  <!-- Bottom tagline -->
+  <rect x="54" y="530" width="36" height="3" fill="#c8f135" rx="1.5" opacity="0.5"/>
+  <text x="100" y="534" font-family="Arial, sans-serif" font-size="14" fill="#2e2e2e" letter-spacing="3">FREE. NO SIGNUP. NO BS.</text>
+
+  <!-- URL -->
+  <text x="54" y="580" font-family="Arial, sans-serif" font-size="16" fill="#333" letter-spacing="2">objectively.net</text>
+
+  <!-- Orange dot -->
+  <circle cx="805" cy="108" r="8" fill="#ff6b35"/>
+
+</svg>
+</body>
+</html>

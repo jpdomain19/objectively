@@ -2,26 +2,6 @@
   functions = "netlify/functions"
 
 [[redirects]]
-  from = "/decision/"
-  to = "/decision/index.html"
-  status = 200
-[[redirects]]
-  from = "/realdeal/"
-  to = "/realdeal/index.html"
-  status = 200
-[[redirects]]
-  from = "/track/"
-  to = "/track/index.html"
-  status = 200
-[[redirects]]
-  from = "/paycheck/"
-  to = "/paycheck/index.html"
-  status = 200
-[[redirects]]
-  from = "/invest/"
-  to = "/invest/index.html"
-  status = 200
-[[redirects]]
   from = "/decision"
   to = "/decision/index.html"
   status = 200
@@ -40,4 +20,8 @@
 [[redirects]]
   from = "/invest"
   to = "/invest/index.html"
+  status = 200
+[[redirects]]
+  from = "/health"
+  to = "/health/index.html"
   status = 200

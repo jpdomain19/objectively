@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health ROI — What Are Your Habits Actually Costing You?</title>
+<meta name="description" content="Enter your lifestyle habits. See the lifetime financial difference between your current path and an optimized one. No judgment — just numbers.">
+<meta property="og:title" content="Health ROI — What Are Your Habits Costing You?">
+<meta property="og:description" content="No amount of money buys back the years you lose. But your habits are costing you both.">
+<meta property="og:image" content="https://objectively.net/og-image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Health ROI — What Are Your Habits Costing You?">
+<meta name="twitter:description" content="No amount of money buys back the years you lose. But your habits are costing you both.">
+<meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c0a;
+  --panel: #0c110e;
+  --panel2: #101510;
+  --border: #1a2a1f;
+  --border2: #1f3326;
+  --pulse: #00ff88;
+  --pulse2: #00cc6a;
+  --warn: #ffaa00;
+  --danger: #ff4444;
+  --text: #d4e8db;
+  --muted: #4a6b55;
+  --muted2: #2a3d30;
+  --mono: 'Share Tech Mono', monospace;
+  --display: 'Exo 2', sans-serif;
+  --body: 'Barlow', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,255,136,.012) 3px,rgba(0,255,136,.012) 4px);pointer-events:none;z-index:9998}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+
+.wrap{max-width:740px;margin:0 auto;padding:0 20px 100px;position:relative;z-index:1}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(8,12,10,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--border2);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-home{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--pulse);text-decoration:none}
+.nav-links{display:flex;gap:16px}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .12s}
+.nav-links a:hover{color:var(--text)}
+
+.hero{padding:52px 0 40px;border-bottom:1px solid var(--border2);margin-bottom:36px}
+
+.pulse-container{width:100%;height:60px;margin-bottom:28px;overflow:hidden}
+.pulse-svg{width:100%;height:60px}
+.pulse-line{fill:none;stroke:var(--pulse);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(0,255,136,.6));stroke-dasharray:1200;stroke-dashoffset:1200;animation:drawPulse 2.5s ease forwards .3s}
+@keyframes drawPulse{to{stroke-dashoffset:0}}
+.pulse-dot{fill:var(--pulse);filter:drop-shadow(0 0 6px var(--pulse));animation:pulseDot 1.5s ease-in-out infinite 2.8s}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.4}}
+
+.sys-tag{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--pulse);margin-bottom:14px;opacity:0;animation:fadeIn .5s ease forwards .2s}
+@keyframes fadeIn{to{opacity:1}}
+
+.hero-headline{font-family:var(--display);font-size:clamp(32px,8vw,58px);font-weight:800;line-height:1;letter-spacing:-1px;color:var(--text);margin-bottom:16px;opacity:0;animation:fadeIn .6s ease forwards .5s}
+.hero-headline .hl{color:var(--pulse)}
+
+.hero-manifesto{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.9;max-width:560px;border-left:2px solid var(--border2);padding-left:16px;margin-bottom:24px;opacity:0;animation:fadeIn .6s ease forwards .8s}
+.hero-manifesto .key{color:var(--pulse)}
+
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;opacity:0;animation:fadeIn .6s ease forwards 1s}
+.hstat{background:var(--panel);border:1px solid var(--border2);padding:12px 14px;border-radius:2px}
+.hstat-val{font-family:var(--mono);font-size:18px;color:var(--pulse);margin-bottom:3px;filter:drop-shadow(0 0 6px rgba(0,255,136,.4))}
+.hstat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);line-height:1.4}
+
+.input-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;overflow:hidden;margin-bottom:12px}
+.panel-head{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel2)}
+.panel-num{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted)}
+.panel-title{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--pulse)}
+.panel-status{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;transition:color .2s}
+.panel-body{padding:16px}
+
+.habit-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--border)}
+.habit-row:last-child{border-bottom:none}
+.habit-info{flex:1}
+.habit-label{font-family:var(--mono);font-size:12px;color:var(--text);margin-bottom:2px;letter-spacing:.5px}
+.habit-sub{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.3px}
+
+.stepper{display:flex;align-items:center;border:1px solid var(--border2);border-radius:2px;overflow:hidden;flex-shrink:0}
+.step-btn{width:34px;height:34px;background:var(--panel2);border:none;cursor:pointer;font-size:16px;color:var(--muted);transition:all .1s;font-family:var(--mono);display:flex;align-items:center;justify-content:center}
+.step-btn:hover{background:var(--border2);color:var(--pulse)}
+.step-btn:active{background:var(--pulse);color:#000}
+.step-val{min-width:48px;height:34px;background:var(--bg);border-left:1px solid var(--border2);border-right:1px solid var(--border2);font-family:var(--mono);font-size:15px;color:var(--pulse);display:flex;align-items:center;justify-content:center;letter-spacing:1px;filter:drop-shadow(0 0 4px rgba(0,255,136,.3))}
+
+.habit-toggle{display:flex;border:1px solid var(--border2);border-radius:2px;overflow:hidden;flex-shrink:0}
+.htog-btn{padding:7px 10px;background:var(--panel2);border:none;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:all .12s;white-space:nowrap}
+.htog-btn:not(:last-child){border-right:1px solid var(--border2)}
+.htog-btn:hover{color:var(--text)}
+.htog-btn.active{background:var(--pulse);color:#000;font-weight:700}
+
+.calc-btn{width:100%;background:transparent;border:1px solid var(--pulse);color:var(--pulse);padding:18px;font-family:var(--mono);font-size:14px;letter-spacing:4px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:16px;position:relative;overflow:hidden;filter:drop-shadow(0 0 8px rgba(0,255,136,.2))}
+.calc-btn::before{content:'';position:absolute;inset:0;background:var(--pulse);transform:translateX(-100%);transition:transform .3s ease;z-index:0}
+.calc-btn:hover::before{transform:translateX(0)}
+.calc-btn:hover{color:#000}
+.calc-btn span{position:relative;z-index:1}
+
+#results{display:none;margin-top:36px;animation:fadeIn .5s ease}
+
+.vitals-header{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.vitals-header::after{content:'';flex:1;height:1px;background:var(--border2)}
+
+.delta-monitor{background:var(--panel);border:1px solid var(--border2);padding:28px 24px;margin-bottom:16px;position:relative;border-radius:2px}
+.monitor-corner{position:absolute;width:12px;height:12px;border-color:var(--pulse);border-style:solid;opacity:.5}
+.monitor-corner.tl{top:8px;left:8px;border-width:1px 0 0 1px}
+.monitor-corner.tr{top:8px;right:8px;border-width:1px 1px 0 0}
+.monitor-corner.bl{bottom:8px;left:8px;border-width:0 0 1px 1px}
+.monitor-corner.br{bottom:8px;right:8px;border-width:0 1px 1px 0}
+.monitor-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.monitor-amount{font-family:var(--mono);font-size:clamp(42px,10vw,68px);color:var(--pulse);letter-spacing:-2px;line-height:1;margin-bottom:4px;filter:drop-shadow(0 0 12px rgba(0,255,136,.5))}
+.monitor-sub{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.monitor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid var(--border);padding-top:18px}
+.mstat-val{font-family:var(--mono);font-size:18px;color:var(--pulse);margin-bottom:4px;filter:drop-shadow(0 0 4px rgba(0,255,136,.3))}
+.mstat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+
+.compare-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.compare-head{display:grid;grid-template-columns:1.6fr 1fr 1fr;background:var(--panel2);border-bottom:1px solid var(--border2)}
+.ch-cell{padding:9px 14px;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.ch-cell:not(:first-child){border-left:1px solid var(--border);text-align:right}
+.compare-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;border-bottom:1px solid var(--border);animation:fadeIn .3s ease both}
+.compare-row:last-child{border-bottom:none}
+.compare-row.total{background:rgba(0,255,136,.04);border-top:1px solid var(--border2)}
+.cc{padding:10px 14px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.cc:not(:first-child){border-left:1px solid var(--border);text-align:right}
+.cc.cur{color:var(--danger)}
+.cc.opt{color:var(--pulse)}
+
+.bars-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;padding:18px 16px;margin-bottom:16px}
+.bars-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.bar-row{margin-bottom:12px;animation:fadeIn .3s ease both}
+.bar-meta{display:flex;justify-content:space-between;margin-bottom:5px}
+.bar-name{font-family:var(--mono);font-size:11px;color:var(--text)}
+.bar-amt{font-family:var(--mono);font-size:11px;color:var(--danger)}
+.bar-track{height:6px;background:var(--border2);border-radius:1px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--danger),#ff6644);border-radius:1px;transition:width 1.2s cubic-bezier(.4,0,.2,1);box-shadow:0 0 6px rgba(255,68,68,.4)}
+
+.insight-panel{background:var(--panel);border:1px solid var(--border2);border-left:3px solid var(--warn);padding:16px 18px;margin-bottom:16px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.8;border-radius:2px}
+.insight-panel strong{color:var(--pulse)}
+
+.share-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.s-btn{padding:13px;border-radius:2px;border:none;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:all .12s}
+.s-btn.tw{background:var(--pulse);color:#000;font-weight:700}
+.s-btn.tw:hover{background:var(--pulse2);letter-spacing:3px}
+.s-btn.cp{background:transparent;border:1px solid var(--border2);color:var(--muted)}
+.s-btn.cp:hover{border-color:var(--pulse);color:var(--pulse)}
+.s-btn.cp.done{border-color:var(--pulse);color:var(--pulse)}
+.reset-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:12px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .12s;border-radius:2px}
+.reset-btn:hover{border-color:var(--pulse);color:var(--pulse)}
+
+.disclaimer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.8;letter-spacing:.3px}
+
+@media(max-width:520px){
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .monitor-grid{grid-template-columns:1fr 1fr}
+  .compare-head,.compare-row{grid-template-columns:1.2fr 1fr 1fr}
+  .nav-links{display:none}
+  .share-row{grid-template-columns:1fr}
+  .habit-row{flex-direction:column;align-items:flex-start;gap:10px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-home">&#8592; Objectively.net</a>
+  <div class="nav-links">
+    <a href="/decision/">Decision</a>
+    <a href="/realdeal/">RealDeal</a>
+    <a href="/track/">On Track</a>
+    <a href="/paycheck/">Paycheck</a>
+    <a href="/invest/">Invest</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<div class="hero">
+  <div class="pulse-container">
+    <svg class="pulse-svg" viewBox="0 0 740 60" preserveAspectRatio="none">
+      <path class="pulse-line" d="M0,30 L120,30 L140,30 L155,8 L165,52 L175,15 L185,45 L195,30 L260,30 L280,30 L295,8 L305,52 L315,15 L325,45 L335,30 L400,30 L420,30 L435,8 L445,52 L455,15 L465,45 L475,30 L540,30 L560,30 L575,8 L585,52 L595,15 L605,45 L615,30 L740,30"/>
+      <circle class="pulse-dot" cx="720" cy="30" r="4"/>
+    </svg>
+  </div>
+
+  <div class="sys-tag">// HEALTH ROI CALCULATOR — SYSTEM INITIALIZED</div>
+
+  <h1 class="hero-headline">WHAT ARE YOUR<br>HABITS <span class="hl">COSTING</span> YOU?</h1>
+
+  <p class="hero-manifesto">
+    <span class="key">No amount of money buys back the years you lose.</span><br>
+    But your habits are costing you both.<br><br>
+    Enter your current lifestyle. Get the lifetime financial gap between<br>
+    your current trajectory and an optimized one.<br>
+    No lectures. No judgment. Just the data.
+  </p>
+
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-val">$1.4M</div>
+      <div class="hstat-lbl">avg lifetime cost of<br>heavy smoking</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">10 yrs</div>
+      <div class="hstat-lbl">life expectancy gap:<br>active vs sedentary</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">$411B</div>
+      <div class="hstat-lbl">annual US economic<br>cost of sleep loss</div>
+    </div>
+  </div>
+</div>
+
+<!-- 01 -->
+<div class="input-panel">
+  <div class="panel-head">
+    <span class="panel-num">01</span>
+    <span class="panel-title">Smoking</span>
+    <span class="panel-status" id="smokingStatus">NOMINAL</span>
+  </div>
+  <div class="panel-body">
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Cigarettes per day</div>
+        <div class="habit-sub">0 = non-smoker &nbsp;|&nbsp; avg pack costs $8</div>
+      </div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('smoking',-1)">-</button>
+        <div class="step-val" id="smokingVal">0</div>
+        <button class="step-btn" onclick="step('smoking',1)">+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="input-panel">
+  <div class="panel-head">
+    <span class="panel-num">02</span>
+    <span class="panel-title">Alcohol</span>
+    <span class="panel-status" id="alcoholStatus">NOMINAL</span>
+  </div>
+  <div class="panel-body">
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Drinks per week</div>
+        <div class="habit-sub">0 = non-drinker &nbsp;|&nbsp; 14+ = heavy use &nbsp;|&nbsp; avg $7/drink</div>
+      </div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('alcohol',-1)">-</button>
+        <div class="step-val" id="alcoholVal">0</div>
+        <button class="step-btn" onclick="step('alcohol',1)">+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="input-panel">
+  <div class="panel-head">
+    <span class="panel-num">03</span>
+    <span class="panel-title">Food & Drink Habits</span>
+    <span class="panel-status" id="foodStatus">NOMINAL</span>
+  </div>
+  <div class="panel-body">
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Coffee shop visits / week</div>
+        <div class="habit-sub">avg $6/visit</div>
+      </div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('coffee',-1)">-</button>
+        <div class="step-val" id="coffeeVal">0</div>
+        <button class="step-btn" onclick="step('coffee',1)">+</button>
+      </div>
+    </div>
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Fast food / takeout per week</div>
+        <div class="habit-sub">avg $14/meal vs $4 home equivalent</div>
+      </div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('fastfood',-1)">-</button>
+        <div class="step-val" id="fastfoodVal">0</div>
+        <button class="step-btn" onclick="step('fastfood',1)">+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="input-panel">
+  <div class="panel-head">
+    <span class="panel-num">04</span>
+    <span class="panel-title">Physical Vitals</span>
+    <span class="panel-status" id="vitalsStatus">POOR</span>
+  </div>
+  <div class="panel-body">
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Exercise frequency</div>
+        <div class="habit-sub">CDC recommends 150 min/week moderate activity</div>
+      </div>
+      <div class="habit-toggle">
+        <button class="htog-btn active" data-ex="none" onclick="setToggle('exercise',this)">None</button>
+        <button class="htog-btn" data-ex="light" onclick="setToggle('exercise',this)">1-2x/wk</button>
+        <button class="htog-btn" data-ex="moderate" onclick="setToggle('exercise',this)">3-4x/wk</button>
+        <button class="htog-btn" data-ex="active" onclick="setToggle('exercise',this)">5+/wk</button>
+      </div>
+    </div>
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Average sleep / night</div>
+        <div class="habit-sub">Optimal: 7-9 hrs &nbsp;|&nbsp; Under 6 has documented costs</div>
+      </div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('sleep',-0.5)">-</button>
+        <div class="step-val" id="sleepVal" style="min-width:54px">7.0</div>
+        <button class="step-btn" onclick="step('sleep',0.5)">+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="input-panel">
+  <div class="panel-head">
+    <span class="panel-num">05</span>
+    <span class="panel-title">Preventive Healthcare</span>
+    <span class="panel-status" id="hcStatus">NON-COMPLIANT</span>
+  </div>
+  <div class="panel-body">
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Annual checkups & preventive visits</div>
+        <div class="habit-sub">Early detection saves significantly more than treatment</div>
+      </div>
+      <div class="habit-toggle">
+        <button class="htog-btn active" data-hc="never" onclick="setToggle('healthcare',this)">Never</button>
+        <button class="htog-btn" data-hc="sometimes" onclick="setToggle('healthcare',this)">Sometimes</button>
+        <button class="htog-btn" data-hc="regular" onclick="setToggle('healthcare',this)">Regularly</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="input-panel">
+  <div class="panel-head">
+    <span class="panel-num">06</span>
+    <span class="panel-title">Patient Profile</span>
+    <span class="panel-status">REQUIRED</span>
+  </div>
+  <div class="panel-body">
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Your current age</div>
+        <div class="habit-sub">Years of impact remaining in calculation</div>
+      </div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('age',-1)">-</button>
+        <div class="step-val" id="ageVal">30</div>
+        <button class="step-btn" onclick="step('age',1)">+</button>
+      </div>
+    </div>
+    <div class="habit-row">
+      <div class="habit-info">
+        <div class="habit-label">Annual household income</div>
+        <div class="habit-sub">Used for productivity impact calculation</div>
+      </div>
+      <div class="habit-toggle">
+        <button class="htog-btn active" data-inc="low" onclick="setToggle('income',this)">Under $50k</button>
+        <button class="htog-btn" data-inc="mid" onclick="setToggle('income',this)">$50-100k</button>
+        <button class="htog-btn" data-inc="high" onclick="setToggle('income',this)">$100k+</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="calc-btn" onclick="calculate()"><span>RUN HEALTH ROI ANALYSIS &rarr;</span></button>
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="vitals-header" style="margin-top:36px">ANALYSIS COMPLETE</div>
+
+  <div class="delta-monitor">
+    <div class="monitor-corner tl"></div>
+    <div class="monitor-corner tr"></div>
+    <div class="monitor-corner bl"></div>
+    <div class="monitor-corner br"></div>
+    <div class="monitor-eyebrow">LIFETIME FINANCIAL DELTA // CURRENT vs OPTIMIZED TRAJECTORY</div>
+    <div class="monitor-amount" id="deltaAmount"></div>
+    <div class="monitor-sub" id="deltaYears"></div>
+    <div class="monitor-grid">
+      <div><div class="mstat-val" id="dDirect"></div><div class="mstat-lbl">Direct<br>Habit Costs</div></div>
+      <div><div class="mstat-val" id="dHealth"></div><div class="mstat-lbl">Healthcare<br>Delta</div></div>
+      <div><div class="mstat-val" id="dProd"></div><div class="mstat-lbl">Productivity<br>Impact</div></div>
+    </div>
+  </div>
+
+  <div class="compare-panel">
+    <div class="compare-head">
+      <div class="ch-cell">Category</div>
+      <div class="ch-cell">Current / yr</div>
+      <div class="ch-cell">Optimized / yr</div>
+    </div>
+    <div id="compareRows"></div>
+  </div>
+
+  <div class="bars-panel">
+    <div class="bars-title">Annual Cost Breakdown</div>
+    <div id="barRows"></div>
+  </div>
+
+  <div class="insight-panel" id="insightBox"></div>
+
+  <div class="share-row">
+    <button class="s-btn tw" onclick="doShare('tw')">Post on X</button>
+    <button class="s-btn cp" id="cpBtn" onclick="doShare('cp')">Copy Link</button>
+  </div>
+  <button class="reset-btn" onclick="doReset()">&larr; Run New Analysis</button>
+</div>
+
+<div class="disclaimer">
+  Sources: CDC National Health Interview Survey | NIH cost-of-smoking research | RAND Corporation sleep study | NIAAA alcohol cost data | Journal of Labor Research exercise-income correlation.<br>
+  Statistical averages across populations. Not personalized medical or financial advice. Optimized trajectory assumes quitting harmful habits and adopting CDC guidelines.<br>
+  A tool by objectively.net
+</div>
+</div>
+
+<script>
+const state = {
+  smoking:0, alcohol:0, coffee:0, fastfood:0,
+  exercise:'none', sleep:7, healthcare:'never',
+  income:'low', age:30
+};
+
+const limits = {
+  smoking:{min:0,max:40}, alcohol:{min:0,max:35},
+  coffee:{min:0,max:21}, fastfood:{min:0,max:21},
+  sleep:{min:4,max:10}, age:{min:18,max:70}
+};
+
+function updateStatus() {
+  const s = document.getElementById('smokingStatus');
+  if(s){ if(state.smoking===0){s.textContent='NOMINAL';s.style.color='var(--pulse)'}else if(state.smoking<=10){s.textContent='ELEVATED';s.style.color='var(--warn)'}else{s.textContent='CRITICAL';s.style.color='var(--danger)'} }
+  const a = document.getElementById('alcoholStatus');
+  if(a){ if(state.alcohol===0){a.textContent='NOMINAL';a.style.color='var(--pulse)'}else if(state.alcohol<14){a.textContent='ELEVATED';a.style.color='var(--warn)'}else{a.textContent='CRITICAL';a.style.color='var(--danger)'} }
+  const f = document.getElementById('foodStatus');
+  if(f){ const t=state.coffee+state.fastfood; if(t===0){f.textContent='NOMINAL';f.style.color='var(--pulse)'}else if(t<7){f.textContent='NOTED';f.style.color='var(--warn)'}else{f.textContent='HIGH';f.style.color='var(--danger)'} }
+}
+
+function step(key,delta) {
+  const lim=limits[key];
+  state[key]=Math.max(lim.min,Math.min(lim.max,+(state[key]+delta).toFixed(1)));
+  const el=document.getElementById(key+'Val');
+  if(el) el.textContent=key==='sleep'?state[key].toFixed(1):state[key];
+  updateStatus();
+}
+
+function setToggle(key,btn) {
+  btn.parentElement.querySelectorAll('.htog-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state[key]=btn.dataset[Object.keys(btn.dataset)[0]];
+  const ve=document.getElementById('vitalsStatus');
+  if(ve){ const g=(state.exercise==='moderate'||state.exercise==='active')&&state.sleep>=7; const ok=state.exercise!=='none'||state.sleep>=7; if(g){ve.textContent='OPTIMAL';ve.style.color='var(--pulse)'}else if(ok){ve.textContent='SUBOPTIMAL';ve.style.color='var(--warn)'}else{ve.textContent='POOR';ve.style.color='var(--danger)'} }
+  const he=document.getElementById('hcStatus');
+  if(he){ if(state.healthcare==='regular'){he.textContent='COMPLIANT';he.style.color='var(--pulse)'}else if(state.healthcare==='sometimes'){he.textContent='PARTIAL';he.style.color='var(--warn)'}else{he.textContent='NON-COMPLIANT';he.style.color='var(--danger)'} }
+}
+
+function fmt(n){ if(n>=1e6)return '$'+(n/1e6).toFixed(2)+'M'; if(n>=1e3)return '$'+Math.round(n).toLocaleString(); return '$'+Math.round(n); }
+function fv(a,y,r){ if(r===0||y===0)return a*y; return a*(Math.pow(1+r,y)-1)/r; }
+
+let shareText='';
+
+function calculate() {
+  const yearsLeft=Math.max(5,75-state.age);
+  const investRate=0.07;
+  const baseIncome=state.income==='low'?35000:state.income==='high'?120000:70000;
+  const incMult=state.income==='low'?0.7:state.income==='high'?1.5:1.0;
+
+  const smokingAnnual=state.smoking*(8/20)*365;
+  const alcoholAnnual=state.alcohol*7*52;
+  const coffeeAnnual=state.coffee*6*52;
+  const fastfoodAnnual=state.fastfood*14*52;
+  const fastfoodOpt=state.fastfood*4*52;
+  const fastfoodDelta=fastfoodAnnual-fastfoodOpt;
+  const totalDirect=smokingAnnual+alcoholAnnual+coffeeAnnual+fastfoodDelta;
+
+  let healthAnnual=0;
+  if(state.smoking>0) healthAnnual+=state.smoking<=10?2200:state.smoking<=20?3400:5200;
+  if(state.alcohol>=14) healthAnnual+=2800; else if(state.alcohol>=7) healthAnnual+=1200;
+  if(state.exercise==='none') healthAnnual+=1300; else if(state.exercise==='light') healthAnnual+=500;
+  if(state.sleep<6) healthAnnual+=2280; else if(state.sleep<7) healthAnnual+=900;
+  if(state.healthcare==='never') healthAnnual+=1200; else if(state.healthcare==='sometimes') healthAnnual+=500;
+
+  let prodAnnual=0;
+  if(state.smoking>0) prodAnnual+=baseIncome*0.04*incMult;
+  if(state.sleep<6) prodAnnual+=2800*incMult; else if(state.sleep<7) prodAnnual+=1200*incMult;
+  if(state.exercise==='none') prodAnnual+=baseIncome*0.03*incMult;
+
+  const totalAnnual=totalDirect+healthAnnual+prodAnnual;
+  const directFV=fv(totalDirect,yearsLeft,investRate);
+  const healthFV=fv(healthAnnual,yearsLeft,0);
+  const prodFV=fv(prodAnnual,yearsLeft,0);
+  const totalFV=directFV+healthFV+prodFV;
+
+  document.getElementById('results').style.display='block';
+  document.getElementById('deltaAmount').textContent=fmt(totalFV);
+  document.getElementById('deltaYears').textContent='PROJECTED OVER '+yearsLeft+' YEARS // AGE '+state.age+' TO 75';
+  document.getElementById('dDirect').textContent=fmt(directFV);
+  document.getElementById('dHealth').textContent=fmt(healthFV);
+  document.getElementById('dProd').textContent=fmt(prodFV);
+
+  const rows=[
+    {cat:'Smoking',cur:smokingAnnual,opt:0,show:smokingAnnual>0},
+    {cat:'Alcohol',cur:alcoholAnnual,opt:0,show:alcoholAnnual>0},
+    {cat:'Coffee shops',cur:coffeeAnnual,opt:0,show:coffeeAnnual>0},
+    {cat:'Fast food premium',cur:fastfoodAnnual,opt:fastfoodOpt,show:fastfoodDelta>0},
+    {cat:'Extra healthcare',cur:healthAnnual,opt:0,show:healthAnnual>0},
+    {cat:'Productivity loss',cur:prodAnnual,opt:0,show:prodAnnual>0},
+    {cat:'TOTAL / YEAR',cur:totalAnnual,opt:0,show:true,total:true},
+  ].filter(r=>r.show);
+
+  document.getElementById('compareRows').innerHTML=rows.map((r,i)=>
+    '<div class="compare-row'+(r.total?' total':'')+'" style="animation-delay:'+(i*.05)+'s">'+
+    '<div class="cc">'+r.cat+'</div>'+
+    '<div class="cc cur">'+fmt(r.cur)+'</div>'+
+    '<div class="cc opt">'+(r.total?fmt(0):r.opt>0?fmt(r.opt):'$0')+'</div>'+
+    '</div>'
+  ).join('');
+
+  const bars=[
+    {name:'Smoking',val:smokingAnnual},
+    {name:'Alcohol',val:alcoholAnnual},
+    {name:'Coffee shops',val:coffeeAnnual},
+    {name:'Fast food premium',val:fastfoodDelta},
+    {name:'Extra healthcare',val:healthAnnual},
+    {name:'Productivity',val:prodAnnual},
+  ].filter(b=>b.val>0);
+
+  const maxB=Math.max(...bars.map(b=>b.val),1);
+  document.getElementById('barRows').innerHTML=bars.map((b,i)=>
+    '<div class="bar-row" style="animation-delay:'+(i*.07)+'s">'+
+    '<div class="bar-meta"><span class="bar-name">'+b.name+'</span><span class="bar-amt">'+fmt(b.val)+'/yr</span></div>'+
+    '<div class="bar-track"><div class="bar-fill" style="width:0%;--w:'+Math.round(b.val/maxB*100)+'%"></div></div>'+
+    '</div>'
+  ).join('');
+
+  setTimeout(()=>{ document.querySelectorAll('.bar-fill').forEach(b=>{b.style.width=b.style.getPropertyValue('--w');}); },150);
+
+  const doingWell=[];
+  if(state.smoking===0) doingWell.push('not smoking');
+  if(state.alcohol<7) doingWell.push('moderate alcohol');
+  if(state.exercise==='moderate'||state.exercise==='active') doingWell.push('regular exercise');
+  if(state.sleep>=7) doingWell.push('adequate sleep');
+  if(state.healthcare==='regular') doingWell.push('preventive care');
+
+  const costItems=[
+    {name:'smoking',val:fv(smokingAnnual+(state.smoking>0?(state.smoking<=10?2200:state.smoking<=20?3400:5200):0),yearsLeft,investRate),active:state.smoking>0},
+    {name:'alcohol use',val:fv(alcoholAnnual,yearsLeft,investRate),active:state.alcohol>=7},
+    {name:'coffee shop spending',val:fv(coffeeAnnual,yearsLeft,investRate),active:state.coffee>0},
+    {name:'fast food habit',val:fv(fastfoodDelta,yearsLeft,investRate),active:fastfoodDelta>0},
+    {name:'lack of exercise',val:fv(1300,yearsLeft,0),active:state.exercise==='none'},
+    {name:'sleep deprivation',val:fv(state.sleep<6?2280:900,yearsLeft,0),active:state.sleep<7},
+    {name:'skipping preventive care',val:fv(1200,yearsLeft,0),active:state.healthcare==='never'},
+  ].filter(c=>c.active).sort((a,b)=>b.val-a.val);
+
+  let insight='';
+  if(doingWell.length>=4&&costItems.length===0){
+    insight='<strong>ASSESSMENT: OPTIMIZED PROFILE.</strong> Your habits are already close to the recommended baseline -- '+doingWell.join(', ')+'. The financial delta is minimal. <strong>Your next highest-ROI move is making sure you are actively investing.</strong> Someone with your habit profile who invests consistently compounds their health advantages into financial security simultaneously. Keep doing what you are doing.';
+  } else if(doingWell.length>0&&costItems.length>0){
+    const biggest=costItems[0];
+    insight='<strong>ASSESSMENT: MIXED PROFILE.</strong> Strong signals in: '+doingWell.join(', ')+'. <strong>Biggest remaining cost driver: '+biggest.name+'</strong> -- accounts for approximately '+fmt(biggest.val)+' of your lifetime delta. Addressing this single variable while maintaining your existing healthy habits would have an outsized impact on both your finances and your health outcomes.';
+  } else if(costItems.length>0){
+    const biggest=costItems[0];
+    insight='<strong>ASSESSMENT: MULTIPLE COST DRIVERS DETECTED.</strong> Your current trajectory carries an estimated '+fmt(totalFV)+' lifetime financial gap vs an optimized baseline. <strong>Highest impact intervention: '+biggest.name+'.</strong> This accounts for the largest share of the delta. Small consistent changes compound dramatically over '+yearsLeft+' years -- the math works in your favor the moment you start.';
+  } else {
+    insight='<strong>ASSESSMENT: BASELINE OPTIMIZED.</strong> No significant habit-related cost drivers detected. The gap is minimal. At this stage the highest ROI move is ensuring the money you are not losing to poor habits is being invested. Even $300/month at 7% over '+yearsLeft+' years is '+fmt(fv(3600,yearsLeft,investRate))+'.';
+  }
+  document.getElementById('insightBox').innerHTML=insight;
+
+  shareText='I ran my lifestyle through a Health ROI calculator -- my habits are costing me an estimated '+fmt(totalFV)+' over my lifetime. Check what yours cost:';
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function doShare(type){
+  const url='https://objectively.net/health/';
+  const full=shareText+' '+url;
+  if(type==='tw'){ window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(full),'_blank'); }
+  else{ navigator.clipboard.writeText(full).then(function(){ const btn=document.getElementById('cpBtn'); btn.classList.add('done'); btn.textContent='Copied!'; setTimeout(function(){ btn.classList.remove('done'); btn.textContent='Copy Link'; },2500); }).catch(function(){ prompt('Copy this:',full); }); }
+}
+
+function doReset(){
+  document.getElementById('results').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

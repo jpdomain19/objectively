@@ -2,1363 +2,861 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+<meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Paycheck Reality — What Do You Actually Take Home?</title>
-  <meta name="description" content="See your real take-home pay after federal taxes, state taxes, Social Security, Medicare, 401k, and benefits. Includes bonus and commission income. All 50 states.">
-  <meta name="keywords" content="take home pay calculator, paycheck calculator after taxes, salary after taxes, real take home salary, bonus tax calculator">
-  <meta property="og:title" content="Paycheck Reality — What Do You Actually Take Home?">
-  <meta property="og:description" content="See your real take-home pay after federal taxes, state taxes, Social Security, Medicare, 401k, and benefits. Includes bonus and commission income. All 50 states.">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Objectively">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Azeret+Mono:wght@400;500;600&family=Clash+Display:wght@600;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Paycheck Reality — What Do You Actually Take Home?</title>
+<meta name="description" content="See your real take-home pay after federal taxes, state taxes, Social Security, Medicare, 401k, and benefits. Includes bonus and commission income. All 50 states.">
+<meta property="og:title" content="Paycheck Reality — What Do You Actually Take Home?">
+<meta property="og:description" content="See your real take-home pay after every deduction. No surprises.">
+<meta property="og:image" content="https://objectively.net/og-image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f7f4ef;
-  --paper: #fdfbf8;
-  --ink: #111010;
-  --ink2: #2c2a28;
-  --muted: #6b6560;
-  --muted2: #9a948e;
-  --border: #ddd9d3;
-  --border2: #c8c3bc;
-  --red: #c41c1c;
-  --green: #1a6b3c;
-  --amber: #a05e00;
-  --blue: #1a4fa0;
-  --display: 'Unbounded', sans-serif;
-  --body: 'DM Sans', sans-serif;
-  --mono: 'DM Mono', monospace;
+  --bg:      #0d0d0b;
+  --panel:   #111110;
+  --panel2:  #161614;
+  --border:  #222220;
+  --border2: #2a2a27;
+  --amber:   #d4920a;
+  --amber2:  #f0a800;
+  --amber-dim: rgba(212,146,10,.12);
+  --red:     #c44020;
+  --red-dim: rgba(196,64,32,.10);
+  --text:    #ccc8bc;
+  --muted:   #5a5850;
+  --muted2:  #333330;
+  --green:   #3a8a50;
+  --mono:    'Share Tech Mono', monospace;
+  --display: 'Exo 2', sans-serif;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--body);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* subtle dot grid */
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(212,146,10,.06) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
+
+/* horizontal document lines */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(transparent,transparent 39px,rgba(212,146,10,.025) 39px,rgba(212,146,10,.025) 40px);pointer-events:none;z-index:0}
+
+.wrap{max-width:680px;margin:0 auto;padding:0 20px 100px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border2);padding:11px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-home{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--amber);text-decoration:none}
+.nav-links{display:flex;gap:16px}
+.nav-links a{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .12s}
+.nav-links a:hover{color:var(--text)}
+
+/* DOCUMENT HEADER */
+.doc-header{padding:48px 0 36px;border-bottom:1px solid var(--border2);margin-bottom:36px}
+
+.classification{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--amber);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-/* lined paper texture */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    transparent, transparent 27px,
-    rgba(0,0,0,.04) 27px, rgba(0,0,0,.04) 28px
-  );
-  pointer-events: none;
-  z-index: 0;
+.classification::before{
+  content:'';
+  display:inline-block;
+  width:8px;
+  height:8px;
+  background:var(--amber);
+  border-radius:50%;
+  filter:drop-shadow(0 0 4px var(--amber));
+  animation:blink 2s ease-in-out infinite;
 }
 
-.wrap {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 22px 100px;
-  position: relative;
-  z-index: 1;
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+.doc-title{
+  font-family:var(--display);
+  font-size:clamp(36px,9vw,68px);
+  font-weight:800;
+  line-height:.95;
+  letter-spacing:-2px;
+  color:var(--text);
+  text-transform:uppercase;
+  margin-bottom:16px;
 }
 
-/* HEADER */
-header {
-  padding: 48px 0 36px;
-  border-bottom: 3px solid var(--ink);
-  margin-bottom: 40px;
+.doc-title .hl{color:var(--amber)}
+
+.doc-id-row{
+  display:flex;
+  align-items:center;
+  gap:20px;
+  margin-bottom:16px;
+  flex-wrap:wrap;
 }
 
-.header-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 14px;
+.doc-id{
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:2px;
 }
 
-.brand {
-  font-family: var(--display);
-  font-size: clamp(28px, 7vw, 48px);
-  font-weight: 900;
-  line-height: .95;
-  letter-spacing: -1px;
-  color: var(--ink);
+.doc-id span{color:var(--amber2);letter-spacing:1px}
+
+.doc-sub{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.8;
+  max-width:520px;
+  border-left:2px solid var(--border2);
+  padding-left:14px;
 }
 
-.brand .slash { color: var(--red); }
+.doc-sub .key{color:var(--amber);font-weight:700}
 
-.header-badge {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--paper);
-  background: var(--ink);
-  padding: 5px 10px;
-  border-radius: 3px;
-  white-space: nowrap;
-  margin-top: 6px;
-  flex-shrink: 0;
+/* SECTION BLOCKS */
+.doc-section{
+  margin-bottom:24px;
+  border:1px solid var(--border2);
+  border-radius:2px;
+  overflow:hidden;
 }
 
-.header-desc {
-  font-size: 15px;
-  color: var(--muted);
-  line-height: 1.65;
-  font-weight: 400;
-  max-width: 500px;
+.section-head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:9px 16px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--border);
 }
 
-.header-desc strong { color: var(--ink); font-weight: 600; }
-
-/* SECTION */
-.sec { margin-bottom: 28px; }
-
-.sec-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-  padding-bottom: 8px;
-  border-bottom: 1.5px solid var(--ink);
+.section-code{
+  font-size:9px;
+  letter-spacing:3px;
+  color:var(--muted);
+  text-transform:uppercase;
 }
 
-.sec-num {
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 2px 8px;
-  border-radius: 2px;
+.section-title{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--amber);
 }
 
-.sec-title {
-  font-family: var(--display);
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.section-body{padding:18px 16px;background:var(--panel)}
+
+/* FORM FIELDS */
+.field{margin-bottom:16px}
+.field-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field-hint{font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:.3px}
+
+.f-input{
+  width:100%;
+  background:var(--bg);
+  border:none;
+  border-bottom:1px solid var(--border2);
+  border-left:2px solid var(--amber-dim);
+  padding:8px 10px;
+  font-family:var(--mono);
+  font-size:18px;
+  font-weight:400;
+  color:var(--amber2);
+  outline:none;
+  transition:border-color .15s, border-left-color .15s;
+  letter-spacing:1px;
 }
 
-/* FIELDS */
-.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.grid1 { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.f-input:focus{border-bottom-color:var(--amber);border-left-color:var(--amber);filter:drop-shadow(0 0 4px rgba(212,146,10,.2))}
+.f-input::placeholder{color:var(--muted2);font-size:14px;letter-spacing:.5px}
 
-.field { display: flex; flex-direction: column; gap: 5px; }
-
-.field label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  font-weight: 500;
+.f-select{
+  width:100%;
+  background:var(--bg);
+  border:none;
+  border-bottom:1px solid var(--border2);
+  border-left:2px solid var(--amber-dim);
+  padding:8px 10px;
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--text);
+  outline:none;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23d4920a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+  padding-right:28px;
+  transition:border-color .15s;
 }
 
-.field .hint {
-  font-size: 11px;
-  color: var(--muted2);
-  margin-top: 2px;
-  line-height: 1.4;
+.f-select:focus{border-bottom-color:var(--amber);outline:none}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* INCOME TYPE TABS */
+.type-tabs{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border2);margin-bottom:8px;overflow:hidden}
+.type-tab{padding:9px 6px;background:var(--bg);border:none;border-right:1px solid var(--border2);cursor:pointer;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:all .12s;text-align:center;line-height:1.5}
+.type-tab:last-child{border-right:none}
+.type-tab:hover{color:var(--text);background:var(--panel2)}
+.type-tab.active{background:var(--amber);color:#000;font-weight:700;letter-spacing:1px}
+
+.bonus-note{font-size:10px;color:var(--amber);padding:8px 10px;border:1px solid rgba(212,146,10,.25);margin-top:8px;line-height:1.6;display:none;background:rgba(212,146,10,.04)}
+
+/* SUBMIT */
+.submit-btn{
+  width:100%;
+  background:transparent;
+  border:1px solid var(--amber);
+  color:var(--amber);
+  padding:17px;
+  font-family:var(--mono);
+  font-size:13px;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .2s;
+  margin-top:8px;
+  position:relative;
+  overflow:hidden;
+  filter:drop-shadow(0 0 6px rgba(212,146,10,.15));
 }
 
-.iw { position: relative; }
-.iw .pre {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--mono);
-  font-size: 14px;
-  color: var(--muted);
-  pointer-events: none;
-}
-.iw .suf {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted2);
-  pointer-events: none;
-}
+.submit-btn::before{content:'';position:absolute;inset:0;background:var(--amber);transform:translateX(-100%);transition:transform .3s ease;z-index:0}
+.submit-btn:hover::before{transform:translateX(0)}
+.submit-btn:hover{color:#000}
+.submit-btn span{position:relative;z-index:1}
 
-input, select {
-  width: 100%;
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 4px;
-  color: var(--ink);
-  font-family: var(--mono);
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px 14px;
-  outline: none;
-  transition: border-color .15s, box-shadow .15s;
-  -webkit-appearance: none;
-  appearance: none;
+/* ── RESULTS ─────────────────────────────── */
+#results{display:none;margin-top:32px;animation:revealDoc .4s ease}
+
+@keyframes revealDoc{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.results-header{
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.results-header::after{content:'';flex:1;height:1px;background:var(--border2)}
+
+/* STAMP / TAKE HOME */
+.stamp-block{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  padding:28px 24px;
+  margin-bottom:16px;
+  position:relative;
+  overflow:hidden;
 }
 
-.iw.pre input { padding-left: 26px; }
-.iw.suf input { padding-right: 40px; }
-
-input:focus, select:focus {
-  border-color: var(--ink);
-  box-shadow: 3px 3px 0 var(--ink);
+.stamp-block::before{
+  content:'DECLASSIFIED';
+  position:absolute;
+  top:50%;
+  right:-20px;
+  transform:translateY(-50%) rotate(-12deg);
+  font-family:var(--display);
+  font-size:56px;
+  font-weight:800;
+  color:rgba(212,146,10,.04);
+  letter-spacing:4px;
+  pointer-events:none;
+  white-space:nowrap;
 }
 
-input::placeholder { color: #bbb4ac; font-weight: 400; }
-select {
-  cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b6560' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 13px center;
-  padding-right: 34px;
-}
-select option { background: var(--paper); }
+.stamp-corner{position:absolute;width:14px;height:14px;border-color:var(--amber);border-style:solid;opacity:.4}
+.stamp-corner.tl{top:10px;left:10px;border-width:1px 0 0 1px}
+.stamp-corner.tr{top:10px;right:10px;border-width:1px 1px 0 0}
+.stamp-corner.bl{bottom:10px;left:10px;border-width:0 0 1px 1px}
+.stamp-corner.br{bottom:10px;right:10px;border-width:0 1px 1px 0}
 
-/* TOGGLE BUTTONS */
-.toggle-group {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-}
+.stamp-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 
-.tog-btn {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 4px;
-  padding: 10px 6px;
-  cursor: pointer;
-  text-align: center;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--muted);
-  transition: all .12s;
-  letter-spacing: .5px;
+.stamp-amount{
+  font-family:var(--display);
+  font-size:clamp(48px,12vw,80px);
+  font-weight:800;
+  color:var(--amber2);
+  letter-spacing:-2px;
+  line-height:1;
+  margin-bottom:4px;
+  filter:drop-shadow(0 0 16px rgba(212,146,10,.4));
 }
 
-.tog-btn:hover { border-color: var(--ink); color: var(--ink); }
-.tog-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.stamp-period{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
 
-/* CALCULATE */
-.calc-btn {
-  width: 100%;
-  background: var(--ink);
-  color: var(--paper);
-  border: none;
-  border-radius: 4px;
-  padding: 18px;
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all .15s;
-  box-shadow: 4px 4px 0 var(--red);
-  margin-top: 6px;
+.stamp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid var(--border);padding-top:18px}
+.sg-val{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text);margin-bottom:3px}
+.sg-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+
+/* SHOCK LINE */
+.shock{
+  background:var(--red-dim);
+  border:1px solid rgba(196,64,32,.2);
+  border-left:3px solid var(--red);
+  padding:12px 14px;
+  margin-bottom:16px;
+  font-size:11px;
+  color:var(--text);
+  line-height:1.7;
+  letter-spacing:.3px;
 }
 
-.calc-btn:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--red);
+/* LINE ITEMS — the deduction ledger */
+.ledger{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  overflow:hidden;
+  margin-bottom:16px;
 }
 
-.calc-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--red);
+.ledger-head{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:12px;
+  padding:8px 14px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--border);
 }
 
-/* RESULTS */
-#results {
-  display: none;
-  margin-top: 48px;
-  animation: rise .4s ease;
+.lh-cell{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.lh-cell:not(:first-child){text-align:right}
+
+.ledger-row{
+  display:grid;
+  grid-template-columns:1fr auto auto;
+  gap:12px;
+  padding:9px 14px;
+  border-bottom:1px solid var(--border);
+  animation:lineReveal .25s ease both;
 }
 
-@keyframes rise {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes lineReveal{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
 
-/* THE BIG NUMBER */
-.takehome-card {
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: 6px;
-  padding: 28px 26px 24px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
+.ledger-row:last-child{border-bottom:none}
+.ledger-row.total-row{background:rgba(212,146,10,.06);border-top:1px solid var(--border2)}
 
-.takehome-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--red), #ff6b6b);
-}
+.lr-name{font-size:12px;color:var(--text)}
+.lr-sub{font-size:10px;color:var(--muted);display:block;margin-top:1px;letter-spacing:.3px}
+.lr-pct{font-size:10px;color:var(--muted);text-align:right;white-space:nowrap}
+.lr-amount{font-size:13px;font-weight:400;text-align:right;white-space:nowrap}
+.lr-amount.ded{color:var(--red)}
+.lr-amount.th{color:var(--amber2);font-size:15px;filter:drop-shadow(0 0 4px rgba(212,146,10,.3))}
+.lr-amount.gr{color:var(--text)}
 
-.th-eyebrow {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(253,251,248,.5);
-  margin-bottom: 10px;
-}
+/* STACKED BAR */
+.bar-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;padding:16px;margin-bottom:16px}
+.bar-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.stacked{height:20px;display:flex;border:1px solid var(--border2);overflow:hidden;margin-bottom:10px}
+.seg{height:100%;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:4px 14px}
+.leg-item{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--muted)}
+.leg-dot{width:9px;height:9px;flex-shrink:0;border-radius:1px}
+.leg-val{margin-left:auto;color:var(--text);font-size:10px}
 
-.th-amount {
-  font-family: var(--display);
-  font-size: clamp(38px, 10vw, 62px);
-  font-weight: 900;
-  letter-spacing: -2px;
-  line-height: 1;
-  color: var(--paper);
-  margin-bottom: 4px;
-}
+/* COVERS */
+.covers-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;padding:16px;margin-bottom:16px}
+.covers-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.cover-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.cover-row:last-child{border-bottom:none}
+.cover-name{font-size:12px;color:var(--text)}
+.cover-rule{font-size:10px;color:var(--muted);margin-top:2px}
+.cover-val{font-size:15px;font-weight:400;white-space:nowrap}
+.cover-val.good{color:var(--green)}
+.cover-val.warn{color:var(--amber)}
+.cover-val.bad{color:var(--red)}
 
-.th-period {
-  font-family: var(--mono);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(253,251,248,.5);
-  margin-bottom: 18px;
-}
-
-.th-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  border-top: 1px solid rgba(253,251,248,.12);
-  padding-top: 18px;
-}
-
-.th-stat { text-align: center; }
-.th-stat-val {
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--paper);
-  margin-bottom: 3px;
-}
-.th-stat-lbl {
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(253,251,248,.45);
-}
-
-/* SHOCK STAT */
-.shock-bar {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 6px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.shock-icon {
-  font-size: 28px;
-  flex-shrink: 0;
-}
-
-.shock-text {
-  font-size: 14px;
-  color: var(--ink2);
-  line-height: 1.55;
-  font-weight: 400;
-}
-
-.shock-text strong { color: var(--red); font-weight: 700; }
-.shock-text .good { color: var(--green); font-weight: 600; }
-
-/* BREAKDOWN TABLE */
-.breakdown {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-
-.breakdown-head {
-  background: var(--ink);
-  color: var(--paper);
-  padding: 10px 18px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  display: flex;
-  justify-content: space-between;
-}
-
-.bd-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 18px;
-  border-bottom: 1px solid var(--border);
-  gap: 12px;
-  animation: rise .3s ease both;
-}
-
-.bd-row:last-child { border-bottom: none; }
-.bd-row.total {
-  background: rgba(0,0,0,.03);
-  font-weight: 600;
-  border-top: 1.5px solid var(--ink);
-}
-
-.bd-left { display: flex; flex-direction: column; gap: 2px; flex: 1; }
-.bd-name { font-size: 14px; color: var(--ink); font-weight: 500; }
-.bd-sub { font-size: 11px; color: var(--muted2); font-family: var(--mono); }
-
-.bd-right { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
-.bd-amount { font-family: var(--mono); font-size: 14px; font-weight: 600; }
-.bd-amount.deduction { color: var(--red); }
-.bd-amount.takehome { color: var(--green); font-size: 16px; }
-.bd-pct { font-family: var(--mono); font-size: 10px; color: var(--muted2); }
-
-/* VISUAL BAR */
-.donut-section {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.donut-title {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 16px;
-  font-weight: 500;
-}
-
-.stacked-bar {
-  height: 32px;
-  border-radius: 4px;
-  overflow: hidden;
-  display: flex;
-  margin-bottom: 16px;
-}
-
-.bar-seg {
-  height: 100%;
-  transition: width 1s cubic-bezier(.4,0,.2,1);
-  position: relative;
-}
-
-.bar-legend {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--ink2);
-}
-
-.legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.legend-val {
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--muted);
-  margin-left: auto;
-}
-
-/* WHAT IT COVERS */
-.covers-section {
-  margin-bottom: 20px;
-}
-
-.covers-title {
-  font-family: var(--display);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: .5px;
-  margin-bottom: 12px;
-}
-
-.covers-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.cover-card {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 6px;
-  padding: 14px 16px;
-  position: relative;
-  overflow: hidden;
-}
-
-.cover-card::before {
-  content: '';
-  position: absolute;
-  left: 0; top: 0; bottom: 0;
-  width: 3px;
-}
-
-.cover-card.good::before { background: var(--green); }
-.cover-card.warn::before { background: var(--amber); }
-.cover-card.bad::before { background: var(--red); }
-
-.cover-label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-
-.cover-val {
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--ink);
-  margin-bottom: 2px;
-}
-
-.cover-rule {
-  font-size: 11px;
-  color: var(--muted2);
-  line-height: 1.4;
-}
-
-/* REALITY CHECK */
-.reality-section {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 6px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-}
-
-.reality-title {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 14px;
-  font-weight: 500;
-}
-
-.reality-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border);
-  animation: rise .3s ease both;
-}
-
-.reality-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.reality-item:nth-child(2) { animation-delay: .06s; }
-.reality-item:nth-child(3) { animation-delay: .12s; }
-.reality-item:nth-child(4) { animation-delay: .18s; }
-
-.reality-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.reality-text { font-size: 13px; color: var(--muted); line-height: 1.55; }
-.reality-text strong { color: var(--ink); font-weight: 600; }
+/* REALITY NOTES */
+.reality-panel{background:var(--panel);border:1px solid var(--border2);border-left:3px solid var(--amber-dim);border-radius:2px;padding:16px;margin-bottom:16px}
+.reality-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.reality-note{padding:8px 0;border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.75;animation:lineReveal .3s ease both}
+.reality-note:last-child{border-bottom:none}
+.reality-note strong{color:var(--amber)}
 
 /* SHARE */
-.share-box {
-  background: var(--paper);
-  border: 1.5px solid var(--border2);
-  border-radius: 6px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-}
+.share-preview{font-size:10px;color:var(--muted);padding:10px 12px;border:1px solid var(--border2);margin-bottom:12px;line-height:1.6;display:none;letter-spacing:.3px}
+.share-preview.show{display:block}
+.share-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.s-btn{padding:13px;border:none;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:all .12s;border-radius:2px}
+.s-btn.tw{background:var(--amber);color:#000;font-weight:700}
+.s-btn.tw:hover{background:var(--amber2);letter-spacing:4px}
+.s-btn.cp{background:transparent;border:1px solid var(--border2);color:var(--muted)}
+.s-btn.cp:hover{border-color:var(--amber);color:var(--amber)}
+.s-btn.cp.done{border-color:var(--green);color:var(--green)}
+.reset-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:12px;font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .12s;border-radius:2px}
+.reset-btn:hover{border-color:var(--amber);color:var(--amber)}
 
-.share-label {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 12px;
-  font-weight: 500;
-}
+.disclaimer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:10px;color:var(--muted2);line-height:1.8;letter-spacing:.3px}
 
-.share-btns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.s-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 11px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  font-family: var(--display);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  transition: all .12s;
-}
-
-.s-btn.tw { background: var(--ink); color: var(--paper); box-shadow: 3px 3px 0 var(--red); }
-.s-btn.tw:hover { transform: translate(-1px,-1px); box-shadow: 4px 4px 0 var(--red); }
-.s-btn.cp { background: transparent; border: 1.5px solid var(--border2); color: var(--muted); }
-.s-btn.cp:hover { border-color: var(--ink); color: var(--ink); }
-.s-btn.cp.done { border-color: var(--green); color: var(--green); }
-
-.share-preview {
-  font-size: 12px;
-  color: var(--muted2);
-  font-style: italic;
-  line-height: 1.5;
-  padding: 10px 12px;
-  background: var(--bg);
-  border-radius: 4px;
-  border: 1px solid var(--border);
-  display: none;
-}
-
-.share-preview.show { display: block; }
-
-/* RESET */
-.reset-btn {
-  width: 100%;
-  background: transparent;
-  border: 1.5px solid var(--border2);
-  color: var(--muted);
-  border-radius: 4px;
-  padding: 12px;
-  font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all .12s;
-  margin-top: 8px;
-}
-
-.reset-btn:hover { border-color: var(--ink); color: var(--ink); }
-
-.disclaimer {
-  margin-top: 48px;
-  padding-top: 20px;
-  border-top: 1.5px solid var(--border);
-  font-size: 11px;
-  color: var(--muted2);
-  line-height: 1.6;
-}
-
-@media (max-width: 480px) {
-  .grid2 { grid-template-columns: 1fr; }
-  .toggle-group { grid-template-columns: 1fr 1fr; }
-  .th-grid { grid-template-columns: 1fr 1fr; }
-  .covers-grid { grid-template-columns: 1fr; }
-  .bar-legend { grid-template-columns: 1fr; }
-  .share-btns { grid-template-columns: 1fr; }
-  .header-top { flex-direction: column; }
+@media(max-width:520px){
+  .grid2{grid-template-columns:1fr}
+  .stamp-grid{grid-template-columns:1fr 1fr}
+  .legend{grid-template-columns:1fr}
+  .share-row{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .ledger-head,.ledger-row{grid-template-columns:1fr auto}
+  .lh-cell.pct-col,.lr-pct{display:none}
 }
 </style>
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@objectivelynet">
-  <meta name="twitter:title" content="What Do I Actually Take Home? — Paycheck Reality">
-  <meta name="twitter:description" content="See your real take-home pay after every deduction. Federal tax, state tax, FICA, 401k, insurance. Includes bonus and commission income. All 50 states.">
-  <meta name="twitter:image" content="https://objectively.net/og-image.png">
-  <meta property="og:url" content="https://objectively.net/paycheck/">
-  <meta property="og:image" content="https://objectively.net/og-image.png">
 </head>
 <body>
-<nav style="position:sticky;top:0;z-index:100;background:rgba(247,244,239,.95);backdrop-filter:blur(8px);border-bottom:1.5px solid #ddd9d3;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
-  <a href="/" style="font-family:'DM Mono',monospace;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c41c1c;text-decoration:none;font-weight:500;">&#8592; Objectively.net</a>
-  <div style="display:flex;gap:14px;flex-wrap:wrap;">
-    <a href="/decision/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a948e;text-decoration:none;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#9a948e'">Decision</a>
-    <a href="/realdeal/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a948e;text-decoration:none;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#9a948e'">RealDeal</a>
-    <a href="/track/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a948e;text-decoration:none;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#9a948e'">On Track</a>
-    <a href="/paycheck/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a948e;text-decoration:none;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#9a948e'">Paycheck</a>
-    <a href="/invest/" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#9a948e;text-decoration:none;" onmouseover="this.style.color='#111'" onmouseout="this.style.color='#9a948e'">Invest</a>
+
+<nav>
+  <a href="/" class="nav-home">&#8592; Objectively.net</a>
+  <div class="nav-links">
+    <a href="/decision/">Decision</a>
+    <a href="/realdeal/">RealDeal</a>
+    <a href="/track/">On Track</a>
+    <a href="/invest/">Invest</a>
+    <a href="/health/">Health ROI</a>
   </div>
 </nav>
+
 <div class="wrap">
 
-<header>
-  <div class="header-top">
-    <div class="brand">PAYCHECK<br>REALITY<span class="slash">.</span></div>
-    <div class="header-badge">objectively.net</div>
+<!-- DOCUMENT HEADER -->
+<div class="doc-header">
+  <div class="classification">OBJECTIVELY // FINANCIAL DISCLOSURE</div>
+  <div class="doc-title">PAYCHECK<br><span class="hl">REALITY</span></div>
+  <div class="doc-id-row">
+    <div class="doc-id">FORM <span>W-TRUTH</span></div>
+    <div class="doc-id">TAX YEAR <span>2024</span></div>
+    <div class="doc-id">ALL 50 STATES</div>
   </div>
-  <p class="header-desc">You got offered <strong>$65,000</strong>. You're not taking home $65,000. Find out what your salary actually means in your pocket — after taxes, insurance, and everything else they take before you see a dime.</p>
-</header>
+  <p class="doc-sub">
+    Your employer reports one number. The government takes its cut before you ever see it.<br>
+    <span class="key">This document shows you exactly what happened to your money.</span><br>
+    Every deduction. Every agency. Every dollar. No redactions.
+  </p>
+</div>
 
-<!-- INCOME -->
-<div class="sec">
-  <div class="sec-head">
-    <span class="sec-num">01</span>
-    <span class="sec-title">Your Income</span>
+<!-- SECTION 1 — INCOME -->
+<div class="doc-section">
+  <div class="section-head">
+    <span class="section-code">§ 01</span>
+    <span class="section-title">Gross Income</span>
   </div>
-  <div class="grid2">
+  <div class="section-body">
     <div class="field">
-      <label>Total Annual Comp</label>
-      <div class="iw pre">
-        <span class="pre">$</span>
-        <input type="number" id="salary" placeholder="150000" min="0">
+      <div class="field-lbl">Income Type</div>
+      <div class="type-tabs">
+        <button class="type-tab active" data-income="salary" onclick="setIncomeType(this)">Pure Salary</button>
+        <button class="type-tab" data-income="mixed" onclick="setIncomeType(this)">Salary + Bonus</button>
+        <button class="type-tab" data-income="bonus" onclick="setIncomeType(this)">Mostly Bonus</button>
       </div>
-      <div class="hint">Include base + bonus + commission</div>
+      <div class="field-hint" id="incomeTypeHint">Regular W-2 salary, same every paycheck</div>
     </div>
-    <div class="field">
-      <label>Pay Frequency</label>
-      <select id="payFreq">
-        <option value="26">Every 2 Weeks (26x)</option>
-        <option value="24">Twice a Month (24x)</option>
-        <option value="12">Monthly (12x)</option>
-        <option value="52">Weekly (52x)</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="field" style="margin-top:14px">
-    <label>Income Type</label>
-    <div class="toggle-group" style="grid-template-columns:1fr 1fr 1fr">
-      <button class="tog-btn active" data-income="salary" onclick="setIncomeType(this)">Pure Salary</button>
-      <button class="tog-btn" data-income="mixed" onclick="setIncomeType(this)">Salary + Bonus</button>
-      <button class="tog-btn" data-income="bonus" onclick="setIncomeType(this)">Mostly Bonus / Commission</button>
-    </div>
-    <div class="hint" id="incomeTypeHint">Regular W-2 salary, same amount every paycheck</div>
-  </div>
-
-  <div id="bonusFields" style="display:none;margin-top:14px">
     <div class="grid2">
       <div class="field">
-        <label>Base Salary Portion</label>
-        <div class="iw pre">
-          <span class="pre">$</span>
-          <input type="number" id="baseSalary" placeholder="80000" min="0" oninput="updateBonusCalc()">
-        </div>
-        <div class="hint">Regular salary before bonus</div>
+        <div class="field-lbl">Total Annual Compensation</div>
+        <input type="number" id="salary" class="f-input" placeholder="65000">
       </div>
       <div class="field">
-        <label>Bonus / Commission</label>
-        <div class="iw pre">
-          <span class="pre">$</span>
-          <input type="number" id="bonusAmount" placeholder="70000" min="0" oninput="updateBonusCalc()">
+        <div class="field-lbl">Pay Frequency</div>
+        <select id="payFreq" class="f-select">
+          <option value="26">Every 2 Weeks (26x)</option>
+          <option value="24">Twice a Month (24x)</option>
+          <option value="12">Monthly (12x)</option>
+          <option value="52">Weekly (52x)</option>
+        </select>
+      </div>
+    </div>
+    <div id="bonusFields" style="display:none">
+      <div class="grid2">
+        <div class="field">
+          <div class="field-lbl">Base Salary</div>
+          <input type="number" id="baseSalary" class="f-input" placeholder="80000" oninput="updateBonusCalc()">
         </div>
-        <div class="hint">Withheld at 22% flat (IRS supplemental rate)</div>
+        <div class="field">
+          <div class="field-lbl">Bonus / Commission</div>
+          <input type="number" id="bonusAmount" class="f-input" placeholder="20000" oninput="updateBonusCalc()">
+          <div class="field-hint">IRS withholds at 22% flat supplemental rate</div>
+        </div>
       </div>
-    </div>
-    <div id="bonusNote" style="font-size:12px;color:var(--muted);margin-top:8px;padding:10px 12px;background:rgba(196,28,28,.05);border:1px solid rgba(196,28,28,.15);border-radius:4px;display:none"></div>
-  </div>
-</div>
-
-<!-- TAX INFO -->
-<div class="sec">
-  <div class="sec-head">
-    <span class="sec-num">02</span>
-    <span class="sec-title">Tax Situation</span>
-  </div>
-  <div class="grid2">
-    <div class="field">
-      <label>Filing Status</label>
-      <select id="filingStatus">
-        <option value="single">Single</option>
-        <option value="married">Married Filing Jointly</option>
-        <option value="hoh">Head of Household</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>State</label>
-      <select id="state">
-        <option value="0">No State Income Tax</option>
-        <option value="0" data-states="AK,FL,NV,NH,SD,TN,TX,WA,WY">No State Tax States</option>
-        <option value="0.0305">Alabama (3.05% avg)</option>
-        <option value="0.059">Arizona (5.9% flat)</option>
-        <option value="0.044">Arkansas (4.4%)</option>
-        <option value="0.093">California (9.3% avg)</option>
-        <option value="0.044">Colorado (4.4% flat)</option>
-        <option value="0.0635">Connecticut (6.35% avg)</option>
-        <option value="0.066">Georgia (5.49% flat)</option>
-        <option value="0.11">Hawaii (11% avg)</option>
-        <option value="0.058">Idaho (5.8%)</option>
-        <option value="0.0495">Illinois (4.95% flat)</option>
-        <option value="0.0323">Indiana (3.23% flat)</option>
-        <option value="0.06">Iowa (6% avg)</option>
-        <option value="0.057">Kansas (5.7% avg)</option>
-        <option value="0.045">Kentucky (4.5% flat)</option>
-        <option value="0.0425">Louisiana (4.25% avg)</option>
-        <option value="0.076">Maine (7.6% avg)</option>
-        <option value="0.0575">Maryland (5.75% avg)</option>
-        <option value="0.05">Massachusetts (5% flat)</option>
-        <option value="0.0425">Michigan (4.25% flat)</option>
-        <option value="0.0985">Minnesota (9.85% avg)</option>
-        <option value="0.05">Mississippi (5% flat)</option>
-        <option value="0.054">Missouri (5.4% avg)</option>
-        <option value="0.069">Montana (6.9%)</option>
-        <option value="0.0684">Nebraska (6.84% avg)</option>
-        <option value="0.082">New Jersey (8.2% avg)</option>
-        <option value="0.059">New Mexico (5.9% avg)</option>
-        <option value="0.0685">New York (6.85% avg)</option>
-        <option value="0.0499">North Carolina (4.99% flat)</option>
-        <option value="0.029">North Dakota (2.9% avg)</option>
-        <option value="0.0399">Ohio (3.99% avg)</option>
-        <option value="0.0475">Oklahoma (4.75% avg)</option>
-        <option value="0.099">Oregon (9.9% avg)</option>
-        <option value="0.0307">Pennsylvania (3.07% flat)</option>
-        <option value="0.059">Rhode Island (5.9% avg)</option>
-        <option value="0.07">South Carolina (7% avg)</option>
-        <option value="0.0485">Utah (4.85% flat)</option>
-        <option value="0.0875">Vermont (8.75% avg)</option>
-        <option value="0.0575">Virginia (5.75% avg)</option>
-        <option value="0.065">West Virginia (6.5% avg)</option>
-        <option value="0.0765">Wisconsin (7.65% avg)</option>
-      </select>
+      <div class="bonus-note" id="bonusNote"></div>
     </div>
   </div>
 </div>
 
-<!-- DEDUCTIONS -->
-<div class="sec">
-  <div class="sec-head">
-    <span class="sec-num">03</span>
-    <span class="sec-title">Pre-Tax Deductions</span>
+<!-- SECTION 2 — TAX -->
+<div class="doc-section">
+  <div class="section-head">
+    <span class="section-code">§ 02</span>
+    <span class="section-title">Tax Jurisdiction</span>
   </div>
-  <div class="grid2">
-    <div class="field">
-      <label>401k Contribution</label>
-      <div class="iw suf">
-        <input type="number" id="retirement" placeholder="0" min="0" max="100" value="0">
-        <span class="suf">% / YR</span>
+  <div class="section-body">
+    <div class="grid2">
+      <div class="field">
+        <div class="field-lbl">Filing Status</div>
+        <select id="filingStatus" class="f-select">
+          <option value="single">Single</option>
+          <option value="married">Married Filing Jointly</option>
+          <option value="hoh">Head of Household</option>
+        </select>
       </div>
-      <div class="hint">Reduces taxable income. Max is 23k/yr (2024)</div>
-    </div>
-    <div class="field">
-      <label>Health Insurance</label>
-      <div class="iw pre">
-        <span class="pre">$</span>
-        <input type="number" id="health" placeholder="0" min="0" value="0">
+      <div class="field">
+        <div class="field-lbl">State</div>
+        <select id="state" class="f-select">
+          <option value="0">No State Income Tax</option>
+          <option value="0.0305">Alabama (3.05%)</option>
+          <option value="0.059">Arizona (5.9%)</option>
+          <option value="0.044">Arkansas (4.4%)</option>
+          <option value="0.093">California (9.3%)</option>
+          <option value="0.044">Colorado (4.4%)</option>
+          <option value="0.0635">Connecticut (6.35%)</option>
+          <option value="0.066">Georgia (5.49%)</option>
+          <option value="0.11">Hawaii (11%)</option>
+          <option value="0.058">Idaho (5.8%)</option>
+          <option value="0.0495">Illinois (4.95%)</option>
+          <option value="0.0323">Indiana (3.23%)</option>
+          <option value="0.06">Iowa (6%)</option>
+          <option value="0.057">Kansas (5.7%)</option>
+          <option value="0.045">Kentucky (4.5%)</option>
+          <option value="0.0425">Louisiana (4.25%)</option>
+          <option value="0.076">Maine (7.6%)</option>
+          <option value="0.0575">Maryland (5.75%)</option>
+          <option value="0.05">Massachusetts (5%)</option>
+          <option value="0.0425">Michigan (4.25%)</option>
+          <option value="0.0985">Minnesota (9.85%)</option>
+          <option value="0.05">Mississippi (5%)</option>
+          <option value="0.054">Missouri (5.4%)</option>
+          <option value="0.069">Montana (6.9%)</option>
+          <option value="0.0684">Nebraska (6.84%)</option>
+          <option value="0.082">New Jersey (8.2%)</option>
+          <option value="0.059">New Mexico (5.9%)</option>
+          <option value="0.0685">New York (6.85%)</option>
+          <option value="0.0499">North Carolina (4.99%)</option>
+          <option value="0.029">North Dakota (2.9%)</option>
+          <option value="0.0399">Ohio (3.99%)</option>
+          <option value="0.0475">Oklahoma (4.75%)</option>
+          <option value="0.099">Oregon (9.9%)</option>
+          <option value="0.0307">Pennsylvania (3.07%)</option>
+          <option value="0.059">Rhode Island (5.9%)</option>
+          <option value="0.07">South Carolina (7%)</option>
+          <option value="0.0485">Utah (4.85%)</option>
+          <option value="0.0875">Vermont (8.75%)</option>
+          <option value="0.0575">Virginia (5.75%)</option>
+          <option value="0.065">West Virginia (6.5%)</option>
+          <option value="0.0765">Wisconsin (7.65%)</option>
+        </select>
       </div>
-      <div class="hint">Your monthly premium out of pocket</div>
-    </div>
-    <div class="field">
-      <label>HSA / FSA</label>
-      <div class="iw pre">
-        <span class="pre">$</span>
-        <input type="number" id="hsa" placeholder="0" min="0" value="0">
-      </div>
-      <div class="hint">Monthly pre-tax health savings contribution</div>
-    </div>
-    <div class="field">
-      <label>Other Pre-Tax</label>
-      <div class="iw pre">
-        <span class="pre">$</span>
-        <input type="number" id="otherPretax" placeholder="0" min="0" value="0">
-      </div>
-      <div class="hint">Dental, vision, transit, parking etc.</div>
     </div>
   </div>
 </div>
 
-<button class="calc-btn" onclick="calculate()">SHOW MY REAL PAYCHECK &rarr;</button>
+<!-- SECTION 3 — DEDUCTIONS -->
+<div class="doc-section">
+  <div class="section-head">
+    <span class="section-code">§ 03</span>
+    <span class="section-title">Pre-Tax Deductions</span>
+  </div>
+  <div class="section-body">
+    <div class="grid2">
+      <div class="field">
+        <div class="field-lbl">401k Contribution %</div>
+        <input type="number" id="retirement" class="f-input" placeholder="0" min="0" max="100" value="0">
+        <div class="field-hint">Reduces taxable income. Max $23k/yr.</div>
+      </div>
+      <div class="field">
+        <div class="field-lbl">Health Insurance /mo</div>
+        <input type="number" id="health" class="f-input" placeholder="0" min="0" value="0">
+      </div>
+      <div class="field">
+        <div class="field-lbl">HSA / FSA /mo</div>
+        <input type="number" id="hsa" class="f-input" placeholder="0" min="0" value="0">
+      </div>
+      <div class="field">
+        <div class="field-lbl">Other Pre-Tax /mo</div>
+        <input type="number" id="otherPretax" class="f-input" placeholder="0" min="0" value="0">
+        <div class="field-hint">Dental, vision, transit, etc.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="submit-btn" onclick="calculate()">
+  <span>GENERATE DISCLOSURE &rarr;</span>
+</button>
 
 <!-- RESULTS -->
 <div id="results">
 
-  <!-- Big number -->
-  <div class="takehome-card">
-    <div class="th-eyebrow">Your Actual Monthly Take-Home</div>
-    <div class="th-amount" id="thMonthly"></div>
-    <div class="th-period">PER MONTH &mdash; AFTER EVERYTHING</div>
-    <div class="th-grid">
-      <div class="th-stat">
-        <div class="th-stat-val" id="thPaycheck"></div>
-        <div class="th-stat-lbl">Per Paycheck</div>
-      </div>
-      <div class="th-stat">
-        <div class="th-stat-val" id="thYearly"></div>
-        <div class="th-stat-lbl">Per Year</div>
-      </div>
-      <div class="th-stat">
-        <div class="th-stat-val" id="thKept"></div>
-        <div class="th-stat-lbl">% You Keep</div>
-      </div>
+  <div class="results-header" style="margin-top:36px">DISCLOSURE GENERATED</div>
+
+  <!-- Take home stamp -->
+  <div class="stamp-block">
+    <div class="stamp-corner tl"></div>
+    <div class="stamp-corner tr"></div>
+    <div class="stamp-corner bl"></div>
+    <div class="stamp-corner br"></div>
+    <div class="stamp-eyebrow">ACTUAL MONTHLY TAKE-HOME — AFTER ALL DEDUCTIONS</div>
+    <div class="stamp-amount" id="thMonthly"></div>
+    <div class="stamp-period">per month &mdash; what actually hits your account</div>
+    <div class="stamp-grid">
+      <div><div class="sg-val" id="thPaycheck"></div><div class="sg-lbl">Per Paycheck</div></div>
+      <div><div class="sg-val" id="thYearly"></div><div class="sg-lbl">Per Year</div></div>
+      <div><div class="sg-val" id="thKept"></div><div class="sg-lbl">You Keep</div></div>
     </div>
   </div>
 
-  <!-- Shock stat -->
-  <div class="shock-bar" id="shockBar">
-    <span class="shock-icon">💸</span>
-    <div class="shock-text" id="shockText"></div>
-  </div>
+  <!-- Shock -->
+  <div class="shock" id="shockLine"></div>
 
-  <!-- Visual bar -->
-  <div class="donut-section">
-    <div class="donut-title">Where Every Dollar Goes</div>
-    <div class="stacked-bar" id="stackedBar"></div>
-    <div class="bar-legend" id="barLegend"></div>
-  </div>
-
-  <!-- Breakdown table -->
-  <div class="breakdown">
-    <div class="breakdown-head">
-      <span>Deduction</span>
-      <span>Annual Amount</span>
+  <!-- Ledger -->
+  <div class="ledger">
+    <div class="ledger-head">
+      <div class="lh-cell">Line Item</div>
+      <div class="lh-cell pct-col">%</div>
+      <div class="lh-cell">Amount</div>
     </div>
-    <div id="bdRows"></div>
+    <div id="ledgerRows"></div>
   </div>
 
-  <!-- What it covers -->
-  <div class="covers-section">
-    <div class="covers-title">What This Take-Home Realistically Covers</div>
-    <div class="covers-grid" id="coversGrid"></div>
+  <!-- Bar -->
+  <div class="bar-panel">
+    <div class="bar-lbl">Where Every Dollar Goes</div>
+    <div class="stacked" id="stackedBar"></div>
+    <div class="legend" id="barLegend"></div>
   </div>
 
-  <!-- Reality check -->
-  <div class="reality-section">
-    <div class="reality-title">Things Nobody Tells You</div>
+  <!-- Covers -->
+  <div class="covers-panel">
+    <div class="covers-lbl">What This Take-Home Realistically Covers</div>
+    <div id="coversRows"></div>
+  </div>
+
+  <!-- Reality -->
+  <div class="reality-panel">
+    <div class="reality-lbl">Things Nobody Tells You</div>
     <div id="realityItems"></div>
   </div>
 
   <!-- Share -->
-  <div class="share-box">
-    <div class="share-label">Share Your Reality Check</div>
-    <div class="share-btns">
-      <button class="s-btn tw" onclick="doShare('tw')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.745l7.73-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-        Post on X
-      </button>
-      <button class="s-btn cp" id="cpBtn" onclick="doShare('cp')">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy Link
-      </button>
-    </div>
-    <div class="share-preview" id="sharePreview"></div>
+  <div class="share-preview" id="sharePreview"></div>
+  <div class="share-row">
+    <button class="s-btn tw" onclick="doShare('tw')">Post on X</button>
+    <button class="s-btn cp" id="cpBtn" onclick="doShare('cp')">Copy Link</button>
   </div>
+  <button class="reset-btn" onclick="doReset()">&larr; New Disclosure</button>
 
-  <button class="reset-btn" onclick="doReset()">&larr; Calculate Another Salary</button>
-
-</div>
+</div><!-- /results -->
 
 <div class="disclaimer">
-  <strong>Note:</strong> Paycheck Reality uses 2024 federal tax brackets and standard deductions. State taxes are approximate averages. Actual withholding may vary based on W-4 elections, local taxes, and employer specifics. Always verify with your actual pay stub.
-  <br><br>A tool by <strong>objectively.net</strong>
+  2024 federal tax brackets | Standard deductions applied | State rates are approximate averages.<br>
+  This tool provides educational estimates. Not personalized tax or financial advice.<br>
+  Results may differ from your actual paycheck based on additional withholdings, credits, or local taxes.<br>
+  A tool by objectively.net
 </div>
 
-</div>
+</div><!-- /wrap -->
 
 <script>
-// 2024 Federal Tax Brackets
-const federalBrackets = {
-  single: [
-    { max: 11600,  rate: 0.10 },
-    { max: 47150,  rate: 0.12 },
-    { max: 100525, rate: 0.22 },
-    { max: 191950, rate: 0.24 },
-    { max: 243725, rate: 0.32 },
-    { max: 609350, rate: 0.35 },
-    { max: Infinity, rate: 0.37 },
-  ],
-  married: [
-    { max: 23200,  rate: 0.10 },
-    { max: 94300,  rate: 0.12 },
-    { max: 201050, rate: 0.22 },
-    { max: 383900, rate: 0.24 },
-    { max: 487450, rate: 0.32 },
-    { max: 731200, rate: 0.35 },
-    { max: Infinity, rate: 0.37 },
-  ],
-  hoh: [
-    { max: 16550,  rate: 0.10 },
-    { max: 63100,  rate: 0.12 },
-    { max: 100500, rate: 0.22 },
-    { max: 191950, rate: 0.24 },
-    { max: 243700, rate: 0.32 },
-    { max: 609350, rate: 0.35 },
-    { max: Infinity, rate: 0.37 },
-  ],
+const federalBrackets={
+  single:  [{max:11600,rate:.10},{max:47150,rate:.12},{max:100525,rate:.22},{max:191950,rate:.24},{max:243725,rate:.32},{max:609350,rate:.35},{max:Infinity,rate:.37}],
+  married: [{max:23200,rate:.10},{max:94300,rate:.12},{max:201050,rate:.22},{max:383900,rate:.24},{max:487450,rate:.32},{max:731200,rate:.35},{max:Infinity,rate:.37}],
+  hoh:     [{max:16550,rate:.10},{max:63100,rate:.12},{max:100500,rate:.22},{max:191950,rate:.24},{max:243700,rate:.32},{max:609350,rate:.35},{max:Infinity,rate:.37}],
 };
+const stdDed={single:14600,married:29200,hoh:21900};
+const SS_RATE=0.062,SS_WAGE=168600,MED=0.0145,ADD_MED=0.009;
+const ADD_MED_THRESH={single:200000,married:250000,hoh:200000};
+const SUPP=0.22,SUPP_HIGH=0.37;
 
-const standardDeduction = { single: 14600, married: 29200, hoh: 21900 };
-const SS_RATE = 0.062;
-const SS_WAGE_BASE = 168600;
-const MEDICARE_RATE = 0.0145;
-const ADD_MEDICARE_RATE = 0.009;
-const ADD_MEDICARE_THRESHOLD = { single: 200000, married: 250000, hoh: 200000 };
+let incomeType='salary';
 
-// Supplemental / bonus withholding rates (IRS 2024)
-const SUPPLEMENTAL_RATE = 0.22;        // flat rate for bonus under $1M
-const SUPPLEMENTAL_RATE_HIGH = 0.37;  // flat rate for bonus over $1M
-
-let incomeType = 'salary';
-
-function setIncomeType(btn) {
-  document.querySelectorAll('[data-income]').forEach(b => b.classList.remove('active'));
+function setIncomeType(btn){
+  document.querySelectorAll('[data-income]').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  incomeType = btn.dataset.income;
-
-  const hints = {
-    salary: 'Regular W-2 salary, same amount every paycheck',
-    mixed: 'Base salary withheld normally + bonus withheld at IRS 22% flat rate',
-    bonus: 'Most comp comes as bonus or commission -- withheld at 22% flat, may owe more at filing',
-  };
-  document.getElementById('incomeTypeHint').textContent = hints[incomeType];
-
-  const bonusFields = document.getElementById('bonusFields');
-  if (incomeType === 'mixed') {
-    bonusFields.style.display = 'block';
-    updateBonusCalc();
-  } else if (incomeType === 'bonus') {
-    bonusFields.style.display = 'none';
-    document.getElementById('bonusNote').style.display = 'none';
-  } else {
-    bonusFields.style.display = 'none';
-    document.getElementById('bonusNote').style.display = 'none';
-  }
+  incomeType=btn.dataset.income;
+  const hints={salary:'Regular W-2 salary, same every paycheck',mixed:'Base salary withheld normally + bonus at IRS 22% flat rate',bonus:'Most comp is bonus/commission — withheld at 22% flat'};
+  document.getElementById('incomeTypeHint').textContent=hints[incomeType];
+  const bf=document.getElementById('bonusFields');
+  if(incomeType==='mixed'){bf.style.display='block';updateBonusCalc();}
+  else{bf.style.display='none';document.getElementById('bonusNote').style.display='none';}
 }
 
-function updateBonusCalc() {
-  const base = parseFloat(document.getElementById('baseSalary').value) || 0;
-  const bonus = parseFloat(document.getElementById('bonusAmount').value) || 0;
-  const total = base + bonus;
-
-  // Sync total to main salary field
-  if (total > 0) {
-    document.getElementById('salary').value = total;
-  }
-
-  const noteEl = document.getElementById('bonusNote');
-  if (bonus > 0 && base > 0) {
-    const bonusWithheld = Math.min(bonus, 1000000) * SUPPLEMENTAL_RATE + Math.max(0, bonus - 1000000) * SUPPLEMENTAL_RATE_HIGH;
-    noteEl.style.display = 'block';
-    noteEl.innerHTML = 'Your bonus of $' + Math.round(bonus).toLocaleString() + ' will be withheld at the IRS flat rate of 22% ($' + Math.round(bonusWithheld).toLocaleString() + '). Your actual tax owed depends on your bracket -- you may owe more or get a refund when you file.';
-  } else {
-    noteEl.style.display = 'none';
-  }
+function updateBonusCalc(){
+  const base=parseFloat(document.getElementById('baseSalary').value)||0;
+  const bonus=parseFloat(document.getElementById('bonusAmount').value)||0;
+  if(base+bonus>0) document.getElementById('salary').value=base+bonus;
+  const ne=document.getElementById('bonusNote');
+  if(bonus>0&&base>0){
+    const bw=Math.min(bonus,1000000)*SUPP+Math.max(0,bonus-1000000)*SUPP_HIGH;
+    ne.style.display='block';
+    ne.textContent='Bonus of $'+Math.round(bonus).toLocaleString()+' withheld at IRS 22% flat rate = $'+Math.round(bw).toLocaleString()+'. Actual liability depends on your bracket.';
+  } else ne.style.display='none';
 }
 
-function calcFederalTax(taxableIncome, status) {
-  const brackets = federalBrackets[status];
-  let tax = 0;
-  let prev = 0;
-  for (const bracket of brackets) {
-    if (taxableIncome <= prev) break;
-    const taxable = Math.min(taxableIncome, bracket.max) - prev;
-    tax += taxable * bracket.rate;
-    prev = bracket.max;
-  }
+function calcFed(taxable,status){
+  let tax=0,prev=0;
+  for(const b of federalBrackets[status]){if(taxable<=prev)break;tax+=(Math.min(taxable,b.max)-prev)*b.rate;prev=b.max;}
   return tax;
 }
 
-function fmt(n) { return '$' + Math.round(Math.abs(n)).toLocaleString(); }
+function fmt(n){return '$'+Math.round(Math.abs(n)).toLocaleString();}
 
-let shareText = '';
+let shareText='';
 
-function calculate() {
-  const salary        = parseFloat(document.getElementById('salary').value) || 0;
-  const payFreq       = parseInt(document.getElementById('payFreq').value);
-  const filingStatus  = document.getElementById('filingStatus').value;
-  const stateRate     = parseFloat(document.getElementById('state').value) || 0;
-  const retirePct     = parseFloat(document.getElementById('retirement').value) || 0;
-  const healthMo      = parseFloat(document.getElementById('health').value) || 0;
-  const hsaMo         = parseFloat(document.getElementById('hsa').value) || 0;
-  const otherMo       = parseFloat(document.getElementById('otherPretax').value) || 0;
+function calculate(){
+  const salary=parseFloat(document.getElementById('salary').value)||0;
+  const freq=parseInt(document.getElementById('payFreq').value);
+  const status=document.getElementById('filingStatus').value;
+  const stateRate=parseFloat(document.getElementById('state').value)||0;
+  const retPct=parseFloat(document.getElementById('retirement').value)||0;
+  const healthMo=parseFloat(document.getElementById('health').value)||0;
+  const hsaMo=parseFloat(document.getElementById('hsa').value)||0;
+  const otherMo=parseFloat(document.getElementById('otherPretax').value)||0;
 
-  if (!salary) { alert('Please enter your annual salary or total comp.'); return; }
+  if(!salary){alert('Please enter your annual salary.');return;}
 
-  const retireAnnual  = Math.min(salary * retirePct / 100, 23000);
-  const healthAnnual  = healthMo * 12;
-  const hsaAnnual     = hsaMo * 12;
-  const otherAnnual   = otherMo * 12;
-  const totalPretax   = retireAnnual + healthAnnual + hsaAnnual + otherAnnual;
+  const retAnn=Math.min(salary*retPct/100,23000);
+  const healthAnn=healthMo*12,hsaAnn=hsaMo*12,otherAnn=otherMo*12;
+  const totalPretax=retAnn+healthAnn+hsaAnn+otherAnn;
 
-  let federalTax = 0;
-  let bonusWithheld = 0;
-  let baseSalaryForCalc = salary;
-  let bonusForCalc = 0;
-  let isMixed = false;
-
-  if (incomeType === 'mixed') {
-    baseSalaryForCalc = parseFloat(document.getElementById('baseSalary').value) || 0;
-    bonusForCalc = parseFloat(document.getElementById('bonusAmount').value) || 0;
-    isMixed = true;
-
-    // Base salary taxed normally through brackets
-    const stdDed = standardDeduction[filingStatus];
-    const baseTaxable = Math.max(0, baseSalaryForCalc - totalPretax - stdDed);
-    const baseTax = calcFederalTax(baseTaxable, filingStatus);
-
-    // Bonus withheld at supplemental rate (22% flat under $1M)
-    bonusWithheld = Math.min(bonusForCalc, 1000000) * SUPPLEMENTAL_RATE
-      + Math.max(0, bonusForCalc - 1000000) * SUPPLEMENTAL_RATE_HIGH;
-
-    // Actual federal liability on full income (for "you may owe" calculation)
-    const fullTaxable = Math.max(0, salary - totalPretax - stdDed);
-    const actualFedLiability = calcFederalTax(fullTaxable, filingStatus);
-
-    federalTax = baseTax + bonusWithheld;
-
-  } else if (incomeType === 'bonus') {
-    // Treat entire comp as supplemental -- withheld at 22% flat
-    bonusWithheld = Math.min(salary, 1000000) * SUPPLEMENTAL_RATE
-      + Math.max(0, salary - 1000000) * SUPPLEMENTAL_RATE_HIGH;
-    federalTax = bonusWithheld;
-    isMixed = true;
-    bonusForCalc = salary;
-
+  let fedTax=0,bonusAmt=0,baseAmt=salary,isMixed=false;
+  if(incomeType==='mixed'){
+    baseAmt=parseFloat(document.getElementById('baseSalary').value)||0;
+    bonusAmt=parseFloat(document.getElementById('bonusAmount').value)||0;
+    isMixed=true;
+    const bw=Math.min(bonusAmt,1000000)*SUPP+Math.max(0,bonusAmt-1000000)*SUPP_HIGH;
+    fedTax=calcFed(Math.max(0,baseAmt-totalPretax-stdDed[status]),status)+bw;
+  } else if(incomeType==='bonus'){
+    isMixed=true;bonusAmt=salary;
+    fedTax=Math.min(salary,1000000)*SUPP+Math.max(0,salary-1000000)*SUPP_HIGH;
   } else {
-    // Pure salary -- standard bracket calculation
-    const stdDed = standardDeduction[filingStatus];
-    const federalTaxable = Math.max(0, salary - totalPretax - stdDed);
-    federalTax = calcFederalTax(federalTaxable, filingStatus);
+    fedTax=calcFed(Math.max(0,salary-totalPretax-stdDed[status]),status);
   }
 
-  // FICA applies to all income types
-  const ssTaxable = Math.min(salary - retireAnnual, SS_WAGE_BASE);
-  const ssTax = Math.max(0, ssTaxable) * SS_RATE;
-  const medicareTax = salary * MEDICARE_RATE;
-  const addMedicare = Math.max(0, salary - ADD_MEDICARE_THRESHOLD[filingStatus]) * ADD_MEDICARE_RATE;
-  const ficaTotal = ssTax + medicareTax + addMedicare;
+  const ssTax=Math.max(0,Math.min(salary-retAnn,SS_WAGE))*SS_RATE;
+  const medTax=salary*MED;
+  const addMed=Math.max(0,salary-ADD_MED_THRESH[status])*ADD_MED;
+  const stateTax=Math.max(0,salary-totalPretax)*stateRate;
+  const totalTax=fedTax+ssTax+medTax+addMed+stateTax;
+  const totalDed=totalTax+totalPretax;
+  const thAnn=salary-totalDed;
+  const thMo=thAnn/12;
+  const thPay=thAnn/freq;
+  const keptPct=Math.round(thAnn/salary*100);
+  const lostPct=100-keptPct;
+  const effFed=(fedTax/salary*100).toFixed(1);
 
-  // State tax
-  const stateTaxable = Math.max(0, salary - totalPretax);
-  const stateTax = stateTaxable * stateRate;
-
-  const totalTax = federalTax + ficaTotal + stateTax;
-  const totalDeductions = totalTax + totalPretax;
-  const takeHomeAnnual = salary - totalDeductions;
-  const takeHomeMonthly = takeHomeAnnual / 12;
-  const takeHomePaycheck = takeHomeAnnual / payFreq;
-  const keptPct = Math.round(takeHomeAnnual / salary * 100);
-  const lostPct = 100 - keptPct;
-  const effFedRate = (federalTax / salary * 100).toFixed(1);
-
-  // For mixed/bonus -- calculate potential tax bill at filing
-  let taxBillNote = '';
-  if (isMixed) {
-    const stdDed = standardDeduction[filingStatus];
-    const fullTaxable = Math.max(0, salary - totalPretax - stdDed);
-    const actualLiability = calcFederalTax(fullTaxable, filingStatus);
-    const diff = actualLiability - federalTax;
-    if (diff > 500) {
-      taxBillNote = 'Heads up: Based on your total income, you may owe an additional ' + fmt(diff) + ' at tax filing. The 22% supplemental withholding rate is lower than your actual marginal bracket.';
-    } else if (diff < -500) {
-      taxBillNote = 'Good news: Your withholding may be slightly higher than your actual liability. You could see a refund of roughly ' + fmt(Math.abs(diff)) + ' at filing.';
-    }
+  // Tax note
+  let taxNote='';
+  if(isMixed){
+    const actual=calcFed(Math.max(0,salary-totalPretax-stdDed[status]),status);
+    const diff=actual-fedTax;
+    if(diff>500) taxNote='Bonus was withheld at 22% flat — your actual bracket is higher. Set aside '+fmt(Math.round(diff/12))+'/mo for April. Estimated filing liability: '+fmt(diff)+'.';
+    else if(diff<-500) taxNote='You are likely getting a refund of ~'+fmt(Math.abs(diff))+'. Withholding was higher than your actual tax liability.';
   }
 
   // RENDER
-  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').style.display='block';
+  document.getElementById('thMonthly').textContent=fmt(thMo);
+  document.getElementById('thPaycheck').textContent=fmt(thPay);
+  document.getElementById('thYearly').textContent=fmt(thAnn);
+  document.getElementById('thKept').textContent=keptPct+'%';
 
-  document.getElementById('thMonthly').textContent = fmt(takeHomeMonthly);
-  document.getElementById('thPaycheck').textContent = fmt(takeHomePaycheck);
-  document.getElementById('thYearly').textContent = fmt(takeHomeAnnual);
-  document.getElementById('thKept').textContent = keptPct + '%';
+  const shock=taxNote||'You report '+fmt(salary)+' in gross income. '+fmt(totalDed)+' ('+lostPct+'%) is withheld before your direct deposit processes. You retain '+keptPct+'% of your stated compensation.';
+  document.getElementById('shockLine').textContent=shock;
 
-  // Shock stat
-  const lostAnnual = totalDeductions;
-  let shockHTML = '';
-  if (taxBillNote) {
-    shockHTML = '<strong style="color:var(--red)">Important:</strong> ' + taxBillNote;
-  } else if (lostPct >= 35) {
-    shockHTML = 'You earn <strong>' + fmt(salary) + '/year</strong> but only take home <strong style="color:var(--green)">' + fmt(takeHomeAnnual) + '</strong>. That means <strong>' + fmt(lostAnnual) + ' (' + lostPct + '%)</strong> leaves your paycheck before you ever see it.';
-  } else if (retireAnnual > 0) {
-    shockHTML = 'You\'re keeping <strong style="color:var(--green)">' + keptPct + '%</strong> of your gross. The <strong>' + fmt(lostAnnual) + '</strong> you don\'t see includes <strong>' + fmt(retireAnnual) + ' going to your 401k</strong> -- that\'s building wealth, not disappearing.';
-  } else {
-    shockHTML = 'You take home <strong style="color:var(--green)">' + keptPct + '%</strong> of your gross. The missing <strong>' + fmt(lostAnnual) + '</strong> goes to taxes and deductions before you ever see your paycheck.';
-  }
-  document.getElementById('shockText').innerHTML = shockHTML;
+  // Bar
+  const segs=[
+    {lbl:'Take-Home',amt:thAnn,color:'#3a7a50',pct:keptPct},
+    {lbl:'Federal Tax',amt:fedTax,color:'#c44020',pct:Math.round(fedTax/salary*100)},
+    {lbl:'FICA',amt:ssTax+medTax+addMed,color:'#8a2a10',pct:Math.round((ssTax+medTax+addMed)/salary*100)},
+    {lbl:'State Tax',amt:stateTax,color:'#b83828',pct:Math.round(stateTax/salary*100)},
+    {lbl:'401k',amt:retAnn,color:'#1a3d6b',pct:Math.round(retAnn/salary*100)},
+    {lbl:'Benefits',amt:healthAnn+hsaAnn+otherAnn,color:'#2a5499',pct:Math.round((healthAnn+hsaAnn+otherAnn)/salary*100)},
+  ].filter(s=>s.amt>0);
 
-  // Stacked bar
-  const segments = [
-    { label: 'Take-Home', amount: takeHomeAnnual, color: '#1a6b3c', pct: keptPct },
-    { label: 'Federal Tax', amount: federalTax, color: '#c41c1c', pct: Math.round(federalTax/salary*100) },
-    { label: 'FICA', amount: ficaTotal, color: '#8b1212', pct: Math.round(ficaTotal/salary*100) },
-    { label: 'State Tax', amount: stateTax, color: '#e05555', pct: Math.round(stateTax/salary*100) },
-    { label: '401k', amount: retireAnnual, color: '#1a4fa0', pct: Math.round(retireAnnual/salary*100) },
-    { label: 'Benefits', amount: healthAnnual + hsaAnnual + otherAnnual, color: '#4a7fd4', pct: Math.round((healthAnnual+hsaAnnual+otherAnnual)/salary*100) },
-  ].filter(s => s.amount > 0);
-
-  document.getElementById('stackedBar').innerHTML = segments.map(s =>
-    '<div class="bar-seg" style="width:' + s.pct + '%;background:' + s.color + ';min-width:' + (s.pct > 0 ? '2px' : '0') + '"></div>'
+  document.getElementById('stackedBar').innerHTML=segs.map(s=>
+    '<div class="seg" style="width:'+s.pct+'%;background:'+s.color+';min-width:'+(s.pct>0?'2px':'0')+'"></div>'
+  ).join('');
+  document.getElementById('barLegend').innerHTML=segs.map(s=>
+    '<div class="leg-item"><div class="leg-dot" style="background:'+s.color+'"></div>'+s.lbl+'<span class="leg-val">'+fmt(s.amt)+'/yr</span></div>'
   ).join('');
 
-  document.getElementById('barLegend').innerHTML = segments.map(s =>
-    '<div class="legend-item"><div class="legend-dot" style="background:' + s.color + '"></div>' + s.label + '<span class="legend-val">' + fmt(s.amount) + '/yr</span></div>'
-  ).join('');
-
-  // Breakdown rows
-  const rows = [
-    { name: 'Gross / Total Comp', sub: incomeType === 'salary' ? 'Annual base salary' : 'Base + bonus + commission combined', amount: salary, pct: 100, type: 'gross' },
-  ];
-  if (incomeType === 'mixed' && bonusForCalc > 0) {
-    rows.push({ name: 'Base Salary', sub: 'Withheld at normal bracket rates', amount: baseSalaryForCalc, pct: Math.round(baseSalaryForCalc/salary*100), type: 'info' });
-    rows.push({ name: 'Bonus / Commission', sub: 'IRS supplemental rate: 22% flat', amount: bonusForCalc, pct: Math.round(bonusForCalc/salary*100), type: 'info' });
+  // Ledger rows
+  const rows=[{n:'Gross / Total Compensation',s:incomeType==='salary'?'Annual salary':'Base + bonus combined',a:salary,p:100,t:'gr'}];
+  if(incomeType==='mixed'&&bonusAmt>0){
+    rows.push({n:'  Base Salary',s:'Standard bracket withholding',a:baseAmt,p:Math.round(baseAmt/salary*100),t:'gr'});
+    rows.push({n:'  Bonus / Commission',s:'22% flat supplemental rate',a:bonusAmt,p:Math.round(bonusAmt/salary*100),t:'gr'});
   }
-  if (retireAnnual > 0) rows.push({ name: '401(k) Contribution', sub: retirePct + '% of salary (pre-tax)', amount: -retireAnnual, pct: -(retireAnnual/salary*100).toFixed(1), type: 'deduct' });
-  if (healthAnnual > 0) rows.push({ name: 'Health Insurance', sub: fmt(healthMo) + '/month premium', amount: -healthAnnual, pct: -(healthAnnual/salary*100).toFixed(1), type: 'deduct' });
-  if (hsaAnnual > 0) rows.push({ name: 'HSA / FSA', sub: fmt(hsaMo) + '/month', amount: -hsaAnnual, pct: -(hsaAnnual/salary*100).toFixed(1), type: 'deduct' });
-  if (otherAnnual > 0) rows.push({ name: 'Other Pre-Tax', sub: fmt(otherMo) + '/month', amount: -otherAnnual, pct: -(otherAnnual/salary*100).toFixed(1), type: 'deduct' });
+  if(retAnn>0)    rows.push({n:'401(k) Contribution',s:retPct+'% of salary — pre-tax',a:-retAnn,p:-(retAnn/salary*100).toFixed(1),t:'ded'});
+  if(healthAnn>0) rows.push({n:'Health Insurance',s:fmt(healthMo)+'/month premium',a:-healthAnn,p:-(healthAnn/salary*100).toFixed(1),t:'ded'});
+  if(hsaAnn>0)    rows.push({n:'HSA / FSA',s:fmt(hsaMo)+'/month',a:-hsaAnn,p:-(hsaAnn/salary*100).toFixed(1),t:'ded'});
+  if(otherAnn>0)  rows.push({n:'Other Pre-Tax Deductions',s:fmt(otherMo)+'/month',a:-otherAnn,p:-(otherAnn/salary*100).toFixed(1),t:'ded'});
+  rows.push({n:'Federal Income Tax',s:effFed+'% effective rate | 2024 brackets',a:-fedTax,p:-(fedTax/salary*100).toFixed(1),t:'ded'});
+  rows.push({n:'Social Security (OASDI)',s:'6.2% — wage base $168,600',a:-ssTax,p:-(ssTax/salary*100).toFixed(1),t:'ded'});
+  rows.push({n:'Medicare',s:'1.45%'+(addMed>0?' + 0.9% high earner surtax':''),a:-(medTax+addMed),p:-((medTax+addMed)/salary*100).toFixed(1),t:'ded'});
+  if(stateTax>0)  rows.push({n:'State Income Tax',s:(stateRate*100).toFixed(2)+'% approximate effective rate',a:-stateTax,p:-(stateTax/salary*100).toFixed(1),t:'ded'});
+  rows.push({n:'ANNUAL TAKE-HOME',s:'Net amount deposited to your account',a:thAnn,p:keptPct,t:'th'});
 
-  const fedLabel = incomeType === 'salary' ? effFedRate + '% effective rate'
-    : incomeType === 'bonus' ? '22% flat supplemental withholding'
-    : 'Bracket rate on base + 22% flat on bonus';
-  rows.push({ name: 'Federal Income Tax', sub: fedLabel, amount: -federalTax, pct: -(federalTax/salary*100).toFixed(1), type: 'deduct' });
-  rows.push({ name: 'Social Security', sub: '6.2% up to $168,600', amount: -ssTax, pct: -(ssTax/salary*100).toFixed(1), type: 'deduct' });
-  rows.push({ name: 'Medicare', sub: '1.45%' + (addMedicare > 0 ? ' + 0.9% surtax over threshold' : ''), amount: -(medicareTax + addMedicare), pct: -((medicareTax+addMedicare)/salary*100).toFixed(1), type: 'deduct' });
-  if (stateTax > 0) rows.push({ name: 'State Income Tax', sub: (stateRate * 100).toFixed(2) + '% approximate', amount: -stateTax, pct: -(stateTax/salary*100).toFixed(1), type: 'deduct' });
-  rows.push({ name: 'Annual Take-Home', sub: 'What actually hits your account', amount: takeHomeAnnual, pct: keptPct, type: 'takehome' });
-
-  document.getElementById('bdRows').innerHTML = rows.map((r, i) => {
-    const cls = r.type === 'takehome' ? 'bd-row total' : r.type === 'info' ? 'bd-row' : 'bd-row';
-    const amtCls = r.type === 'deduct' ? 'deduction' : r.type === 'takehome' ? 'takehome' : '';
-    const sign = r.amount < 0 ? '-' : '';
-    const infoStyle = r.type === 'info' ? 'background:rgba(26,79,160,.04);' : '';
-    return '<div class="' + cls + '" style="animation-delay:' + (i * 0.04) + 's;' + infoStyle + '">' +
-      '<div class="bd-left"><div class="bd-name">' + r.name + '</div><div class="bd-sub">' + r.sub + '</div></div>' +
-      '<div class="bd-right"><div class="bd-amount ' + amtCls + '">' + sign + fmt(Math.abs(r.amount)) + '</div>' +
-      '<div class="bd-pct">' + r.pct + '%</div></div>' +
+  document.getElementById('ledgerRows').innerHTML=rows.map((r,i)=>{
+    const sign=r.a<0?'- ':'';
+    const cls=r.t==='ded'?'ded':r.t==='th'?'th':'gr';
+    const isTotal=r.t==='th';
+    return '<div class="ledger-row'+(isTotal?' total-row':'')+'" style="animation-delay:'+(i*.04)+'s">'+
+      '<div><div class="lr-name">'+r.n+'</div><span class="lr-sub">'+r.s+'</span></div>'+
+      '<div class="lr-pct">'+r.p+'%</div>'+
+      '<div class="lr-amount '+cls+'">'+sign+fmt(Math.abs(r.a))+'</div>'+
       '</div>';
   }).join('');
 
-  // What it covers
-  const maxRent    = takeHomeMonthly * 0.30;
-  const maxCar     = takeHomeMonthly * 0.15;
-  const savings20  = takeHomeMonthly * 0.20;
-  const discretionary = takeHomeMonthly * 0.30;
+  // Covers
+  const maxR=thMo*.30,maxC=thMo*.15,sav=thMo*.20,disc=thMo*.30;
+  document.getElementById('coversRows').innerHTML=[
+    {n:'Max Rent / Housing',r:'30% rule — standard lender guideline',v:fmt(maxR)+'/mo',c:maxR>=1200?'good':maxR>=800?'warn':'bad'},
+    {n:'Max Car Payment',r:'15% rule — payment only, excludes insurance/fuel',v:fmt(maxC)+'/mo',c:maxC>=300?'good':maxC>=200?'warn':'bad'},
+    {n:'Savings Target',r:'20% rule — emergency fund + retirement combined',v:fmt(sav)+'/mo',c:sav>=500?'good':sav>=200?'warn':'bad'},
+    {n:'Remaining Discretionary',r:'Food, subscriptions, entertainment, everything else',v:fmt(disc)+'/mo',c:disc>=800?'good':disc>=400?'warn':'bad'},
+  ].map(c=>'<div class="cover-row"><div><div class="cover-name">'+c.n+'</div><div class="cover-rule">'+c.r+'</div></div><div class="cover-val '+c.c+'">'+c.v+'</div></div>').join('');
 
-  const rentCls  = maxRent >= 1200 ? 'good' : maxRent >= 800 ? 'warn' : 'bad';
-  const carCls   = maxCar >= 300 ? 'good' : maxCar >= 200 ? 'warn' : 'bad';
-  const savCls   = savings20 >= 500 ? 'good' : savings20 >= 200 ? 'warn' : 'bad';
-  const discCls  = discretionary >= 800 ? 'good' : discretionary >= 400 ? 'warn' : 'bad';
+  // Reality notes
+  const reality=[];
+  if(isMixed&&taxNote) reality.push('<strong>Filing note.</strong> '+taxNote);
+  if(retAnn===0) reality.push('<strong>No 401k active.</strong> Even 3% of salary reduces your taxable income and builds deferred wealth. At '+fmt(salary)+', that is '+fmt(salary*.03)+'/yr the government cannot touch until you withdraw.');
+  else reality.push('<strong>401k is reducing your tax liability today.</strong> That '+fmt(retAnn)+'/yr lowers your federal taxable income. The government is effectively co-funding part of your retirement contributions.');
+  if(stateRate===0) reality.push('<strong>No-income-tax state advantage.</strong> Compared to a California or New York resident at identical gross compensation, you retain approximately '+fmt(salary*.07)+' more per year.');
+  else if(stateRate>0.08) reality.push('<strong>High state tax jurisdiction.</strong> State income tax alone costs you '+fmt(stateTax)+'/yr. Worth factoring into any offer involving remote work from a lower-tax state.');
+  if(salary>100000&&retAnn<23000) reality.push('<strong>Tax optimization opportunity.</strong> Maxing your 401k ('+fmt(23000)+'/yr limit) would reduce your federal tax bill by approximately '+fmt(23000*.24)+' this year — while simultaneously building retirement equity.');
+  reality.push('<strong>Marginal rate is not your effective rate.</strong> Your highest dollar is taxed at your top bracket — but your blended effective federal rate across all income is only '+effFed+'%. Progressive brackets mean lower rates apply to your first dollars earned.');
 
-  document.getElementById('coversGrid').innerHTML = [
-    { label: 'Max Rent / Housing', val: fmt(maxRent) + '/mo', rule: '30% rule -- lenders use this as the guideline', cls: rentCls },
-    { label: 'Max Car Payment', val: fmt(maxCar) + '/mo', rule: '15% rule -- payment only, not insurance/gas', cls: carCls },
-    { label: 'Savings Target', val: fmt(savings20) + '/mo', rule: '20% rule -- emergency fund + retirement', cls: savCls },
-    { label: 'Remaining for Life', val: fmt(discretionary) + '/mo', rule: 'Food, fun, subscriptions, everything else', cls: discCls },
-  ].map(c =>
-    '<div class="cover-card ' + c.cls + '">' +
-    '<div class="cover-label">' + c.label + '</div>' +
-    '<div class="cover-val">' + c.val + '</div>' +
-    '<div class="cover-rule">' + c.rule + '</div>' +
-    '</div>'
+  document.getElementById('realityItems').innerHTML=reality.slice(0,4).map((r,i)=>
+    '<div class="reality-note" style="animation-delay:'+(i*.07)+'s">'+r+'</div>'
   ).join('');
 
-  // Reality items - only show what's actually relevant
-  const reality = [];
+  shareText='I make $'+Math.round(salary/1000)+'k/year but only take home $'+Math.round(thMo).toLocaleString()+'/month ('+keptPct+'%). Check what YOUR salary actually means:';
+  const sp=document.getElementById('sharePreview');
+  sp.textContent=shareText+' objectively.net/paycheck/';
+  sp.classList.add('show');
 
-  // Tax bill / refund tip - only show for bonus/mixed income types
-  if (isMixed && taxBillNote) {
-    const stdDed = standardDeduction[filingStatus];
-    const fullTaxable = Math.max(0, salary - totalPretax - stdDed);
-    const actualLiability = calcFederalTax(fullTaxable, filingStatus);
-    const diff = actualLiability - federalTax;
-
-    if (diff > 500) {
-      // They will owe at filing - show the warning with monthly savings suggestion
-      const monthlySetAside = Math.round(diff / 12);
-      reality.push({ icon: '!', text: '<strong>Set ' + fmt(monthlySetAside) + '/month aside for tax time.</strong> Your bonus was withheld at 22% flat but your actual tax bracket is higher. You may owe roughly ' + fmt(diff) + ' when you file. Put that in a separate savings account now so April is not a surprise.' });
-    } else if (diff < -500) {
-      // They overpaid - refund coming
-      const refund = Math.abs(diff);
-      reality.push({ icon: '+', text: '<strong>You are likely getting a refund of roughly ' + fmt(refund) + '.</strong> Your withholding was slightly higher than your actual liability. When it comes, resist the urge to spend it -- put it directly toward your emergency fund or highest-rate debt.' });
-    }
-    // If diff is between -500 and 500, it's close enough that no tip is needed
-  }
-
-  // 401k tip
-  if (retireAnnual === 0) {
-    reality.push({ icon: '$', text: '<strong>No 401k contribution set up.</strong> Even 3% reduces your taxes AND builds wealth. At ' + fmt(salary) + '/year, 3% is ' + fmt(salary * 0.03) + '/year growing tax-deferred. That is free money you are leaving on the table.' });
-  } else {
-    reality.push({ icon: '+', text: '<strong>Your 401k is reducing your tax bill right now.</strong> That ' + fmt(retireAnnual) + '/year lowers your federal taxable income -- the government is effectively subsidizing part of your retirement savings.' });
-  }
-
-  // State tax tip
-  if (stateRate === 0) {
-    reality.push({ icon: '$', text: '<strong>No-income-tax state advantage.</strong> Compared to someone in California or New York at the same comp, you keep roughly ' + fmt(salary * 0.07) + ' more per year. Factor this into any out-of-state job offer comparison.' });
-  } else if (stateRate > 0.08) {
-    reality.push({ icon: '!', text: '<strong>Your state takes a significant cut.</strong> At ' + (stateRate * 100).toFixed(1) + '%, state income tax alone costs you ' + fmt(stateTax) + '/year. Worth factoring into any job offer that lets you work remotely from a lower-tax state.' });
-  }
-
-  // High income 401k max tip
-  if (salary > 100000 && retireAnnual < 23000) {
-    reality.push({ icon: '$', text: '<strong>You could be saving more in taxes.</strong> Maxing your 401k (' + fmt(23000) + '/yr) would save roughly ' + fmt(23000 * 0.24) + ' in federal taxes this year -- money working for you twice.' });
-  }
-
-  // Marginal vs effective rate -- always useful
-  reality.push({ icon: 'i', text: '<strong>Your marginal rate and effective rate are different numbers.</strong> Your highest dollar is taxed at your top bracket, but your effective federal rate across all income is only ' + effFedRate + '%. The lower brackets still apply to your first dollars earned.' });
-
-  document.getElementById('realityItems').innerHTML = reality.slice(0, 4).map((r, i) =>
-    '<div class="reality-item" style="animation-delay:' + (i * 0.07) + 's">' +
-    '<span class="reality-icon">' + r.icon + '</span>' +
-    '<div class="reality-text">' + r.text + '</div>' +
-    '</div>'
-  ).join('');
-
-  shareText = 'I make $' + Math.round(salary/1000) + 'k/year but only take home $' + Math.round(takeHomeMonthly).toLocaleString() + '/month (' + keptPct + '%). Check what YOUR salary actually means:';
-  document.getElementById('sharePreview').textContent = shareText + ' objectively.net/paycheck';
-  document.getElementById('sharePreview').classList.add('show');
-
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function doShare(type) {
-  const url = 'https://objectively.net/paycheck';
-  const full = shareText + ' ' + url;
-  if (type === 'tw') {
-    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(full), '_blank');
-  } else {
-    navigator.clipboard.writeText(full).then(function() {
-      const btn = document.getElementById('cpBtn');
-      btn.classList.add('done');
-      btn.textContent = 'Copied!';
-      setTimeout(function() {
-        btn.classList.remove('done');
-        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy Link';
-      }, 2500);
-    }).catch(function() {
-      prompt('Copy this:', full);
-    });
-  }
+function doShare(type){
+  const full=shareText+' https://objectively.net/paycheck/';
+  if(type==='tw') window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(full),'_blank');
+  else navigator.clipboard.writeText(full).then(function(){const b=document.getElementById('cpBtn');b.classList.add('done');b.textContent='Copied!';setTimeout(function(){b.classList.remove('done');b.textContent='Copy Link';},2500);}).catch(function(){prompt('Copy this:',full);});
 }
 
-function doReset() {
-  document.getElementById('results').style.display = 'none';
+function doReset(){
+  document.getElementById('results').style.display='none';
   document.getElementById('sharePreview').classList.remove('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 </body>

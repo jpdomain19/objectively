@@ -25,3 +25,7 @@
   from = "/health"
   to = "/health/index.html"
   status = 200
+[[redirects]]
+  from = "/allocate"
+  to = "/allocate/index.html"
+  status = 200

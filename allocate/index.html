@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Allocator — How Should I Split This?</title>
+<meta name="description" content="Tell us your situation. Get a real opinionated allocation — exactly how much in savings, bonds, index funds, and speculative assets. No generic pie charts.">
+<meta name="keywords" content="money allocator, how to allocate money, how to invest 100k, portfolio allocation calculator, investment allocator, how to split investments">
+<meta property="og:title" content="Money Allocator — How Should I Split This?">
+<meta property="og:description" content="Tell us your situation. Get a real opinionated allocation with actual dollar amounts — not generic pie chart advice.">
+<meta property="og:image" content="https://objectively.net/og-image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Money Allocator — How Should I Split This?">
+<meta name="twitter:description" content="Tell us your situation. Get a real opinionated allocation with actual dollar amounts — not generic pie chart advice.">
+<meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=Archivo+Narrow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0e1520;
+  --bg2:      #111927;
+  --panel:    #131e2e;
+  --panel2:   #172236;
+  --border:   #1e2f47;
+  --border2:  #243752;
+  --blue:     #4a90d9;
+  --blue2:    #6aaef0;
+  --orange:   #f07030;
+  --orange2:  #ff8c50;
+  --white:    #e8eef8;
+  --muted:    #4a6080;
+  --muted2:   #2a3d55;
+  --green:    #3ab870;
+  --red:      #e05040;
+  --yellow:   #e8c040;
+  --display:  'Archivo', sans-serif;
+  --body:     'Archivo Narrow', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--white);font-family:var(--body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* Blueprint grid */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(74,144,217,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,144,217,.06) 1px, transparent 1px),
+    linear-gradient(rgba(74,144,217,.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74,144,217,.02) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Corner marks */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(74,144,217,.08) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(240,112,48,.06) 0%, transparent 40%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 20px 100px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(14,21,32,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border2);padding:11px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-home{font-family:var(--display);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);text-decoration:none;font-weight:700}
+.nav-links{display:flex;gap:16px}
+.nav-links a{font-family:var(--body);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .12s}
+.nav-links a:hover{color:var(--white)}
+
+/* HEADER */
+.header{padding:48px 0 36px;border-bottom:1px solid var(--border2);margin-bottom:36px;position:relative}
+
+.blueprint-tag{
+  font-family:var(--body);
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--blue);
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.blueprint-tag::before{content:'';width:24px;height:1px;background:var(--blue)}
+
+.header-title{
+  font-family:var(--display);
+  font-size:clamp(36px,9vw,66px);
+  font-weight:900;
+  line-height:.95;
+  letter-spacing:-2px;
+  color:var(--white);
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+
+.header-title .hl{color:var(--orange)}
+
+.header-sub{
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.7;
+  max-width:520px;
+  border-left:2px solid var(--border2);
+  padding-left:14px;
+}
+
+.header-sub .key{color:var(--blue2)}
+
+/* PRIORITY WARNING — shown conditionally */
+.priority-flag{
+  background:rgba(240,112,48,.08);
+  border:1px solid rgba(240,112,48,.3);
+  border-left:3px solid var(--orange);
+  padding:14px 16px;
+  margin-bottom:20px;
+  font-size:13px;
+  color:var(--white);
+  line-height:1.7;
+  display:none;
+  animation:fadeUp .3s ease;
+}
+.priority-flag strong{color:var(--orange)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* QUESTION BLOCKS */
+.qblock{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  overflow:hidden;
+  margin-bottom:12px;
+  transition:border-color .15s;
+}
+.qblock:focus-within{border-color:var(--blue)}
+
+.qhead{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--border);
+}
+
+.q-num{font-family:var(--body);font-size:9px;letter-spacing:3px;color:var(--muted);text-transform:uppercase}
+.q-label{font-family:var(--display);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--blue2);font-weight:600}
+.q-note{margin-left:auto;font-size:10px;color:var(--muted);letter-spacing:.5px}
+
+.qbody{padding:16px}
+
+/* AMOUNT INPUT */
+.amount-input-wrap{
+  display:flex;
+  align-items:center;
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-left:3px solid var(--blue);
+  padding:0 12px;
+  transition:border-color .15s;
+}
+.amount-input-wrap:focus-within{border-color:var(--blue2)}
+.amount-pre{font-family:var(--display);font-size:22px;color:var(--muted);font-weight:700;padding-right:6px}
+.amount-input{
+  flex:1;
+  background:transparent;
+  border:none;
+  outline:none;
+  font-family:var(--display);
+  font-size:26px;
+  font-weight:900;
+  color:var(--blue2);
+  padding:10px 0;
+  letter-spacing:-1px;
+}
+.amount-input::placeholder{color:var(--muted2);font-weight:500}
+
+/* OPTION GRID */
+.opt-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.opt-grid.cols3{grid-template-columns:repeat(3,1fr)}
+.opt-grid.cols4{grid-template-columns:repeat(4,1fr)}
+
+.opt-btn{
+  padding:10px 8px;
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  cursor:pointer;
+  font-family:var(--display);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--muted);
+  transition:all .12s;
+  text-align:center;
+  line-height:1.4;
+}
+.opt-btn:hover{border-color:var(--border2);color:var(--white);background:var(--panel2)}
+.opt-btn.active{background:var(--blue);border-color:var(--blue);color:#000}
+.opt-btn.active.orange{background:var(--orange);border-color:var(--orange);color:#000}
+.opt-btn.active.green{background:var(--green);border-color:var(--green);color:#000}
+.opt-btn.active.red{background:var(--red);border-color:var(--red);color:#fff}
+.opt-btn sub{display:block;font-size:9px;font-weight:400;letter-spacing:.5px;opacity:.8;margin-top:2px;text-transform:none}
+
+/* SUBMIT */
+.submit-btn{
+  width:100%;
+  background:transparent;
+  border:1px solid var(--orange);
+  color:var(--orange);
+  padding:18px;
+  font-family:var(--display);
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .2s;
+  margin-top:8px;
+  position:relative;
+  overflow:hidden;
+}
+.submit-btn::before{content:'';position:absolute;inset:0;background:var(--orange);transform:translateX(-100%);transition:transform .3s ease;z-index:0}
+.submit-btn:hover::before{transform:translateX(0)}
+.submit-btn:hover{color:#000}
+.submit-btn span{position:relative;z-index:1}
+
+/* RESULTS */
+#results{display:none;margin-top:36px;animation:fadeUp .5s ease}
+
+.results-eyebrow{
+  font-family:var(--body);
+  font-size:9px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.results-eyebrow::after{content:'';flex:1;height:1px;background:var(--border2)}
+
+/* PRIORITY CALLOUTS */
+.priority-block{
+  margin-bottom:16px;
+  border-radius:2px;
+  overflow:hidden;
+  animation:fadeUp .3s ease both;
+}
+
+.pb-head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 16px;
+}
+
+.pb-icon{font-size:18px}
+.pb-label{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.pb-amount{margin-left:auto;font-family:var(--display);font-size:18px;font-weight:900;letter-spacing:-1px}
+.pb-body{padding:10px 16px 14px;font-size:12px;line-height:1.7;color:var(--muted)}
+.pb-body strong{color:var(--white)}
+
+.pb-emergency{background:rgba(224,80,64,.08);border:1px solid rgba(224,80,64,.25);border-left:3px solid var(--red)}
+.pb-emergency .pb-label{color:var(--red)}
+.pb-emergency .pb-amount{color:var(--red)}
+
+.pb-debt{background:rgba(232,192,64,.08);border:1px solid rgba(232,192,64,.25);border-left:3px solid var(--yellow)}
+.pb-debt .pb-label{color:var(--yellow)}
+.pb-debt .pb-amount{color:var(--yellow)}
+
+/* ALLOCATION VISUAL */
+.alloc-panel{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.alloc-header{
+  padding:12px 16px;
+  background:var(--panel2);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.alloc-title{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white)}
+.alloc-sub{font-size:10px;color:var(--muted);letter-spacing:1px}
+
+/* Blueprint bar */
+.blueprint-bar{
+  height:28px;
+  display:flex;
+  margin:16px 16px 0;
+  border:1px solid var(--border2);
+  overflow:hidden;
+  border-radius:1px;
+}
+
+.bar-segment{
+  height:100%;
+  transition:width 1.2s cubic-bezier(.4,0,.2,1);
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--display);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:1px;
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+/* Allocation rows */
+.alloc-rows{padding:12px 16px 16px}
+
+.alloc-row{
+  display:grid;
+  grid-template-columns:auto 1fr auto auto;
+  align-items:center;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  animation:fadeUp .3s ease both;
+}
+.alloc-row:last-child{border-bottom:none}
+
+.ar-color{width:10px;height:10px;border-radius:1px;flex-shrink:0}
+.ar-info{min-width:0}
+.ar-name{font-family:var(--display);font-size:13px;font-weight:700;color:var(--white)}
+.ar-desc{font-size:11px;color:var(--muted);margin-top:1px}
+.ar-pct{font-family:var(--display);font-size:13px;font-weight:700;color:var(--muted);text-align:right;white-space:nowrap}
+.ar-amount{font-family:var(--display);font-size:16px;font-weight:900;letter-spacing:-0.5px;text-align:right;white-space:nowrap}
+
+/* RATIONALE */
+.rationale-panel{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-left:3px solid var(--blue);
+  border-radius:2px;
+  padding:18px 16px;
+  margin-bottom:16px;
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.8;
+}
+.rationale-panel strong{color:var(--blue2)}
+
+/* NEXT STEPS */
+.steps-panel{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  overflow:hidden;
+  margin-bottom:16px;
+}
+
+.steps-head{padding:10px 16px;background:var(--panel2);border-bottom:1px solid var(--border);font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+
+.step-item{
+  display:flex;
+  gap:14px;
+  padding:12px 16px;
+  border-bottom:1px solid var(--border);
+  animation:fadeUp .3s ease both;
+}
+.step-item:last-child{border-bottom:none}
+.step-n{font-family:var(--display);font-size:11px;font-weight:900;color:var(--orange);flex-shrink:0;width:20px}
+.step-text{font-size:12px;color:var(--muted);line-height:1.7}
+.step-text strong{color:var(--white)}
+
+/* INVEST CTA */
+.invest-cta{
+  background:rgba(74,144,217,.06);
+  border:1px solid rgba(74,144,217,.2);
+  border-radius:2px;
+  padding:16px;
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  text-decoration:none;
+  transition:border-color .15s;
+}
+.invest-cta:hover{border-color:rgba(74,144,217,.5)}
+.cta-text-main{font-family:var(--display);font-size:13px;font-weight:700;color:var(--blue2);margin-bottom:3px}
+.cta-text-sub{font-size:11px;color:var(--muted)}
+.cta-arrow{font-size:20px;color:var(--blue);flex-shrink:0}
+
+/* SHARE */
+.share-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.s-btn{padding:13px;border:none;cursor:pointer;font-family:var(--display);font-size:10px;letter-spacing:3px;text-transform:uppercase;transition:all .12s;font-weight:700;border-radius:2px}
+.s-btn.tw{background:var(--orange);color:#000}
+.s-btn.tw:hover{background:var(--orange2);letter-spacing:4px}
+.s-btn.cp{background:transparent;border:1px solid var(--border2);color:var(--muted)}
+.s-btn.cp:hover{border-color:var(--blue);color:var(--blue)}
+.s-btn.cp.done{border-color:var(--green);color:var(--green)}
+.reset-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:12px;font-family:var(--display);font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .12s;border-radius:2px;font-weight:600}
+.reset-btn:hover{border-color:var(--orange);color:var(--orange)}
+
+.disclaimer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:10px;color:var(--muted2);line-height:1.8;font-family:var(--body)}
+
+@media(max-width:520px){
+  .opt-grid.cols4{grid-template-columns:repeat(2,1fr)}
+  .opt-grid.cols3{grid-template-columns:repeat(3,1fr)}
+  .nav-links{display:none}
+  .share-row{grid-template-columns:1fr}
+  .alloc-row{grid-template-columns:auto 1fr auto}
+  .ar-pct{display:none}
+  .invest-cta{flex-direction:column;align-items:flex-start}
+}
+</style>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-home">&#8592; Objectively.net</a>
+  <div class="nav-links">
+    <a href="/decision/">Decision</a>
+    <a href="/realdeal/">RealDeal</a>
+    <a href="/track/">On Track</a>
+    <a href="/paycheck/">Paycheck</a>
+    <a href="/invest/">Invest</a>
+    <a href="/health/">Health ROI</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<div class="header">
+  <div class="blueprint-tag">Portfolio Architecture</div>
+  <h1 class="header-title">HOW SHOULD<br>I SPLIT <span class="hl">THIS?</span></h1>
+  <p class="header-sub">
+    Tell us your situation. Get a <span class="key">real opinionated allocation</span> with actual dollar amounts —
+    not a generic pie chart. We'll tell you what goes where and why,
+    based on your timeline, stability, and risk tolerance.
+  </p>
+</div>
+
+<!-- PRIORITY FLAGS — shown before main results if needed -->
+<div class="priority-flag" id="efFlag">
+  <strong>⚠ Before we allocate anything — you need an emergency fund.</strong>
+  We're setting aside 3-6 months of expenses before touching investments.
+  This isn't optional. An emergency without a cash cushion means selling investments at the wrong time.
+</div>
+
+<div class="priority-flag" id="debtFlag">
+  <strong>⚠ High-interest debt detected.</strong>
+  Paying off debt above 7% is the same as earning that return guaranteed.
+  No market investment reliably beats 20% credit card interest.
+</div>
+
+<!-- Q1: AMOUNT -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">01</span>
+    <span class="q-label">Amount to Allocate</span>
+  </div>
+  <div class="qbody">
+    <div class="amount-input-wrap">
+      <span class="amount-pre">$</span>
+      <input type="number" id="amount" class="amount-input" placeholder="100,000" min="0">
+    </div>
+  </div>
+</div>
+
+<!-- Q2: TIME HORIZON -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">02</span>
+    <span class="q-label">When Will You Need This Money?</span>
+    <span class="q-note">biggest factor in allocation</span>
+  </div>
+  <div class="qbody">
+    <div class="opt-grid cols4">
+      <button class="opt-btn" data-h="1" onclick="setOpt('horizon',this)">Under 3 yrs<sub>Keep it safe</sub></button>
+      <button class="opt-btn" data-h="3" onclick="setOpt('horizon',this)">3–5 yrs<sub>Moderate</sub></button>
+      <button class="opt-btn" data-h="7" onclick="setOpt('horizon',this)">5–10 yrs<sub>Growth focus</sub></button>
+      <button class="opt-btn active" data-h="20" onclick="setOpt('horizon',this)">10+ yrs<sub>Full growth</sub></button>
+    </div>
+  </div>
+</div>
+
+<!-- Q3: EMERGENCY FUND -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">03</span>
+    <span class="q-label">Do You Have an Emergency Fund?</span>
+    <span class="q-note">3–6 months expenses in cash</span>
+  </div>
+  <div class="qbody">
+    <div class="opt-grid cols3">
+      <button class="opt-btn active green" data-ef="yes" onclick="setOpt('ef',this)">Yes, fully funded</button>
+      <button class="opt-btn" data-ef="partial" onclick="setOpt('ef',this)">Partially<sub>1–2 months</sub></button>
+      <button class="opt-btn" data-ef="no" onclick="setOpt('ef',this)">No<sub>Starting fresh</sub></button>
+    </div>
+  </div>
+</div>
+
+<!-- Q4: HIGH INTEREST DEBT -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">04</span>
+    <span class="q-label">High-Interest Debt?</span>
+    <span class="q-note">credit cards, personal loans 7%+</span>
+  </div>
+  <div class="qbody">
+    <div class="opt-grid cols3">
+      <button class="opt-btn active green" data-debt="none" onclick="setOpt('debt',this)">None</button>
+      <button class="opt-btn" data-debt="some" onclick="setOpt('debt',this)">Some<sub>Under $10k</sub></button>
+      <button class="opt-btn" data-debt="heavy" onclick="setOpt('debt',this)">Significant<sub>$10k+</sub></button>
+    </div>
+  </div>
+</div>
+
+<!-- Q5: INCOME STABILITY -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">05</span>
+    <span class="q-label">Income Stability</span>
+  </div>
+  <div class="qbody">
+    <div class="opt-grid cols3">
+      <button class="opt-btn active" data-inc="stable" onclick="setOpt('income',this)">Very Stable<sub>W-2, government, tenured</sub></button>
+      <button class="opt-btn" data-inc="moderate" onclick="setOpt('income',this)">Moderate<sub>Employed but variable</sub></button>
+      <button class="opt-btn" data-inc="variable" onclick="setOpt('income',this)">Variable<sub>Self-employed, commission</sub></button>
+    </div>
+  </div>
+</div>
+
+<!-- Q6: RISK TOLERANCE -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">06</span>
+    <span class="q-label">If This Dropped 35% in a Year</span>
+    <span class="q-note">be honest</span>
+  </div>
+  <div class="qbody">
+    <div class="opt-grid cols3">
+      <button class="opt-btn" data-risk="low" onclick="setOpt('risk',this)">I'd panic sell<sub>I can't stomach losses</sub></button>
+      <button class="opt-btn active" data-risk="mid" onclick="setOpt('risk',this)">I'd hold tight<sub>Uncomfortable but I'd stay</sub></button>
+      <button class="opt-btn" data-risk="high" onclick="setOpt('risk',this)">I'd buy more<sub>Drops are opportunities</sub></button>
+    </div>
+  </div>
+</div>
+
+<!-- Q7: EXISTING INVESTMENTS -->
+<div class="qblock">
+  <div class="qhead">
+    <span class="q-num">07</span>
+    <span class="q-label">Existing Investment Portfolio</span>
+  </div>
+  <div class="qbody">
+    <div class="opt-grid cols4">
+      <button class="opt-btn active" data-exist="none" onclick="setOpt('existing',this)">None<sub>Starting fresh</sub></button>
+      <button class="opt-btn" data-exist="small" onclick="setOpt('existing',this)">Small<sub>Under $50k</sub></button>
+      <button class="opt-btn" data-exist="moderate" onclick="setOpt('existing',this)">Moderate<sub>$50–$250k</sub></button>
+      <button class="opt-btn" data-exist="large" onclick="setOpt('existing',this)">Substantial<sub>$250k+</sub></button>
+    </div>
+  </div>
+</div>
+
+<button class="submit-btn" onclick="calculate()">
+  <span>GENERATE MY ALLOCATION PLAN &rarr;</span>
+</button>
+
+<!-- RESULTS -->
+<div id="results">
+
+  <div class="results-eyebrow" style="margin-top:36px">ALLOCATION BLUEPRINT</div>
+
+  <!-- Priority items (conditional) -->
+  <div id="priorityItems"></div>
+
+  <!-- Main allocation -->
+  <div class="alloc-panel">
+    <div class="alloc-header">
+      <div>
+        <div class="alloc-title">Your Portfolio Blueprint</div>
+        <div class="alloc-sub" id="allocSub"></div>
+      </div>
+      <div style="font-family:var(--display);font-size:20px;font-weight:900;color:var(--orange)" id="investableDisplay"></div>
+    </div>
+
+    <!-- Visual bar -->
+    <div class="blueprint-bar" id="blueprintBar"></div>
+
+    <!-- Rows -->
+    <div class="alloc-rows" id="allocRows"></div>
+  </div>
+
+  <!-- Rationale -->
+  <div class="rationale-panel" id="rationaleBox"></div>
+
+  <!-- Next steps -->
+  <div class="steps-panel">
+    <div class="steps-head">Your Next Moves — In Order</div>
+    <div id="nextSteps"></div>
+  </div>
+
+  <!-- CTA to invest tool -->
+  <a href="/invest/" class="invest-cta">
+    <div>
+      <div class="cta-text-main">See what each bucket grows to over time</div>
+      <div class="cta-text-sub">Run your allocation through the What Could $X Become? calculator &rarr;</div>
+    </div>
+    <div class="cta-arrow">→</div>
+  </a>
+
+  <!-- Share -->
+  <div class="share-row">
+    <button class="s-btn tw" onclick="doShare('tw')">Post on X</button>
+    <button class="s-btn cp" id="cpBtn" onclick="doShare('cp')">Copy Link</button>
+  </div>
+  <button class="reset-btn" onclick="doReset()">&larr; Rebuild My Plan</button>
+
+</div><!-- /results -->
+
+<div class="disclaimer">
+  This tool provides educational allocation frameworks based on widely accepted investing principles (emergency fund first, debt payoff before investing, age-appropriate risk, etc.). It is not personalized financial advice. Actual allocations should account for your full financial picture, tax situation, and goals. Consider speaking with a fiduciary financial advisor for complex situations.<br>
+  A tool by objectively.net
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+const state = {
+  horizon: '20',
+  ef: 'yes',
+  debt: 'none',
+  income: 'stable',
+  risk: 'mid',
+  existing: 'none',
+};
+
+function setOpt(key, btn) {
+  btn.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('active','orange','green','red'));
+  btn.classList.add('active');
+  // Color coding
+  const d = btn.dataset;
+  if (d.ef === 'yes' || d.debt === 'none' || d.risk === 'high') btn.classList.add('green');
+  else if (d.ef === 'no' || d.debt === 'heavy' || d.risk === 'low') btn.classList.add('red');
+  else if (d.h === '1') btn.classList.add('orange');
+  state[key] = btn.dataset[Object.keys(btn.dataset)[0]];
+}
+
+function fmt(n) {
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + Math.round(n).toLocaleString();
+  return '$' + Math.round(n);
+}
+
+function pct(n) { return Math.round(n) + '%'; }
+
+let shareText = '';
+
+function calculate() {
+  const total = parseFloat(document.getElementById('amount').value) || 0;
+  if (!total) { alert('Please enter the amount you want to allocate.'); return; }
+
+  const h     = state.horizon;   // '1','3','7','20'
+  const ef    = state.ef;        // 'yes','partial','no'
+  const debt  = state.debt;      // 'none','some','heavy'
+  const inc   = state.income;    // 'stable','moderate','variable'
+  const risk  = state.risk;      // 'low','mid','high'
+  const exist = state.existing;  // 'none','small','moderate','large'
+
+  // ── PRIORITY DEDUCTIONS ──────────────────────────────────────────
+  const priorities = [];
+  let remaining = total;
+
+  // Emergency fund
+  let efDeduction = 0;
+  if (ef === 'no') {
+    efDeduction = Math.min(total * 0.25, 20000); // up to 25% or $20k
+    remaining -= efDeduction;
+    priorities.push({
+      type: 'emergency',
+      label: 'Emergency Fund — First',
+      amount: efDeduction,
+      desc: '<strong>Pull this off the top before investing a single dollar.</strong> Park it in a High Yield Savings Account. This is your financial immune system — without it one bad month forces you to sell investments at the worst possible time.',
+    });
+  } else if (ef === 'partial') {
+    efDeduction = Math.min(total * 0.12, 8000);
+    remaining -= efDeduction;
+    priorities.push({
+      type: 'emergency',
+      label: 'Top Up Emergency Fund',
+      amount: efDeduction,
+      desc: '<strong>Finish building your cushion before going heavy into markets.</strong> A partial emergency fund is better than none but a market downturn while you are underprepared forces bad decisions.',
+    });
+  }
+
+  // Debt
+  let debtDeduction = 0;
+  if (debt === 'heavy') {
+    debtDeduction = Math.min(remaining * 0.50, 30000);
+    remaining -= debtDeduction;
+    priorities.push({
+      type: 'debt',
+      label: 'High-Interest Debt Payoff',
+      amount: debtDeduction,
+      desc: '<strong>Paying off 20% credit card debt is a guaranteed 20% return.</strong> No market investment reliably beats that. We are allocating half your remaining amount to eliminate this drag before we invest the rest.',
+    });
+  } else if (debt === 'some') {
+    debtDeduction = Math.min(remaining * 0.25, 10000);
+    remaining -= debtDeduction;
+    priorities.push({
+      type: 'debt',
+      label: 'Accelerate Debt Payoff',
+      amount: debtDeduction,
+      desc: '<strong>Knock out the high-interest balance before investing this portion.</strong> The psychological and financial return of being debt-free is real. We are allocating a portion here while still investing the rest.',
+    });
+  }
+
+  // ── INVESTABLE AMOUNT ─────────────────────────────────────────────
+  const investable = remaining;
+
+  // ── ALLOCATION MODEL ──────────────────────────────────────────────
+  // Base by horizon
+  let model = {};
+  if (h === '1') {
+    // Under 3 years — mostly safe
+    model = { hysa: 50, bonds: 30, index: 15, reit: 0, speculative: 5 };
+  } else if (h === '3') {
+    // 3-5 years — balanced
+    model = { hysa: 25, bonds: 25, index: 35, reit: 10, speculative: 5 };
+  } else if (h === '7') {
+    // 5-10 years — growth
+    model = { hysa: 15, bonds: 15, index: 45, reit: 15, speculative: 10 };
+  } else {
+    // 10+ years — full growth
+    model = { hysa: 10, bonds: 10, index: 45, reit: 15, speculative: 20 };
+  }
+
+  // Adjust for income stability — less stable = more liquid
+  if (inc === 'variable') {
+    model.hysa += 10; model.index -= 5; model.speculative -= 5;
+  } else if (inc === 'moderate') {
+    model.hysa += 5; model.index -= 3; model.speculative -= 2;
+  }
+
+  // Adjust for risk tolerance
+  if (risk === 'low') {
+    model.hysa += 10; model.bonds += 10; model.index -= 10; model.speculative -= 10;
+  } else if (risk === 'high') {
+    model.speculative += 10; model.index += 5; model.hysa -= 10; model.bonds -= 5;
+  }
+
+  // Adjust for existing portfolio — if already heavy in stocks, add more balance
+  if (exist === 'large' || exist === 'moderate') {
+    model.bonds += 5; model.index -= 5;
+  }
+
+  // Normalize to 100%
+  const total_pct = Object.values(model).reduce((a,b) => a+b, 0);
+  Object.keys(model).forEach(k => model[k] = Math.max(0, Math.round(model[k] / total_pct * 100)));
+
+  // ── SEGMENTS ─────────────────────────────────────────────────────
+  const segments = [
+    {
+      key: 'hysa',
+      name: 'High Yield Savings',
+      desc: 'Liquid reserve — 4-5% APY, FDIC insured. Your accessible floor.',
+      color: '#3ab870',
+      textColor: '#000',
+    },
+    {
+      key: 'bonds',
+      name: 'Treasury Bonds / Bond ETF',
+      desc: 'Stable income, low volatility. Government-backed, lower return but reliable.',
+      color: '#4a90d9',
+      textColor: '#000',
+    },
+    {
+      key: 'index',
+      name: 'Total Market / S&P 500 Index',
+      desc: 'Your core growth engine. Own a slice of every major US company. Set and forget.',
+      color: '#6aaef0',
+      textColor: '#000',
+    },
+    {
+      key: 'reit',
+      name: 'REITs',
+      desc: 'Real estate exposure without buying property. Pays dividends from rent.',
+      color: '#8888ff',
+      textColor: '#000',
+    },
+    {
+      key: 'speculative',
+      name: 'Speculative / Your Picks',
+      desc: 'Individual stocks, crypto, sector bets. Only money you can afford to lose entirely.',
+      color: '#f07030',
+      textColor: '#000',
+    },
+  ].filter(s => model[s.key] > 0);
+
+  // ── RATIONALE ────────────────────────────────────────────────────
+  let rationale = '';
+  if (h === '1') {
+    rationale = '<strong>Short time horizon changes everything.</strong> With under 3 years, you cannot ride out a market correction. The S&P 500 has had multi-year periods of negative returns. Your priority is capital preservation, not growth. The small speculative slice is there because some upside exposure is still worth it at this size — but keep it truly speculative.';
+  } else if (h === '3') {
+    rationale = '<strong>3-5 years is the transition zone.</strong> Long enough to take some market risk, short enough that you cannot afford to wait out a deep bear market. This allocation gives you real growth exposure while keeping enough in stable assets to weather volatility without panic selling.';
+  } else if (h === '7') {
+    rationale = '<strong>5-10 years is real investing territory.</strong> History shows that any 7-year period in the S&P 500 has been positive. You can afford meaningful equity exposure. The index fund is your workhorse here — REITs add diversification and the speculative slice keeps things interesting without dominating the portfolio.';
+  } else {
+    rationale = '<strong>10+ years is where compounding does its best work.</strong> Time is your most valuable asset. At this horizon you can — and should — be heavily equity-weighted. Short-term drops are irrelevant; what matters is the 30-year trajectory. The HYSA and bonds provide psychological stability so you do not panic sell during downturns. The speculative slice is your highest-risk, highest-potential-reward position.';
+  }
+
+  if (risk === 'low') rationale += ' <strong>We have shifted toward stability given your risk tolerance.</strong> The worst thing you can do is panic sell during a downturn — an allocation you can actually hold through volatility beats a theoretically optimal one you abandon.';
+  if (risk === 'high') rationale += ' <strong>We have increased your speculative exposure given your risk appetite.</strong> This makes sense if you have the stomach for it — but be honest with yourself during the next downturn.';
+  if (inc === 'variable') rationale += ' <strong>Variable income means you need more liquidity.</strong> We have increased your HYSA allocation to give you a larger accessible cushion against income gaps.';
+
+  // ── NEXT STEPS ───────────────────────────────────────────────────
+  const steps = [];
+  if (ef === 'no' || ef === 'partial') {
+    steps.push({ n:'1', text: '<strong>Open a HYSA today</strong> — Marcus by Goldman Sachs, Ally, or Discover all pay 4-5% APY. Move your emergency fund here before anything else.' });
+  }
+  if (debt === 'heavy' || debt === 'some') {
+    steps.push({ n: ef !== 'yes' ? '2' : '1', text: '<strong>Pay off the high-interest debt</strong> — the psychological and financial relief compounds immediately.' });
+  }
+  const nextN = (ef !== 'yes' ? 1 : 0) + (debt !== 'none' ? 1 : 0) + 1;
+  steps.push({ n: String(nextN), text: '<strong>Open a brokerage account</strong> if you do not have one — Fidelity and Vanguard are both excellent, no fees, no minimums.' });
+  steps.push({ n: String(nextN + 1), text: '<strong>For your index fund allocation</strong> — look at FXAIX (Fidelity), VOO (Vanguard), or IVV (iShares). All track the S&P 500, all have ultra-low expense ratios under 0.05%.' });
+  steps.push({ n: String(nextN + 2), text: '<strong>Do not invest everything at once</strong> if markets feel volatile. Dollar-cost averaging over 3-6 months reduces timing risk — invest a fixed amount monthly regardless of market level.' });
+  steps.push({ n: String(nextN + 3), text: '<strong>Do not touch it.</strong> The single biggest mistake is selling during a downturn. Set an annual calendar reminder to rebalance, and otherwise ignore the noise.' });
+
+  // ── RENDER ───────────────────────────────────────────────────────
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('allocSub').textContent = 'Based on your ' + (h === '1' ? 'short' : h === '3' ? 'medium' : h === '7' ? 'growth' : 'long-term') + ' horizon, ' + risk + ' risk tolerance, ' + inc + ' income';
+  document.getElementById('investableDisplay').textContent = fmt(investable) + ' to invest';
+
+  // Priority items
+  document.getElementById('priorityItems').innerHTML = priorities.map((p, i) =>
+    '<div class="priority-block pb-' + p.type + '" style="animation-delay:' + (i * .1) + 's">' +
+    '<div class="pb-head"><span class="pb-icon">' + (p.type === 'emergency' ? '🛡' : '⚡') + '</span>' +
+    '<span class="pb-label">' + p.label + '</span>' +
+    '<span class="pb-amount">' + fmt(p.amount) + '</span></div>' +
+    '<div class="pb-body">' + p.desc + '</div></div>'
+  ).join('');
+
+  // Blueprint bar
+  document.getElementById('blueprintBar').innerHTML = segments.map(s =>
+    '<div class="bar-segment" style="width:0%;--w:' + model[s.key] + '%;background:' + s.color + ';color:' + s.textColor + '">' +
+    (model[s.key] >= 12 ? pct(model[s.key]) : '') +
+    '</div>'
+  ).join('');
+
+  // Animate bar
+  setTimeout(() => {
+    document.querySelectorAll('.bar-segment').forEach(b => {
+      b.style.width = b.style.getPropertyValue('--w');
+    });
+  }, 100);
+
+  // Alloc rows
+  document.getElementById('allocRows').innerHTML = segments.map((s, i) =>
+    '<div class="alloc-row" style="animation-delay:' + (i * .06) + 's">' +
+    '<div class="ar-color" style="background:' + s.color + '"></div>' +
+    '<div class="ar-info"><div class="ar-name">' + s.name + '</div><div class="ar-desc">' + s.desc + '</div></div>' +
+    '<div class="ar-pct" style="color:' + s.color + '">' + pct(model[s.key]) + '</div>' +
+    '<div class="ar-amount" style="color:' + s.color + '">' + fmt(investable * model[s.key] / 100) + '</div>' +
+    '</div>'
+  ).join('');
+
+  document.getElementById('rationaleBox').innerHTML = rationale;
+
+  document.getElementById('nextSteps').innerHTML = steps.map((s, i) =>
+    '<div class="step-item" style="animation-delay:' + (i * .06) + 's">' +
+    '<div class="step-n">' + s.n + '</div>' +
+    '<div class="step-text">' + s.text + '</div>' +
+    '</div>'
+  ).join('');
+
+  shareText = 'I used a portfolio allocation tool to figure out how to split $' + Math.round(total/1000) + 'k — broken down into exactly how much goes where based on my timeline and risk tolerance:';
+
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function doShare(type) {
+  const full = shareText + ' https://objectively.net/allocate/';
+  if (type === 'tw') window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(full), '_blank');
+  else navigator.clipboard.writeText(full).then(function() {
+    const b = document.getElementById('cpBtn');
+    b.classList.add('done'); b.textContent = 'Copied!';
+    setTimeout(function() { b.classList.remove('done'); b.textContent = 'Copy Link'; }, 2500);
+  }).catch(function() { prompt('Copy this:', full); });
+}
+
+function doReset() {
+  document.getElementById('results').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

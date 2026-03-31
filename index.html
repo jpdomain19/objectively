@@ -256,17 +256,33 @@ nav {
 
 .tool-card:hover::before { opacity: 1; }
 
+.tool-card.red { --card-color: #ef4444; }
+.tool-card.red::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+.tool-card.red:hover { box-shadow: 0 16px 48px rgba(239,68,68,.15); }
+
 .tool-card.gold { --card-color: var(--gold); }
 .tool-card.gold::before { background: linear-gradient(90deg, var(--gold), #fb923c); }
 .tool-card.gold:hover { box-shadow: 0 16px 48px rgba(245,200,66,.15); }
 
-.tool-card.teal { --card-color: var(--teal); }
-.tool-card.teal::before { background: linear-gradient(90deg, var(--teal), #38bdf8); }
-.tool-card.teal:hover { box-shadow: 0 16px 48px rgba(45,212,191,.12); }
-
 .tool-card.coral { --card-color: #a78bfa; }
-.tool-card.coral::before { background: linear-gradient(90deg, #a78bfa, #fb7185); }
+.tool-card.coral::before { background: linear-gradient(90deg, #a78bfa, #818cf8); }
 .tool-card.coral:hover { box-shadow: 0 16px 48px rgba(167,139,250,.12); }
+
+.tool-card.amber { --card-color: #d97706; }
+.tool-card.amber::before { background: linear-gradient(90deg, #d97706, #f59e0b); }
+.tool-card.amber:hover { box-shadow: 0 16px 48px rgba(217,119,6,.15); }
+
+.tool-card.lime { --card-color: #c8f135; }
+.tool-card.lime::before { background: linear-gradient(90deg, #c8f135, #86efac); }
+.tool-card.lime:hover { box-shadow: 0 16px 48px rgba(200,241,53,.12); }
+
+.tool-card.navy { --card-color: #4a90d9; }
+.tool-card.navy::before { background: linear-gradient(90deg, #4a90d9, #6aaef0); }
+.tool-card.navy:hover { box-shadow: 0 16px 48px rgba(74,144,217,.15); }
+
+.tool-card.pulse { --card-color: #00ff88; }
+.tool-card.pulse::before { background: linear-gradient(90deg, #00cc6a, #00ff88); }
+.tool-card.pulse:hover { box-shadow: 0 16px 48px rgba(0,255,136,.12); }
 
 .tool-number {
   font-family: var(--cond);
@@ -295,9 +311,13 @@ nav {
   transition: color .2s;
 }
 
-.tool-card.gold:hover .tool-name { color: var(--gold); }
-.tool-card.teal:hover .tool-name { color: var(--teal); }
-.tool-card.coral:hover .tool-name { color: #a78bfa; }
+.tool-card.red:hover .tool-name    { color: #ef4444; }
+.tool-card.gold:hover .tool-name   { color: var(--gold); }
+.tool-card.coral:hover .tool-name  { color: #a78bfa; }
+.tool-card.amber:hover .tool-name  { color: #d97706; }
+.tool-card.lime:hover .tool-name   { color: #c8f135; }
+.tool-card.navy:hover .tool-name   { color: #4a90d9; }
+.tool-card.pulse:hover .tool-name  { color: #00ff88; }
 
 .tool-desc {
   font-size: 14px;
@@ -344,9 +364,13 @@ nav {
   transition: color .2s;
 }
 
-.tool-card.gold .tool-link { color: var(--gold); }
-.tool-card.teal .tool-link { color: var(--teal); }
+.tool-card.red .tool-link   { color: #ef4444; }
+.tool-card.gold .tool-link  { color: var(--gold); }
 .tool-card.coral .tool-link { color: #a78bfa; }
+.tool-card.amber .tool-link { color: #d97706; }
+.tool-card.lime .tool-link  { color: #c8f135; }
+.tool-card.navy .tool-link  { color: #4a90d9; }
+.tool-card.pulse .tool-link { color: #00ff88; }
 
 .tool-link .arrow { font-size: 16px; transition: transform .2s; }
 .tool-card:hover .tool-link .arrow { transform: translateX(4px); }
@@ -510,8 +534,8 @@ footer {
 
   <div class="tools-grid">
 
-    <!-- Objectively -->
-    <a href="/decision/" class="tool-card gold">
+    <!-- Should I Buy This -->
+    <a href="/decision/" class="tool-card red">
       <div class="tool-number">Tool 01</div>
       <span class="tool-icon">🎯</span>
       <div class="tool-name">Should I Buy This?</div>
@@ -529,7 +553,7 @@ footer {
     </a>
 
     <!-- RealDeal -->
-    <a href="/realdeal/" class="tool-card teal">
+    <a href="/realdeal/" class="tool-card gold">
       <div class="tool-number">Tool 02</div>
       <span class="tool-icon">🚗</span>
       <div class="tool-name">Real Payment Calculator</div>
@@ -565,7 +589,7 @@ footer {
     </a>
 
     <!-- Paycheck Reality -->
-    <a href="/paycheck/" class="tool-card gold">
+    <a href="/paycheck/" class="tool-card amber">
       <div class="tool-number">Tool 04</div>
       <span class="tool-icon">💸</span>
       <div class="tool-name">What's My Real Take-Home?</div>
@@ -583,7 +607,7 @@ footer {
     </a>
 
     <!-- What Could $X Become -->
-    <a href="/invest/" class="tool-card teal">
+    <a href="/invest/" class="tool-card lime">
       <div class="tool-number">Tool 05</div>
       <span class="tool-icon">📈</span>
       <div class="tool-name">What Could $X Become?</div>
@@ -600,27 +624,9 @@ footer {
       </div>
     </a>
 
-    <!-- Health ROI -->
-    <a href="/health/" class="tool-card teal">
-      <div class="tool-number">Tool 06</div>
-      <span class="tool-icon">❤️</span>
-      <div class="tool-name">Health ROI Calculator</div>
-      <p class="tool-desc">
-        Enter your lifestyle habits. See the <strong>lifetime financial difference</strong> between your current path and an optimized one. No lectures. No judgment. Just the math on what your habits are actually costing you.
-      </p>
-      <div class="tool-tags">
-        <span class="tool-tag">Lifetime Delta</span>
-        <span class="tool-tag">CDC Data</span>
-        <span class="tool-tag">No Judgment</span>
-      </div>
-      <div class="tool-link">
-        Calculate My Health ROI <span class="arrow">→</span>
-      </div>
-    </a>
-
     <!-- Money Allocator -->
-    <a href="/allocate/" class="tool-card teal">
-      <div class="tool-number">Tool 07</div>
+    <a href="/allocate/" class="tool-card navy">
+      <div class="tool-number">Tool 06</div>
       <span class="tool-icon">🗂️</span>
       <div class="tool-name">Money Allocator</div>
       <p class="tool-desc">
@@ -633,6 +639,24 @@ footer {
       </div>
       <div class="tool-link">
         Build My Allocation Plan <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <!-- Health ROI -->
+    <a href="/health/" class="tool-card pulse">
+      <div class="tool-number">Tool 07</div>
+      <span class="tool-icon">❤️</span>
+      <div class="tool-name">Health ROI Calculator</div>
+      <p class="tool-desc">
+        Enter your lifestyle habits. See the <strong>lifetime financial difference</strong> between your current path and an optimized one. No lectures. No judgment. Just the math on what your habits are actually costing you.
+      </p>
+      <div class="tool-tags">
+        <span class="tool-tag">Lifetime Delta</span>
+        <span class="tool-tag">CDC Data</span>
+        <span class="tool-tag">No Judgment</span>
+      </div>
+      <div class="tool-link">
+        Calculate My Health ROI <span class="arrow">→</span>
       </div>
     </a>
 

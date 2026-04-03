@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="google-site-verification" content="aKO2hid2_Z_TR1if_UtT6G3ty75440lMjFZmQikTmPc">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real Cost of Living — What Does It Actually Cost to Live in [City]?</title>
+<meta name="description" content="Search any US city. See the real monthly cost of living at three tiers — bare bones, comfortable, and living well. 2024 data. Honest numbers.">
+<meta name="keywords" content="cost of living calculator, cost of living by city, how much does it cost to live in, real cost of living, moving to new city cost, cost of living comparison">
+<meta property="og:title" content="Real Cost of Living — What Does It Actually Cost to Live There?">
+<meta property="og:description" content="Search any US city. See what it actually costs to survive, live comfortably, and live well. No spin.">
+<meta property="og:image" content="https://objectively.net/og-image.png?v=2">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Yanone+Kaffeesatz:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0d0d0d;
+  --bg2:     #111111;
+  --panel:   #181818;
+  --panel2:  #1e1e1e;
+  --border:  #2a2a2a;
+  --border2: #333333;
+  --yellow:  #f5c400;
+  --yellow2: #ffd740;
+  --red:     #e03030;
+  --green:   #00c853;
+  --blue:    #4ab0e8;
+  --text:    #e8e8e8;
+  --muted:   #666666;
+  --muted2:  #333333;
+  --mono:    'IBM Plex Mono', monospace;
+  --display: 'Yanone Kaffeesatz', sans-serif;
+  --body:    'IBM Plex Sans', sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* topographic rings */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    repeating-radial-gradient(ellipse at 25% 35%, transparent 0, transparent 60px, rgba(245,196,0,.04) 60px, rgba(245,196,0,.04) 61px),
+    repeating-radial-gradient(ellipse at 75% 65%, transparent 0, transparent 80px, rgba(245,196,0,.03) 80px, rgba(245,196,0,.03) 81px);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* subtle grid */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(245,196,0,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,196,0,.04) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{max-width:740px;margin:0 auto;padding:0 20px 100px;position:relative;z-index:1}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(22,15,10,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border2);padding:11px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-home{font-family:var(--display);font-size:16px;letter-spacing:2px;text-transform:uppercase;color:var(--yellow);text-decoration:none;font-weight:600}
+.nav-links{display:flex;gap:14px}
+.nav-links a{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .12s}
+.nav-links a:hover{color:var(--text)}
+
+/* HEADER */
+.header{padding:52px 0 36px;border-bottom:1px solid var(--border2);margin-bottom:36px}
+
+.survey-tag{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--yellow);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.survey-tag::before{content:'';width:20px;height:1px;background:var(--yellow)}
+
+.header-title{font-family:var(--display);font-size:clamp(42px,10vw,80px);font-weight:700;line-height:.92;letter-spacing:1px;color:var(--text);text-transform:uppercase;margin-bottom:16px}
+.header-title .hl{color:var(--yellow)}
+
+.header-sub{font-size:13px;color:var(--muted);line-height:1.75;max-width:500px;border-left:2px solid var(--border2);padding-left:14px}
+.header-sub .key{color:var(--yellow2)}
+
+/* SEARCH BLOCK */
+.search-block{background:var(--panel);border:1px solid var(--border2);border-radius:2px;padding:20px;margin-bottom:12px}
+.search-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+
+.search-row{display:flex;gap:10px}
+.input-wrap{flex:1;position:relative}
+
+.city-input{
+  width:100%;
+  background:var(--bg);
+  border:1px solid var(--border2);
+  border-left:3px solid var(--yellow);
+  padding:12px 14px;
+  font-family:var(--display);
+  font-size:22px;
+  font-weight:500;
+  color:var(--text);
+  outline:none;
+  letter-spacing:1px;
+  transition:border-color .15s;
+}
+.city-input:focus{border-color:var(--yellow2);border-left-color:var(--yellow2)}
+.city-input::placeholder{color:var(--muted2);font-size:16px}
+
+/* AUTOCOMPLETE */
+.ac-drop{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  background:var(--panel2);
+  border:1px solid var(--border2);
+  border-top:none;
+  z-index:200;
+  max-height:260px;
+  overflow-y:auto;
+  display:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.ac-item{
+  padding:11px 14px;
+  cursor:pointer;
+  font-family:var(--display);
+  font-size:18px;
+  font-weight:500;
+  color:var(--text);
+  border-bottom:1px solid var(--border);
+  transition:background .1s;
+  letter-spacing:.5px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover,.ac-item.sel{background:var(--bg2);color:var(--yellow2)}
+.ac-state{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.ac-cost{font-family:var(--mono);font-size:10px;color:var(--muted)}
+
+.search-btn{
+  background:var(--yellow);
+  border:none;
+  color:#000;
+  padding:12px 22px;
+  font-family:var(--display);
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .15s;
+  white-space:nowrap;
+  border-radius:2px;
+}
+.search-btn:hover{background:var(--yellow2)}
+
+.no-result{font-family:var(--mono);font-size:11px;color:var(--red);margin-top:8px;display:none}
+
+/* RESULTS */
+#results{display:none;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* CITY HEADER */
+.city-hdr{
+  background:var(--panel);
+  border:1px solid var(--border2);
+  border-radius:2px;
+  padding:20px 20px 0;
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.city-state-lbl{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.city-name-big{font-family:var(--display);font-size:clamp(32px,8vw,54px);font-weight:700;letter-spacing:1px;color:var(--text);text-transform:uppercase;line-height:1;margin-bottom:8px}
+.city-market-tag{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:2px;padding:3px 8px;border:1px solid var(--border2);border-radius:2px;display:inline-block;margin-bottom:14px}
+
+/* Tier tabs */
+.tier-tabs{display:flex;border-top:1px solid var(--border);margin:0 -20px}
+.tier-tab{flex:1;padding:11px;text-align:center;cursor:pointer;font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:none;background:transparent;border-right:1px solid var(--border);transition:all .15s}
+.tier-tab:last-child{border-right:none}
+.tier-tab.active.t-bare{color:var(--red);background:rgba(224,48,48,.07);border-top:2px solid var(--red)}
+.tier-tab.active.t-comfort{color:var(--yellow);background:rgba(245,196,0,.07);border-top:2px solid var(--yellow)}
+.tier-tab.active.t-well{color:var(--green);background:rgba(0,200,83,.07);border-top:2px solid var(--green)}
+
+/* MONTHLY PANEL */
+.monthly-panel{background:var(--panel);background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.008) 3px,rgba(255,255,255,.008) 4px);border:1px solid var(--border2);border-radius:2px;padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+.monthly-panel::before{content:'FIELD REPORT';position:absolute;right:-10px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--display);font-size:48px;font-weight:700;color:rgba(245,196,0,.04);letter-spacing:8px;pointer-events:none;white-space:nowrap}
+
+.monthly-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.monthly-amount{font-family:var(--display);font-size:clamp(52px,13vw,84px);font-weight:700;line-height:1;margin-bottom:4px;letter-spacing:-1px}
+.monthly-amount.t-bare{color:var(--red)}
+.monthly-amount.t-comfort{color:var(--yellow)}
+.monthly-amount.t-well{color:var(--green)}
+.monthly-sublbl{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid var(--border);padding-top:16px}
+.sg-val{font-family:var(--display);font-size:20px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sg-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+
+/* LINE ITEMS */
+.items-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;overflow:hidden;margin-bottom:16px}
+.items-head{display:grid;grid-template-columns:1fr repeat(3,100px);gap:8px;padding:8px 16px;background:var(--panel2);border-bottom:1px solid var(--border)}
+.ih-cell{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-align:right}
+.ih-cell:first-child{text-align:left}
+
+.item-row{display:grid;grid-template-columns:1fr repeat(3,100px);gap:8px;padding:10px 16px;border-bottom:1px solid var(--border);animation:fadeUp .25s ease both}
+.item-row:last-child{border-bottom:none}
+.item-row.total-row{background:rgba(245,196,0,.05);border-top:1px solid var(--border2)}
+
+.ir-name{font-size:12px;color:var(--text)}
+.ir-sub{font-family:var(--mono);font-size:9px;color:var(--muted);display:block;margin-top:2px}
+.ir-val{font-family:var(--mono);font-size:11px;text-align:right;white-space:nowrap}
+.ir-val.bare-c{color:var(--red)}
+.ir-val.comfort-c{color:var(--yellow)}
+.ir-val.well-c{color:var(--green)}
+.ir-val.bold{font-size:13px;font-weight:600}
+
+/* CONTEXT */
+.context-panel{background:var(--panel);border:1px solid var(--border2);border-left:3px solid var(--yellow);border-radius:2px;padding:16px;margin-bottom:16px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8}
+.context-panel strong{color:var(--yellow2)}
+
+/* SALARY CHECK */
+.salary-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;padding:18px;margin-bottom:16px}
+.salary-head{font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text);margin-bottom:12px}
+.salary-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.sal-pre{font-family:var(--display);font-size:18px;color:var(--muted);font-weight:600}
+.sal-input{flex:1;background:var(--bg);border:none;border-bottom:1px solid var(--border2);padding:6px 4px;font-family:var(--display);font-size:22px;font-weight:600;color:var(--yellow2);outline:none;letter-spacing:1px}
+.sal-input::placeholder{color:var(--muted2)}
+.sal-result{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8;display:none}
+.sal-result.show{display:block}
+.sal-result strong{color:var(--text)}
+.sal-verdict{font-size:12px;margin-bottom:5px;font-weight:600}
+.sal-verdict.good{color:var(--green)}
+.sal-verdict.tight{color:var(--yellow)}
+.sal-verdict.bad{color:var(--red)}
+
+/* COMPARE BUTTON */
+.compare-btn{
+  width:100%;
+  background:var(--yellow);
+  border:none;
+  color:#000;
+  padding:14px;
+  font-family:var(--mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .18s;
+  margin-bottom:16px;
+  border-radius:2px;
+}
+.compare-btn:hover{background:var(--yellow2);letter-spacing:4px}
+
+/* COMPARE SEARCH */
+.compare-search{display:none;background:var(--panel);border:1px solid var(--yellow);border-radius:2px;padding:16px;margin-bottom:16px;animation:fadeUp .3s ease}
+.compare-search-lbl{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--yellow);margin-bottom:10px}
+
+/* COMPARE RESULTS */
+.compare-results{display:none;background:var(--panel);border:1px solid var(--border2);border-radius:2px;overflow:hidden;margin-bottom:16px;animation:fadeUp .3s ease}
+.compare-hdr{display:grid;grid-template-columns:1.2fr 1fr 1fr 90px;background:var(--panel2);border-bottom:1px solid var(--border)}
+.ch-cell{padding:9px 12px;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);border-right:1px solid var(--border)}
+.ch-cell:last-child{border-right:none}
+.ch-cell.c1{color:var(--yellow)}
+.ch-cell.c2{color:var(--blue)}
+
+.compare-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 90px;border-bottom:1px solid var(--border)}
+.compare-row:last-child{border-bottom:none}
+.compare-row.tot{background:rgba(245,196,0,.05);border-top:1px solid var(--border2)}
+
+.cc{padding:9px 12px;font-family:var(--mono);font-size:11px;border-right:1px solid var(--border)}
+.cc:last-child{border-right:none}
+.cc.cat{color:var(--muted);font-size:10px}
+.cc.v1{color:var(--yellow)}
+.cc.v2{color:var(--blue)}
+.cc.cheaper{color:var(--green)}
+.cc.pricier{color:var(--red)}
+.cc.bold{font-weight:700;font-size:12px}
+
+/* CTA */
+.paycheck-cta{background:rgba(245,196,0,.06);border:1px solid rgba(245,196,0,.2);border-radius:2px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;text-decoration:none;transition:border-color .15s;gap:12px}
+.paycheck-cta:hover{border-color:rgba(245,196,0,.5)}
+.cta-main{font-family:var(--display);font-size:14px;font-weight:600;color:var(--yellow2);margin-bottom:2px;letter-spacing:.5px}
+.cta-sub{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.cta-arr{font-size:18px;color:var(--yellow);flex-shrink:0}
+
+/* SHARE */
+.share-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.s-btn{padding:12px;border:none;cursor:pointer;font-family:var(--display);font-size:14px;letter-spacing:2px;text-transform:uppercase;transition:all .12s;font-weight:600;border-radius:2px}
+.s-btn.tw{background:var(--yellow);color:#000}
+.s-btn.tw:hover{background:var(--yellow2);letter-spacing:3px}
+.s-btn.cp{background:transparent;border:1px solid var(--border2);color:var(--muted)}
+.s-btn.cp:hover{border-color:var(--yellow);color:var(--yellow)}
+.s-btn.cp.done{border-color:var(--green);color:var(--green)}
+.reset-btn{width:100%;background:transparent;border:1px solid var(--border2);color:var(--muted);padding:11px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .12s;border-radius:2px}
+.reset-btn:hover{border-color:var(--yellow);color:var(--yellow)}
+
+.disclaimer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-family:var(--mono);font-size:10px;color:var(--muted2);line-height:1.8}
+
+@media(max-width:520px){
+  .nav-links{display:none}
+  .items-head,.item-row{grid-template-columns:1fr 80px 80px}
+  .ih-cell.well-h,.ir-val.well-c:not(.bold){display:none}
+  .compare-hdr,.compare-row{grid-template-columns:1fr 1fr 80px}
+  .ch-cell:nth-child(3),.cc:nth-child(3){display:none}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .share-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-home">&#8592; Objectively</a>
+  <div class="nav-links">
+    <a href="/decision/">Decision</a>
+    <a href="/realdeal/">RealDeal</a>
+    <a href="/track/">On Track</a>
+    <a href="/paycheck/">Paycheck</a>
+    <a href="/invest/">Invest</a>
+    <a href="/allocate/">Allocator</a>
+    <a href="/health/">Health ROI</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<div class="header">
+  <div class="survey-tag">// US Cost of Living — Field Report</div>
+  <h1 class="header-title">REAL COST<br>OF <span class="hl">LIVING</span></h1>
+  <p class="header-sub">
+    Search any US city. See <span class="key">what it actually costs</span> to live there — not 2019 numbers.
+    Three tiers: bare bones survival, comfortable middle ground, living well.
+    Real 2024/2025 data. No spin.
+  </p>
+</div>
+
+<!-- SEARCH -->
+<div class="search-block">
+  <div class="search-label">Search City</div>
+  <div class="search-row">
+    <div class="input-wrap" id="wrap1">
+      <input type="text" id="inp1" class="city-input" placeholder="Start typing a city..." autocomplete="off" oninput="acUpdate(1)" onkeydown="acKey(event,1)">
+      <div class="ac-drop" id="ac1"></div>
+    </div>
+    <button class="search-btn" onclick="trySearch()">SEARCH</button>
+  </div>
+  <div class="no-result" id="noResult">City not found — try a nearby major city</div>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+
+  <!-- City header with tier tabs -->
+  <div class="city-hdr">
+    <div class="city-state-lbl" id="r_statelbl"></div>
+    <div class="city-name-big" id="r_name"></div>
+    <div class="city-market-tag" id="r_tag"></div>
+    <div class="tier-tabs">
+      <button class="tier-tab active t-bare" onclick="switchTier('bare',this)">🧱 Bare Bones</button>
+      <button class="tier-tab t-comfort" onclick="switchTier('comfort',this)">✅ Comfortable</button>
+      <button class="tier-tab t-well" onclick="switchTier('well',this)">⭐ Living Well</button>
+    </div>
+  </div>
+
+  <!-- Monthly total -->
+  <div class="monthly-panel">
+    <div class="monthly-eyebrow">Estimated Monthly Budget — <span id="r_tierlabel"></span></div>
+    <div class="monthly-amount t-bare" id="r_total"></div>
+    <div class="monthly-sublbl">per month — single adult</div>
+    <div class="stat-grid">
+      <div><div class="sg-val" id="r_annual"></div><div class="sg-lbl">Per Year</div></div>
+      <div><div class="sg-val" id="r_salary"></div><div class="sg-lbl">Salary Needed</div></div>
+      <div><div class="sg-val" id="r_hourly"></div><div class="sg-lbl">Hourly (40hr)</div></div>
+    </div>
+  </div>
+
+  <!-- All three tiers side by side -->
+  <div class="items-panel">
+    <div class="items-head">
+      <div class="ih-cell">Category</div>
+      <div class="ih-cell">Bare</div>
+      <div class="ih-cell">Comfortable</div>
+      <div class="ih-cell well-h">Living Well</div>
+    </div>
+    <div id="r_items"></div>
+  </div>
+
+  <!-- Context note -->
+  <div class="context-panel" id="r_context"></div>
+
+  <!-- Salary checker -->
+  <div class="salary-panel">
+    <div class="salary-head">Does My Salary Work Here?</div>
+    <div class="salary-row">
+      <span class="sal-pre">$</span>
+      <input type="number" id="salInput" class="sal-input" placeholder="75000" oninput="checkSal()">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">/yr</span>
+    </div>
+    <div class="sal-result" id="salResult"></div>
+  </div>
+
+  <!-- Compare trigger -->
+  <button class="compare-btn" id="compareBtn" onclick="openCompare()">+ Compare With Another City</button>
+
+  <!-- Compare search -->
+  <div class="compare-search" id="compareSearch">
+    <div class="compare-search-lbl">Second City</div>
+    <div class="search-row">
+      <div class="input-wrap" id="wrap2">
+        <input type="text" id="inp2" class="city-input" placeholder="Type second city..." autocomplete="off" oninput="acUpdate(2)" onkeydown="acKey(event,2)" style="font-size:18px;padding:10px 12px">
+        <div class="ac-drop" id="ac2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compare results -->
+  <div class="compare-results" id="compareResults">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--panel2);border-bottom:1px solid var(--border)">
+      <span style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Comparison — Comfortable Tier</span>
+      <button onclick="clearCompare()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;cursor:pointer;border-radius:2px;" onmouseover="this.style.borderColor='var(--yellow)';this.style.color='var(--yellow)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--muted)'">✕ Clear</button>
+    </div>
+    <div class="compare-hdr">
+      <div class="ch-cell">Category</div>
+      <div class="ch-cell c1" id="ch1"></div>
+      <div class="ch-cell c2" id="ch2"></div>
+      <div class="ch-cell">Difference</div>
+    </div>
+    <div id="compareRows"></div>
+  </div>
+
+  <!-- Paycheck CTA -->
+  <a href="/paycheck/" class="paycheck-cta">
+    <div>
+      <div class="cta-main">Now see what your salary actually takes home</div>
+      <div class="cta-sub">After taxes, FICA, 401k → Paycheck Reality Calculator</div>
+    </div>
+    <div class="cta-arr">→</div>
+  </a>
+
+  <!-- Share + reset -->
+  <div class="share-row">
+    <button class="s-btn tw" onclick="doShare('tw')">Post on X</button>
+    <button class="s-btn cp" id="cpBtn" onclick="doShare('cp')">Copy Link</button>
+  </div>
+  <button class="reset-btn" onclick="doReset()">&larr; Search Another City</button>
+
+</div><!-- /results -->
+
+<div class="disclaimer">
+  Cost estimates based on 2024/2025 Bureau of Labor Statistics Consumer Expenditure Survey, Census Bureau ACS housing data, and regional market research.<br>
+  Figures represent single adult budgets. Costs for families, couples, or households with children will differ significantly.<br>
+  For smaller markets, estimates use the nearest metro area as a baseline and may vary from actual local costs.<br>
+  Use as a planning guide — not a guarantee. A tool by objectively.net
+</div>
+
+</div>
+
+<script>
+// ─── CITY DATA ────────────────────────────────────────────────────────────────
+// [name, state, housing_mult, food_mult, transport_mult]
+// Multipliers relative to national average (1.0)
+// Updated for 2024/2025 market conditions
+
+const cities = [
+  // OHIO + NEARBY SUBURBS
+  ['Akron','OH',0.70,0.91,0.88],
+  ['Beachwood','OH',0.85,0.94,0.90],
+  ['Bedford','OH',0.72,0.91,0.88],
+  ['Canton','OH',0.66,0.89,0.86],
+  ['Chagrin Falls','OH',0.95,0.96,0.91],
+  ['Cincinnati','OH',0.84,0.93,0.89],
+  ['Cleveland','OH',0.74,0.91,0.88],
+  ['Columbus','OH',0.86,0.94,0.90],
+  ['Dayton','OH',0.68,0.90,0.87],
+  ['Euclid','OH',0.72,0.91,0.88],
+  ['Lorain','OH',0.65,0.89,0.86],
+  ['Lyndhurst','OH',0.82,0.93,0.89],
+  ['Medina','OH',0.78,0.92,0.89],
+  ['Mentor','OH',0.78,0.92,0.89],
+  ['Parma','OH',0.73,0.91,0.88],
+  ['Sandusky','OH',0.66,0.89,0.86],
+  ['Solon','OH',0.90,0.95,0.90],
+  ['Strongsville','OH',0.82,0.93,0.89],
+  ['Toledo','OH',0.64,0.88,0.86],
+  ['Westlake','OH',0.86,0.94,0.90],
+  ['Youngstown','OH',0.58,0.87,0.84],
+  // MIDWEST
+  ['Chicago','IL',1.22,1.06,1.10],
+  ['Indianapolis','IN',0.82,0.92,0.88],
+  ['Detroit','MI',0.76,0.93,0.92],
+  ['Milwaukee','WI',0.84,0.93,0.90],
+  ['Minneapolis','MN',1.06,0.99,0.96],
+  ['Kansas City','MO',0.82,0.92,0.90],
+  ['St. Louis','MO',0.80,0.91,0.89],
+  ['Omaha','NE',0.84,0.92,0.90],
+  ['Des Moines','IA',0.82,0.92,0.89],
+  ['Louisville','KY',0.78,0.91,0.87],
+  ['Grand Rapids','MI',0.82,0.92,0.89],
+  ['Madison','WI',1.02,0.97,0.94],
+  ['Ann Arbor','MI',1.08,0.99,0.94],
+  ['Green Bay','WI',0.80,0.91,0.89],
+  ['Peoria','IL',0.70,0.89,0.87],
+  ['Springfield','IL',0.70,0.89,0.87],
+  ['Rockford','IL',0.68,0.89,0.86],
+  ['Fort Wayne','IN',0.68,0.88,0.86],
+  ['South Bend','IN',0.68,0.88,0.86],
+  ['Evansville','IN',0.70,0.89,0.87],
+  // SOUTH
+  ['Atlanta','GA',1.10,0.99,1.00],
+  ['Miami','FL',1.52,1.09,1.05],
+  ['Tampa','FL',1.10,0.99,0.98],
+  ['Orlando','FL',1.06,0.97,0.97],
+  ['Jacksonville','FL',0.90,0.93,0.92],
+  ['Nashville','TN',1.15,1.01,0.98],
+  ['Memphis','TN',0.72,0.90,0.87],
+  ['Charlotte','NC',1.06,0.97,0.95],
+  ['Raleigh','NC',1.10,0.98,0.96],
+  ['Durham','NC',1.06,0.97,0.96],
+  ['Houston','TX',0.96,0.96,0.95],
+  ['Dallas','TX',1.02,0.97,0.97],
+  ['Austin','TX',1.34,1.03,1.00],
+  ['San Antonio','TX',0.86,0.93,0.92],
+  ['Fort Worth','TX',0.94,0.95,0.95],
+  ['New Orleans','LA',0.96,0.98,0.92],
+  ['Birmingham','AL',0.72,0.90,0.87],
+  ['Richmond','VA',0.98,0.96,0.94],
+  ['Virginia Beach','VA',1.02,0.97,0.95],
+  ['Baltimore','MD',1.12,1.02,1.02],
+  ['Washington DC','DC',1.58,1.14,1.16],
+  ['Arlington','VA',1.50,1.11,1.10],
+  ['Alexandria','VA',1.44,1.09,1.08],
+  ['Columbia','SC',0.78,0.91,0.90],
+  ['Greenville','SC',0.82,0.92,0.90],
+  ['Knoxville','TN',0.76,0.91,0.88],
+  ['Chattanooga','TN',0.76,0.91,0.88],
+  ['Asheville','NC',1.02,0.97,0.95],
+  ['Fayetteville','NC',0.75,0.91,0.88],
+  ['Greensboro','NC',0.80,0.91,0.89],
+  ['Little Rock','AR',0.68,0.88,0.86],
+  ['Oklahoma City','OK',0.74,0.90,0.88],
+  ['Tulsa','OK',0.68,0.88,0.87],
+  ['El Paso','TX',0.72,0.89,0.88],
+  ['Lubbock','TX',0.68,0.88,0.87],
+  ['Midland','TX',0.94,0.93,0.92],
+  ['Tallahassee','FL',0.92,0.94,0.92],
+  ['Pensacola','FL',0.88,0.93,0.91],
+  ['Fort Lauderdale','FL',1.30,1.03,1.00],
+  ['Sarasota','FL',1.24,1.01,0.98],
+  ['Cape Coral','FL',1.04,0.96,0.96],
+  ['Gainesville','FL',0.90,0.93,0.91],
+  ['Lakeland','FL',0.90,0.93,0.91],
+  ['Jackson','MS',0.64,0.88,0.86],
+  ['Baton Rouge','LA',0.84,0.93,0.90],
+  ['Shreveport','LA',0.68,0.89,0.87],
+  ['Lexington','KY',0.78,0.91,0.88],
+  ['Bowling Green','KY',0.70,0.89,0.87],
+  ['Huntsville','AL',0.76,0.90,0.88],
+  ['Mobile','AL',0.68,0.89,0.87],
+  ['Montgomery','AL',0.68,0.89,0.87],
+  ['Savannah','GA',0.92,0.94,0.92],
+  ['Augusta','GA',0.74,0.90,0.88],
+  ['Norfolk','VA',0.94,0.95,0.93],
+  // NORTHEAST
+  ['New York City','NY',2.30,1.28,1.32],
+  ['Brooklyn','NY',1.88,1.20,1.22],
+  ['Boston','MA',1.72,1.17,1.16],
+  ['Philadelphia','PA',1.15,1.06,1.05],
+  ['Pittsburgh','PA',0.80,0.93,0.90],
+  ['Providence','RI',1.10,1.02,1.00],
+  ['Hartford','CT',1.08,1.02,1.00],
+  ['Buffalo','NY',0.72,0.93,0.89],
+  ['Rochester','NY',0.76,0.93,0.89],
+  ['Albany','NY',0.92,0.97,0.93],
+  ['Newark','NJ',1.30,1.09,1.10],
+  ['Jersey City','NJ',1.40,1.09,1.10],
+  ['Stamford','CT',1.48,1.10,1.10],
+  ['New Haven','CT',1.10,1.04,1.02],
+  // WEST
+  ['Los Angeles','CA',1.92,1.17,1.16],
+  ['San Francisco','CA',2.60,1.28,1.22],
+  ['San Jose','CA',2.40,1.22,1.20],
+  ['San Diego','CA',1.82,1.14,1.12],
+  ['Sacramento','CA',1.36,1.06,1.05],
+  ['Oakland','CA',1.88,1.17,1.16],
+  ['Long Beach','CA',1.76,1.14,1.13],
+  ['Fresno','CA',1.02,1.01,0.98],
+  ['Bakersfield','CA',0.94,0.99,0.96],
+  ['Seattle','WA',1.76,1.14,1.12],
+  ['Portland','OR',1.40,1.06,1.06],
+  ['Denver','CO',1.46,1.06,1.06],
+  ['Boulder','CO',1.70,1.09,1.06],
+  ['Colorado Springs','CO',1.04,0.97,0.97],
+  ['Las Vegas','NV',1.06,0.99,0.98],
+  ['Reno','NV',1.10,1.00,0.99],
+  ['Phoenix','AZ',1.10,0.98,0.98],
+  ['Tucson','AZ',0.84,0.93,0.92],
+  ['Albuquerque','NM',0.86,0.93,0.92],
+  ['Salt Lake City','UT',1.20,1.00,0.98],
+  ['Provo','UT',1.10,0.99,0.97],
+  ['Boise','ID',1.12,0.99,0.97],
+  ['Spokane','WA',0.94,0.96,0.95],
+  ['Tacoma','WA',1.40,1.06,1.06],
+  ['Anchorage','AK',1.26,1.16,1.12],
+  ['Honolulu','HI',1.96,1.32,1.12],
+  // MOUNTAIN / PLAINS
+  ['Billings','MT',0.96,0.95,0.95],
+  ['Bozeman','MT',1.36,1.01,0.97],
+  ['Missoula','MT',1.06,0.97,0.96],
+  ['Fargo','ND',0.82,0.91,0.90],
+  ['Sioux Falls','SD',0.82,0.91,0.90],
+  ['Rapid City','SD',0.78,0.90,0.90],
+  ['Cheyenne','WY',0.88,0.93,0.93],
+  ['Casper','WY',0.84,0.92,0.92],
+  ['Wichita','KS',0.74,0.89,0.88],
+  ['Topeka','KS',0.68,0.88,0.87],
+  ['Lincoln','NE',0.82,0.91,0.89],
+  ['Sioux City','IA',0.74,0.89,0.88],
+  ['Cedar Rapids','IA',0.76,0.90,0.88],
+  // NEW ENGLAND + MID ATLANTIC
+  ['Burlington','VT',1.14,1.02,0.97],
+  ['Portland','ME',1.14,1.02,0.97],
+  ['Manchester','NH',1.08,1.01,0.97],
+  ['Wilmington','DE',0.96,0.98,0.96],
+  ['Harrisburg','PA',0.82,0.94,0.91],
+  ['Allentown','PA',0.88,0.96,0.93],
+  // MISC
+  ['Waco','TX',0.70,0.88,0.88],
+  ['Amarillo','TX',0.68,0.88,0.88],
+  ['Corpus Christi','TX',0.76,0.90,0.90],
+  ['McAllen','TX',0.64,0.87,0.87],
+  ['Brownsville','TX',0.62,0.87,0.87],
+  ['Beaumont','TX',0.72,0.89,0.88],
+  ['Springfield','MO',0.72,0.89,0.88],
+  ['Columbia','MO',0.82,0.91,0.89],
+  ['Duluth','MN',0.82,0.92,0.90],
+  ['Appleton','WI',0.82,0.91,0.89],
+];
+
+// ─── 2024/2025 BASE COSTS (comfortable single adult, national average) ─────────
+const BASE = {
+  housing:      1650,   // 1BR apartment
+  food:          620,   // groceries + some dining
+  transport:     620,   // used car payment, gas, insurance
+  utilities:     330,   // comfortable: electric $120 + gas $60 + internet $75 + phone $75
+  healthcare:    420,   // insurance premium + avg out of pocket
+  personal:      280,   // clothing, personal care, haircuts
+  entertainment: 300,   // dining, streaming, activities, misc
+};
+
+const TIER_MULT = {
+  bare: {
+    housing: 0.58,      // shared or studio, cheapest option
+    food: 0.62,         // groceries only, meal prep
+    transport: 0.55,    // public transit or beater car
+    utilities: 0.55,    // prepaid phone $30, basic internet $40, minimal electric/gas — ~$180
+    healthcare: 0.55,   // catastrophic plan only
+    personal: 0.35,     // essentials only
+    entertainment: 0.12 // basically nothing
+  },
+  comfort: {
+    housing: 1.00,
+    food: 1.00,
+    transport: 1.00,
+    utilities: 1.00,
+    healthcare: 1.00,
+    personal: 1.00,
+    entertainment: 1.00
+  },
+  well: {
+    housing: 1.85,      // 2BR or nice 1BR
+    food: 1.60,         // quality groceries + regular dining
+    transport: 1.65,    // reliable newer car
+    utilities: 1.40,    // premium phone $120, fast internet $100, full electric/gas
+    healthcare: 1.50,   // good coverage + dental + vision
+    personal: 1.90,     // quality clothing + lifestyle
+    entertainment: 2.40 // travel, dining, hobbies, events
+  }
+};
+
+const TIER_NAMES = { bare:'Bare Bones', comfort:'Comfortable', well:'Living Well' };
+
+const CAT_NAMES = {
+  housing:'Housing', food:'Food & Groceries', transport:'Transportation',
+  utilities:'Utilities & Phone', healthcare:'Healthcare', personal:'Personal & Clothing',
+  entertainment:'Entertainment & Misc'
+};
+
+const CAT_SUBS = {
+  bare: {
+    housing:'Shared or studio apartment — cheapest available',
+    food:'Groceries only, meal prep, no eating out',
+    transport:'Public transit or oldest reliable car',
+    utilities:'Prepaid phone ~$30, basic internet, minimal electric/gas',
+    healthcare:'Minimum coverage, skip optionals',
+    personal:'Essentials only — no extras',
+    entertainment:'Free or near-free only'
+  },
+  comfort: {
+    housing:'1BR apartment — decent neighborhood',
+    food:'Good groceries + dining out 2-3x/week',
+    transport:'Modest used car, gas, full insurance',
+    utilities:'All utilities + mid-tier phone plan',
+    healthcare:'Standard coverage + copays',
+    personal:'Regular clothing + personal care',
+    entertainment:'Dining, activities, streaming, occasional travel'
+  },
+  well: {
+    housing:'2BR apartment or small house',
+    food:'Quality groceries + regular dining out',
+    transport:'Reliable newer car, full coverage',
+    utilities:'Premium phone plan, fast internet, full utilities + streaming',
+    healthcare:'Good coverage + dental + vision',
+    personal:'Quality clothing + lifestyle purchases',
+    entertainment:'Regular travel, dining, hobbies'
+  }
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let city1 = null;
+let city2 = null;
+let curTier = 'bare';
+let cursor1 = -1;
+let cursor2 = -1;
+let curMatches1 = [];
+let curMatches2 = [];
+let shareText = '';
+
+// ─── COSTS ───────────────────────────────────────────────────────────────────
+// City data: [name, state, housing_mult, food_mult, transport_mult]
+// For healthcare/personal/entertainment we derive a general cost-of-living index
+// from the average of housing + food multipliers — these DO vary by city
+function calcCosts(city, tier) {
+  const [,, hMult, fMult, tMult] = city;
+  const m = TIER_MULT[tier];
+  // General COL index for non-specific categories
+  // Healthcare varies by city (NYC/SF significantly more)
+  // Entertainment/dining vary heavily with local market
+  // Personal costs vary with local retail prices
+  const colIndex  = (hMult * 0.5 + fMult * 0.3 + tMult * 0.2);  // weighted COL
+  const hcMult    = 0.4 + colIndex * 0.6;   // healthcare less elastic than housing
+  const entMult   = 0.3 + colIndex * 0.7;   // entertainment more elastic
+  const perMult   = 0.5 + colIndex * 0.5;   // personal moderate elasticity
+  const utilMult  = (hMult * 0.4 + 0.6);    // utilities partly housing-driven
+  return {
+    housing:       Math.round(BASE.housing       * m.housing       * hMult),
+    food:          Math.round(BASE.food          * m.food          * fMult),
+    transport:     Math.round(BASE.transport     * m.transport     * tMult),
+    utilities:     Math.round(BASE.utilities     * m.utilities     * utilMult),
+    healthcare:    Math.round(BASE.healthcare    * m.healthcare    * hcMult),
+    personal:      Math.round(BASE.personal      * m.personal      * perMult),
+    entertainment: Math.round(BASE.entertainment * m.entertainment * entMult),
+  };
+}
+
+function tot(costs) { return Object.values(costs).reduce((a,b)=>a+b,0); }
+function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+// ─── AUTOCOMPLETE ─────────────────────────────────────────────────────────────
+function getMatches(q) {
+  if (!q || q.length < 1) return [];
+  const lq = q.toLowerCase().trim();
+  return cities
+    .filter(c => c[0].toLowerCase().startsWith(lq) || c[0].toLowerCase().replace('st.','st').includes(lq))
+    .sort((a,b) => {
+      const aS = a[0].toLowerCase().startsWith(lq) ? 0 : 1;
+      const bS = b[0].toLowerCase().startsWith(lq) ? 0 : 1;
+      return aS - bS || a[0].localeCompare(b[0]);
+    })
+    .slice(0, 10);
+}
+
+function acUpdate(n) {
+  const inp = document.getElementById('inp' + n);
+  const ac  = document.getElementById('ac' + n);
+  const q   = inp.value;
+  const matches = getMatches(q);
+  if (n === 1) { curMatches1 = matches; cursor1 = -1; }
+  else         { curMatches2 = matches; cursor2 = -1; }
+
+  if (!matches.length) { ac.style.display = 'none'; return; }
+
+  const costs = matches.map(c => fmt(tot(calcCosts(c, 'comfort'))));
+  ac.style.display = 'block';
+  ac.innerHTML = matches.map((c, i) =>
+    `<div class="ac-item" onclick="pickCity(${n},${i})">
+      <span>${c[0]}<span class="ac-state"> ${c[1]}</span></span>
+      <span class="ac-cost">${costs[i]}/mo</span>
+    </div>`
+  ).join('');
+}
+
+function acKey(e, n) {
+  const ac = document.getElementById('ac' + n);
+  const items = ac.querySelectorAll('.ac-item');
+  let cur = n === 1 ? cursor1 : cursor2;
+  if (e.key === 'ArrowDown') { cur = Math.min(cur+1, items.length-1); }
+  else if (e.key === 'ArrowUp') { cur = Math.max(cur-1, 0); }
+  else if (e.key === 'Enter') {
+    if (cur >= 0) pickCity(n, cur);
+    else trySearch();
+    return;
+  } else if (e.key === 'Escape') { ac.style.display = 'none'; return; }
+  if (n === 1) cursor1 = cur; else cursor2 = cur;
+  items.forEach((el, i) => el.classList.toggle('sel', i === cur));
+}
+
+function pickCity(n, idx) {
+  const matches = n === 1 ? curMatches1 : curMatches2;
+  const city = matches[idx];
+  if (!city) return;
+  document.getElementById('inp' + n).value = city[0] + ', ' + city[1];
+  document.getElementById('ac' + n).style.display = 'none';
+  if (n === 1) { city1 = city; renderCity(); }
+  else         { city2 = city; renderCompare(); }
+}
+
+function trySearch() {
+  const q = document.getElementById('inp1').value.trim().toLowerCase().replace(/,.*/, '').trim();
+  if (!q) return;
+  // Try exact match first, then starts with
+  let match = cities.find(c => c[0].toLowerCase() === q);
+  if (!match) match = cities.find(c => c[0].toLowerCase().startsWith(q));
+  if (!match) {
+    // fuzzy — contains
+    match = cities.find(c => c[0].toLowerCase().includes(q));
+  }
+  if (match) {
+    city1 = match;
+    document.getElementById('inp1').value = match[0] + ', ' + match[1];
+    document.getElementById('ac1').style.display = 'none';
+    document.getElementById('noResult').style.display = 'none';
+    renderCity();
+  } else {
+    document.getElementById('noResult').style.display = 'block';
+  }
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function renderCity() {
+  if (!city1) return;
+  curTier = 'bare';
+  // Reset tier tabs
+  document.querySelectorAll('.tier-tab').forEach(t => t.classList.remove('active','t-bare','t-comfort','t-well'));
+  document.querySelector('.tier-tab').classList.add('active','t-bare');
+
+  const [name, state, hMult] = city1;
+  document.getElementById('r_statelbl').textContent = state + ' — United States';
+  document.getElementById('r_name').textContent = name.toUpperCase();
+
+  const mktLabel = hMult < 0.72 ? 'BUDGET MARKET' : hMult < 0.95 ? 'BELOW-AVERAGE COST' : hMult < 1.28 ? 'AVERAGE-TO-MODERATE COST' : hMult < 1.60 ? 'HIGH COST MARKET' : 'VERY HIGH COST MARKET';
+  document.getElementById('r_tag').textContent = mktLabel;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('compareSearch').style.display = 'none';
+  document.getElementById('compareResults').style.display = 'none';
+  document.getElementById('noResult').style.display = 'none';
+
+  refreshTier();
+  document.getElementById('salInput').value = '';
+  document.getElementById('salResult').classList.remove('show');
+  document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function refreshTier() {
+  if (!city1) return;
+  const tier = curTier;
+  const bareC    = calcCosts(city1, 'bare');
+  const comfortC = calcCosts(city1, 'comfort');
+  const wellC    = calcCosts(city1, 'well');
+  const current  = tier === 'bare' ? bareC : tier === 'comfort' ? comfortC : wellC;
+  const totNow   = tot(current);
+  const annual   = totNow * 12;
+  const salNeeded = Math.round(annual / 0.68);
+  const hourly   = Math.round(salNeeded / 2080);
+
+  document.getElementById('r_tierlabel').textContent = TIER_NAMES[tier];
+  const amtEl = document.getElementById('r_total');
+  amtEl.textContent = fmt(totNow);
+  amtEl.className = 'monthly-amount t-' + tier;
+  document.getElementById('r_annual').textContent = fmt(annual);
+  document.getElementById('r_salary').textContent = fmt(salNeeded);
+  document.getElementById('r_hourly').textContent = '$' + hourly + '/hr';
+
+  // Line items
+  document.getElementById('r_items').innerHTML =
+    Object.keys(BASE).map((cat, i) =>
+      `<div class="item-row" style="animation-delay:${i*.04}s">
+        <div class="ir-name">${CAT_NAMES[cat]}<span class="ir-sub">${CAT_SUBS[tier][cat]}</span></div>
+        <div class="ir-val bare-c${tier==='bare'?' bold':''}">${fmt(bareC[cat])}</div>
+        <div class="ir-val comfort-c${tier==='comfort'?' bold':''}">${fmt(comfortC[cat])}</div>
+        <div class="ir-val well-c well-h${tier==='well'?' bold':''}">${fmt(wellC[cat])}</div>
+      </div>`
+    ).join('') +
+    `<div class="item-row total-row">
+      <div class="ir-name" style="font-weight:600;color:var(--text)">TOTAL MONTHLY</div>
+      <div class="ir-val bare-c bold">${fmt(tot(bareC))}</div>
+      <div class="ir-val comfort-c bold">${fmt(tot(comfortC))}</div>
+      <div class="ir-val well-c well-h bold">${fmt(tot(wellC))}</div>
+    </div>`;
+
+  // Context
+  const hMult = city1[2];
+  let ctx = '';
+  if (hMult < 0.70) {
+    ctx = `<strong>${city1[0]} is a genuinely affordable market</strong> — housing runs about ${Math.round((1-hMult)*100)}% below the national average. For someone relocating from a high-cost city this represents a major quality-of-life upgrade at the same income. Keep in mind that salary ranges in these markets often reflect the lower cost base.`;
+  } else if (hMult < 0.92) {
+    ctx = `<strong>${city1[0]} is a below-average cost market</strong> — housing costs roughly ${Math.round((1-hMult)*100)}% less than the national average. Good value across most categories. A reasonable middle ground between affordability and economic opportunity.`;
+  } else if (hMult < 1.20) {
+    ctx = `<strong>${city1[0]} is close to the national cost average</strong> — not unusually cheap or expensive. Salaries in most sectors tend to reflect local costs. Budget carefully and mid-level incomes will stretch reasonably well here.`;
+  } else if (hMult < 1.55) {
+    ctx = `<strong>${city1[0]} is a high-cost market</strong> — housing alone runs about ${Math.round((hMult-1)*100)}% above the national average. A $75k salary here goes meaningfully less far than the same salary in a budget market. Factor this into any job offer comparison carefully.`;
+  } else {
+    ctx = `<strong>${city1[0]} is one of the most expensive markets in the US</strong> — housing runs ${Math.round((hMult-1)*100)}% above the national average. Many residents spend 40-50% of gross income on housing alone. A six-figure salary can still feel tight. Anyone considering a move here should pressure-test their budget against these numbers before committing.`;
+  }
+  document.getElementById('r_context').innerHTML = ctx;
+
+  shareText = `Cost of living in ${city1[0]}, ${city1[1]}: ${fmt(tot(comfortC))}/mo to live comfortably. ${fmt(tot(bareC))}/mo bare minimum. Check your city:`;
+  checkSal();
+}
+
+function switchTier(tier, btn) {
+  curTier = tier;
+  document.querySelectorAll('.tier-tab').forEach(t => t.classList.remove('active','t-bare','t-comfort','t-well'));
+  btn.classList.add('active', 't-' + tier);
+  refreshTier();
+}
+
+function checkSal() {
+  if (!city1) return;
+  const salary = parseFloat(document.getElementById('salInput').value) || 0;
+  const el = document.getElementById('salResult');
+  if (!salary) { el.classList.remove('show'); return; }
+
+  const costs = calcCosts(city1, curTier);
+  const monthly = tot(costs);
+  const takeHome = (salary * 0.68) / 12;
+  const ratio = takeHome / monthly;
+
+  let cls, verdict, body;
+  const surplus = takeHome - monthly;
+  const tierName = TIER_NAMES[curTier].toLowerCase();
+
+  if (ratio >= 1.40) {
+    cls = 'good'; verdict = '✓ Your salary works well here';
+    body = `Take-home: <strong>${fmt(takeHome)}/mo</strong>. ${tierName.charAt(0).toUpperCase()+tierName.slice(1)} budget: <strong>${fmt(monthly)}/mo</strong>. You have <strong>${fmt(surplus)}/mo</strong> left over — solid room for savings and unexpected costs.`;
+  } else if (ratio >= 1.12) {
+    cls = 'tight'; verdict = '⚡ Works — but it\'s tight';
+    body = `Take-home: <strong>${fmt(takeHome)}/mo</strong>. ${tierName.charAt(0).toUpperCase()+tierName.slice(1)} budget: <strong>${fmt(monthly)}/mo</strong>. Only <strong>${fmt(surplus)}/mo</strong> left after expenses. Manageable but very little cushion for emergencies or savings goals.`;
+  } else if (ratio >= 0.92) {
+    cls = 'tight'; verdict = '⚠ This will be a real stretch';
+    body = `Take-home: <strong>${fmt(takeHome)}/mo</strong> vs <strong>${fmt(monthly)}/mo</strong> needed. You are essentially breaking even — one unexpected expense could put you behind. Consider dropping a tier or negotiating a higher salary before committing to this city.`;
+  } else {
+    cls = 'bad'; verdict = '✗ Salary falls short for this tier';
+    const needed = Math.round(monthly * 12 / 0.68);
+    body = `Your take-home of <strong>${fmt(takeHome)}/mo</strong> doesn't cover the ${tierName} budget of <strong>${fmt(monthly)}/mo</strong>. You would need roughly <strong>${fmt(needed)}/yr</strong> to afford this tier comfortably in ${city1[0]}.`;
+  }
+
+  el.innerHTML = `<div class="sal-verdict ${cls}">${verdict}</div>${body}`;
+  el.classList.add('show');
+}
+
+function openCompare() {
+  const cs = document.getElementById('compareSearch');
+  cs.style.display = cs.style.display === 'none' || cs.style.display === '' ? 'block' : 'none';
+  if (cs.style.display === 'block') {
+    document.getElementById('inp2').focus();
+    document.getElementById('compareBtn').textContent = '− Close Compare';
+  } else {
+    document.getElementById('compareBtn').textContent = '+ Compare With Another City';
+    document.getElementById('compareResults').style.display = 'none';
+    city2 = null;
+  }
+}
+
+function renderCompare() {
+  if (!city1 || !city2) return;
+  document.getElementById('compareResults').style.display = 'block';
+  document.getElementById('ch1').textContent = city1[0].toUpperCase();
+  document.getElementById('ch2').textContent = city2[0].toUpperCase();
+
+  const c1 = calcCosts(city1, 'comfort');
+  const c2 = calcCosts(city2, 'comfort');
+
+  const rows = Object.keys(BASE).map(cat => {
+    const diff = c2[cat] - c1[cat];
+    const cls = diff === 0 ? '' : diff > 0 ? 'pricier' : 'cheaper';
+    const dstr = diff === 0 ? 'Same' : (diff > 0 ? '+' : '') + fmt(diff) + '/mo';
+    return `<div class="compare-row">
+      <div class="cc cat">${CAT_NAMES[cat]}</div>
+      <div class="cc v1">${fmt(c1[cat])}</div>
+      <div class="cc v2">${fmt(c2[cat])}</div>
+      <div class="cc ${cls}">${dstr}</div>
+    </div>`;
+  });
+
+  const t1 = tot(c1), t2 = tot(c2);
+  const td = t2 - t1;
+  const annual = Math.abs(td) * 12;
+  rows.push(`<div class="compare-row tot">
+    <div class="cc cat bold" style="color:var(--text)">TOTAL / MO</div>
+    <div class="cc v1 bold">${fmt(t1)}</div>
+    <div class="cc v2 bold">${fmt(t2)}</div>
+    <div class="cc bold ${td>0?'pricier':'cheaper'}">${td>0?'+':''}${fmt(td)}/mo</div>
+  </div>`);
+
+  // Annual summary sentence — td = c2 - c1, positive means city2 is pricier
+  const cheaperCity  = td > 0 ? city1[0] : city2[0];
+  const pricierCity  = td > 0 ? city2[0] : city1[0];
+  const cheaperTotal = td > 0 ? t1 : t2;
+  rows.push(`<div style="padding:12px 12px;font-family:var(--mono);font-size:10px;color:var(--muted);line-height:1.7;background:rgba(245,196,0,.04)">
+    <strong style="color:var(--yellow2)">${cheaperCity}</strong> is <strong style="color:var(--yellow2)">${fmt(Math.abs(td))}/mo cheaper</strong> than ${pricierCity} at the comfortable tier — that is <strong style="color:var(--yellow2)">${fmt(annual)}/yr</strong> in savings. To maintain the same lifestyle in ${pricierCity} as you have in ${cheaperCity} you would need a salary roughly ${Math.round(Math.abs(td)/cheaperTotal*100)}% higher.
+  </div>`);
+
+  document.getElementById('compareRows').innerHTML = rows.join('');
+  document.getElementById('compareSearch').style.display = 'block';
+  document.getElementById('compareResults').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+function clearCompare() {
+  city2 = null;
+  document.getElementById('compareResults').style.display = 'none';
+  document.getElementById('compareSearch').style.display = 'block';
+  document.getElementById('inp2').value = '';
+  document.getElementById('inp2').focus();
+  document.getElementById('compareBtn').textContent = '+ Compare With Another City';
+}
+
+function doShare(type) {
+  const full = shareText + ' https://objectively.net/cost/';
+  if (type === 'tw') window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(full), '_blank');
+  else navigator.clipboard.writeText(full).then(function() {
+    const b = document.getElementById('cpBtn');
+    b.classList.add('done'); b.textContent = 'Copied!';
+    setTimeout(function() { b.classList.remove('done'); b.textContent = 'Copy Link'; }, 2500);
+  }).catch(function() { prompt('Copy this:', full); });
+}
+
+function doReset() {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('inp1').value = '';
+  document.getElementById('noResult').style.display = 'none';
+  city1 = city2 = null;
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#wrap1')) document.getElementById('ac1').style.display = 'none';
+  if (!e.target.closest('#wrap2')) { const a = document.getElementById('ac2'); if(a) a.style.display = 'none'; }
+});
+</script>
+</body>
+</html>

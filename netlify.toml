@@ -29,3 +29,11 @@
   from = "/allocate"
   to = "/allocate/index.html"
   status = 200
+[[redirects]]
+  from = "/cost"
+  to = "/cost/index.html"
+  status = 200
+[[redirects]]
+  from = "/start"
+  to = "/start/index.html"
+  status = 200

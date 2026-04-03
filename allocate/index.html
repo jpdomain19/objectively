@@ -443,6 +443,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(14,21,32,.96);backdrop-fil
     <a href="/paycheck/">Paycheck</a>
     <a href="/invest/">Invest</a>
     <a href="/health/">Health ROI</a>
+    <a href="/cost/">Cost of Living</a>
   </div>
 </nav>
 
@@ -781,8 +782,8 @@ function calculate() {
   const segments = [
     {
       key: 'hysa',
-      name: 'High Yield Savings',
-      desc: 'Liquid reserve — 4-5% APY, FDIC insured. Your accessible floor.',
+      name: 'Emergency Fund / HYSA',
+      desc: 'Your cash cushion + liquid reserve — keep this in a High Yield Savings Account (Ally, Marcus, Discover). 4-5% APY, FDIC insured, accessible the day you need it. This IS your emergency fund.',
       color: '#3ab870',
       textColor: '#000',
     },
@@ -825,17 +826,17 @@ function calculate() {
   } else if (h === '7') {
     rationale = '<strong>5-10 years is real investing territory.</strong> History shows that any 7-year period in the S&P 500 has been positive. You can afford meaningful equity exposure. The index fund is your workhorse here — REITs add diversification and the speculative slice keeps things interesting without dominating the portfolio.';
   } else {
-    rationale = '<strong>10+ years is where compounding does its best work.</strong> Time is your most valuable asset. At this horizon you can — and should — be heavily equity-weighted. Short-term drops are irrelevant; what matters is the 30-year trajectory. The HYSA and bonds provide psychological stability so you do not panic sell during downturns. The speculative slice is your highest-risk, highest-potential-reward position.';
+    rationale = '<strong>10+ years is where compounding does its best work.</strong> Time is your most valuable asset. At this horizon you can — and should — be heavily equity-weighted. Short-term drops are irrelevant; what matters is the 30-year trajectory. The Emergency Fund/HYSA and bonds provide psychological stability so you do not panic sell during downturns. The speculative slice is your highest-risk, highest-potential-reward position.';
   }
 
   if (risk === 'low') rationale += ' <strong>We have shifted toward stability given your risk tolerance.</strong> The worst thing you can do is panic sell during a downturn — an allocation you can actually hold through volatility beats a theoretically optimal one you abandon.';
   if (risk === 'high') rationale += ' <strong>We have increased your speculative exposure given your risk appetite.</strong> This makes sense if you have the stomach for it — but be honest with yourself during the next downturn.';
-  if (inc === 'variable') rationale += ' <strong>Variable income means you need more liquidity.</strong> We have increased your HYSA allocation to give you a larger accessible cushion against income gaps.';
+  if (inc === 'variable') rationale += ' <strong>Variable income means you need more liquidity.</strong> We have increased your Emergency Fund/HYSA allocation to give you a larger accessible cushion against income gaps.';
 
   // ── NEXT STEPS ───────────────────────────────────────────────────
   const steps = [];
   if (ef === 'no' || ef === 'partial') {
-    steps.push({ n:'1', text: '<strong>Open a HYSA today</strong> — Marcus by Goldman Sachs, Ally, or Discover all pay 4-5% APY. Move your emergency fund here before anything else.' });
+    steps.push({ n:'1', text: '<strong>Open a High Yield Savings Account today</strong> — Marcus, Ally, or Discover all pay 4-5% APY. This becomes both your emergency fund AND your liquid allocation bucket. One account, two purposes.' });
   }
   if (debt === 'heavy' || debt === 'some') {
     steps.push({ n: ef !== 'yes' ? '2' : '1', text: '<strong>Pay off the high-interest debt</strong> — the psychological and financial relief compounds immediately.' });

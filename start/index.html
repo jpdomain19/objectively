@@ -14,420 +14,240 @@
 <meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #f8f8f6;
-  --white:   #ffffff;
-  --ink:     #111111;
-  --ink2:    #333333;
-  --muted:   #888888;
-  --border:  #e2e2e0;
-  --border2: #d0d0cc;
+  --bg:      #0a0a0a;
+  --s1:      #131313;
+  --s2:      #1a1a1a;
+  --s3:      #222;
+  --border:  #282828;
+  --border2: #333;
   --accent:  #c8f135;
-  --accent2: #111111;
-  --orange:  #ff6b35;
-  --green:   #1a7a3c;
-  --red:     #cc2222;
-  --sans:    'DM Sans', sans-serif;
+  --accent2: #ff6b35;
+  --text:    #efefef;
+  --muted:   #777;
+  --muted2:  #444;
+  --display: 'Syne', sans-serif;
+  --body:    'DM Sans', sans-serif;
   --mono:    'DM Mono', monospace;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* grain */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
 
 /* NAV */
-nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--white)}
-.nav-logo{font-family:var(--mono);font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);text-decoration:none;font-weight:500}
-.nav-logo span{color:var(--orange)}
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:var(--display);font-weight:800;font-size:18px;letter-spacing:-1px;color:var(--accent);text-decoration:none}
 .nav-back{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .12s}
-.nav-back:hover{color:var(--ink)}
+.nav-back:hover{color:var(--text)}
 
-/* QUIZ WRAP */
-.quiz-wrap{
-  max-width:600px;
-  margin:0 auto;
-  padding:48px 24px 80px;
-}
+/* WRAP */
+.wrap{max-width:580px;margin:0 auto;padding:52px 20px 80px;position:relative;z-index:1}
 
 /* PROGRESS */
-.progress-bar{
-  height:3px;
-  background:var(--border);
-  border-radius:2px;
-  margin-bottom:48px;
-  overflow:hidden;
-}
-.progress-fill{
-  height:100%;
-  background:var(--accent2);
-  border-radius:2px;
-  transition:width .5s cubic-bezier(.4,0,.2,1);
-}
+.progress-bar{height:2px;background:var(--s3);border-radius:2px;margin-bottom:52px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 
-/* INTRO SCREEN */
-.intro{text-align:center;padding:60px 0}
-.intro-tag{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:20px;
-}
-.intro-title{
-  font-size:clamp(32px,7vw,52px);
-  font-weight:600;
-  line-height:1.1;
-  letter-spacing:-1.5px;
-  color:var(--ink);
-  margin-bottom:16px;
-}
-.intro-title em{font-style:italic;font-weight:300;color:var(--muted)}
-.intro-sub{
-  font-size:17px;
-  color:var(--muted);
-  line-height:1.6;
-  max-width:420px;
-  margin:0 auto 36px;
-  font-weight:300;
-}
+/* INTRO */
+.intro{text-align:center;padding:40px 0}
+.intro-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.intro-title{font-family:var(--display);font-size:clamp(36px,8vw,58px);font-weight:800;line-height:1.0;letter-spacing:-2px;color:var(--text);margin-bottom:16px}
+.intro-title em{font-style:italic;font-weight:400;color:var(--muted)}
+.intro-sub{font-size:16px;color:var(--muted);line-height:1.65;max-width:400px;margin:0 auto 36px;font-weight:300}
+
 .intro-btn{
   display:inline-block;
-  background:var(--ink);
-  color:var(--white);
+  background:var(--accent);
+  color:#000;
   border:none;
-  padding:16px 40px;
-  font-family:var(--sans);
+  padding:16px 36px;
+  font-family:var(--display);
   font-size:16px;
-  font-weight:500;
+  font-weight:700;
   letter-spacing:-.3px;
   cursor:pointer;
   border-radius:4px;
   transition:all .15s;
+  text-decoration:none;
 }
-.intro-btn:hover{background:#333;transform:translateY(-1px)}
-.intro-btn:active{transform:translateY(0)}
+.intro-btn:hover{background:#d4f550;transform:translateY(-1px)}
 
-.intro-note{
-  margin-top:16px;
-  font-family:var(--mono);
-  font-size:11px;
-  color:var(--muted);
-  letter-spacing:.5px;
-}
+.intro-note{margin-top:14px;font-family:var(--mono);font-size:11px;color:var(--muted2);letter-spacing:.5px}
 
-/* QUESTION SCREEN */
-.question{display:none;animation:slideIn .35s cubic-bezier(.4,0,.2,1)}
+/* QUESTION */
+.question{display:none;animation:slideIn .3s cubic-bezier(.4,0,.2,1)}
 .question.active{display:block}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
 
-@keyframes slideIn{
-  from{opacity:0;transform:translateX(24px)}
-  to{opacity:1;transform:translateX(0)}
-}
-
-.q-step{
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:16px;
-}
-
-.q-text{
-  font-size:clamp(22px,5vw,34px);
-  font-weight:500;
-  line-height:1.2;
-  letter-spacing:-.5px;
-  color:var(--ink);
-  margin-bottom:8px;
-}
-
-.q-sub{
-  font-size:15px;
-  color:var(--muted);
-  font-weight:300;
-  margin-bottom:32px;
-  line-height:1.5;
-}
+.q-step{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+.q-text{font-family:var(--display);font-size:clamp(22px,5vw,34px);font-weight:700;line-height:1.1;letter-spacing:-1px;color:var(--text);margin-bottom:8px}
+.q-sub{font-size:14px;color:var(--muted);font-weight:300;margin-bottom:28px;line-height:1.5}
 
 /* ANSWER CARDS */
-.answers{display:flex;flex-direction:column;gap:10px}
+.answers{display:flex;flex-direction:column;gap:8px}
 
 .answer-card{
-  background:var(--white);
-  border:2px solid var(--border);
-  border-radius:10px;
-  padding:18px 20px;
+  background:var(--s1);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:16px 18px;
   cursor:pointer;
   transition:all .15s;
   display:flex;
   align-items:center;
-  gap:16px;
+  gap:14px;
   text-align:left;
   width:100%;
   position:relative;
   overflow:hidden;
 }
 
-.answer-card::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:var(--accent);
-  opacity:0;
-  transition:opacity .15s;
-}
-
-.answer-card:hover{
-  border-color:var(--ink);
-  transform:translateY(-1px);
-  box-shadow:0 4px 16px rgba(0,0,0,.08);
-}
-
-.answer-card:hover::before{opacity:.06}
+.answer-card:hover{border-color:var(--border2);background:var(--s2);transform:translateX(4px)}
 
 .answer-card.selected{
-  border-color:var(--ink);
-  background:var(--ink);
+  border-color:var(--accent);
+  background:rgba(200,241,53,.08);
 }
 
-.answer-card.selected .answer-text{color:var(--white)}
-.answer-card.selected .answer-sub{color:rgba(255,255,255,.6)}
-.answer-card.selected .answer-emoji{filter:none}
+.answer-card.selected .answer-text{color:var(--accent)}
+.answer-card.selected .answer-emoji{transform:scale(1.1)}
 
-.answer-emoji{
-  font-size:26px;
-  flex-shrink:0;
-  width:40px;
-  text-align:center;
-  position:relative;
-  z-index:1;
-}
+.answer-emoji{font-size:24px;flex-shrink:0;width:36px;text-align:center;transition:transform .15s}
+.answer-body{flex:1}
+.answer-text{font-size:15px;font-weight:500;color:var(--text);margin-bottom:2px;line-height:1.3;transition:color .15s}
+.answer-sub{font-size:12px;color:var(--muted);font-weight:300;line-height:1.4;font-family:var(--mono)}
 
-.answer-body{flex:1;position:relative;z-index:1}
-.answer-text{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:2px;line-height:1.3}
-.answer-sub{font-size:13px;color:var(--muted);font-weight:300;line-height:1.4}
-
-/* RESULT SCREEN */
+/* RESULT */
 .result{display:none;animation:slideIn .35s cubic-bezier(.4,0,.2,1)}
 .result.active{display:block}
 
+/* Result header */
 .result-header{
-  background:var(--ink);
-  color:var(--white);
-  border-radius:12px;
-  padding:32px 28px;
-  margin-bottom:24px;
-  position:relative;
-  overflow:hidden;
-}
-
-.result-header::after{
-  content:'';
-  position:absolute;
-  bottom:-20px;
-  right:-20px;
-  width:120px;
-  height:120px;
-  background:var(--accent);
-  border-radius:50%;
-  opacity:.15;
-}
-
-.result-tag{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.5);
-  margin-bottom:12px;
-}
-
-.result-headline{
-  font-size:clamp(22px,5vw,32px);
-  font-weight:600;
-  line-height:1.2;
-  letter-spacing:-.5px;
-  margin-bottom:12px;
-  color:var(--white);
-  position:relative;
-  z-index:1;
-}
-
-.result-headline .hl{color:var(--accent)}
-
-.result-body{
-  font-size:15px;
-  color:rgba(255,255,255,.7);
-  line-height:1.7;
-  font-weight:300;
-  position:relative;
-  z-index:1;
-}
-
-.result-body strong{color:var(--white);font-weight:500}
-
-/* TOOL CARD */
-.tool-recommendation{
-  background:var(--white);
-  border:2px solid var(--border);
-  border-radius:12px;
-  padding:24px;
+  background:var(--s1);
+  border:1px solid var(--border2);
+  border-left:4px solid var(--accent);
+  border-radius:8px;
+  padding:28px 24px;
   margin-bottom:16px;
-  transition:border-color .15s;
 }
 
-.tool-rec-label{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--muted);
+.result-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.result-headline{font-family:var(--display);font-size:clamp(20px,4vw,28px);font-weight:700;line-height:1.2;letter-spacing:-.5px;margin-bottom:10px;color:var(--text)}
+.result-headline .hl{color:var(--accent)}
+.result-body{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+.result-body strong{color:var(--text);font-weight:500}
+
+/* Tool recommendation */
+.tool-rec{
+  background:var(--s1);
+  border:1px solid var(--border2);
+  border-radius:8px;
+  padding:22px;
   margin-bottom:12px;
 }
 
-.tool-rec-name{
-  font-size:22px;
-  font-weight:600;
-  color:var(--ink);
-  letter-spacing:-.5px;
-  margin-bottom:8px;
-}
+.tool-rec-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.tool-rec-name{font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:-.5px;color:var(--text);margin-bottom:8px}
+.tool-rec-why{font-size:13px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:18px}
+.tool-rec-why strong{color:var(--text);font-weight:500}
 
-.tool-rec-why{
-  font-size:14px;
-  color:var(--muted);
-  line-height:1.6;
-  font-weight:300;
-  margin-bottom:20px;
-}
-
-.tool-rec-why strong{color:var(--ink);font-weight:500}
-
-/* Example numbers */
+/* Example box */
 .example-box{
   background:var(--bg);
   border:1px solid var(--border);
-  border-radius:8px;
-  padding:14px 16px;
-  margin-bottom:20px;
+  border-radius:6px;
+  padding:12px 14px;
+  margin-bottom:16px;
 }
-.example-label{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:8px;
-}
-.example-numbers{
-  font-family:var(--mono);
-  font-size:13px;
-  color:var(--ink2);
-  line-height:1.8;
-}
-.example-numbers span{color:var(--orange);font-weight:500}
+.example-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.example-numbers{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.9}
+.example-numbers span{color:var(--accent)}
 
 .go-btn{
   display:block;
   width:100%;
   background:var(--accent);
-  color:var(--ink);
+  color:#000;
   border:none;
-  padding:16px;
-  font-family:var(--sans);
+  padding:15px;
+  font-family:var(--display);
   font-size:16px;
-  font-weight:600;
+  font-weight:700;
   letter-spacing:-.2px;
   cursor:pointer;
-  border-radius:8px;
+  border-radius:6px;
   transition:all .15s;
   text-decoration:none;
   text-align:center;
 }
-.go-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,241,53,.4)}
+.go-btn:hover{background:#d4f550;transform:translateY(-1px)}
 
-/* Secondary tools */
+/* Also try */
 .also-try{
-  background:var(--white);
+  background:var(--s1);
   border:1px solid var(--border);
-  border-radius:12px;
-  padding:20px 24px;
-  margin-bottom:24px;
+  border-radius:8px;
+  padding:18px 20px;
+  margin-bottom:12px;
 }
-.also-label{
-  font-family:var(--mono);
-  font-size:10px;
-  letter-spacing:3px;
-  text-transform:uppercase;
-  color:var(--muted);
-  margin-bottom:14px;
-}
-.also-tools{display:flex;flex-direction:column;gap:10px}
-.also-tool{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  text-decoration:none;
-  padding:10px 12px;
-  border-radius:6px;
-  transition:background .12s;
-}
-.also-tool:hover{background:var(--bg)}
-.also-tool-icon{font-size:20px;flex-shrink:0}
-.also-tool-info{flex:1}
-.also-tool-name{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:1px}
-.also-tool-why{font-size:12px;color:var(--muted);font-weight:300}
-.also-tool-arr{font-size:14px;color:var(--muted)}
+.also-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.also-tools{display:flex;flex-direction:column;gap:2px}
+.also-tool{display:flex;align-items:center;gap:12px;text-decoration:none;padding:9px 10px;border-radius:6px;transition:background .12s}
+.also-tool:hover{background:var(--s2)}
+.also-tool-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.also-tool-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:1px}
+.also-tool-why{font-size:11px;color:var(--muted);font-weight:300;font-family:var(--mono)}
+.also-tool-arr{font-size:13px;color:var(--muted);margin-left:auto;flex-shrink:0}
 
 /* Restart */
 .restart-btn{
   width:100%;
   background:transparent;
-  border:1px solid var(--border2);
+  border:1px solid var(--border);
   color:var(--muted);
   padding:13px;
   font-family:var(--mono);
-  font-size:11px;
+  font-size:10px;
   letter-spacing:2px;
   text-transform:uppercase;
   cursor:pointer;
-  border-radius:8px;
+  border-radius:6px;
   transition:all .12s;
 }
-.restart-btn:hover{border-color:var(--ink);color:var(--ink)}
+.restart-btn:hover{border-color:var(--border2);color:var(--text)}
 
 @media(max-width:520px){
-  .quiz-wrap{padding:32px 16px 60px}
-  .intro{padding:40px 0}
-  .answer-card{padding:14px 16px}
-  .result-header{padding:24px 20px}
+  .wrap{padding:36px 16px 60px}
+  .intro{padding:28px 0}
+  .answer-card{padding:13px 14px}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="/" class="nav-logo">OBJECTIVELY<span>.</span></a>
-  <a href="/" class="nav-back">← Back to tools</a>
+  <a href="/" class="nav-logo">OBJECTIVELY.</a>
+  <a href="/" class="nav-back">← All tools</a>
 </nav>
 
-<div class="quiz-wrap">
+<div class="wrap">
   <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 
   <!-- INTRO -->
   <div class="intro" id="screen-intro">
-    <div class="intro-tag">// Objectively — Find Your Starting Point</div>
+    <div class="intro-eyebrow">// Find your starting point</div>
     <h1 class="intro-title">Not sure<br><em>where to start?</em></h1>
-    <p class="intro-sub">4 quick questions. No jargon. No judgment. We'll tell you the one thing that matters most for your situation right now.</p>
-    <button class="intro-btn" onclick="startQuiz()">Show me where to begin →</button>
+    <p class="intro-sub">4 quick questions. No jargon. No judgment. We'll point you to the one thing that matters most for your situation right now.</p>
+    <button class="intro-btn" onclick="startQuiz()">Let's figure it out →</button>
     <div class="intro-note">Takes about 60 seconds</div>
   </div>
 
-  <!-- Q1: SITUATION -->
+  <!-- Q1 -->
   <div class="question" id="screen-q1">
     <div class="q-step">Question 1 of 4</div>
     <div class="q-text">How's your financial situation right now?</div>
@@ -435,36 +255,24 @@ nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-betw
     <div class="answers">
       <button class="answer-card" onclick="answer(1,'paycheck')">
         <span class="answer-emoji">😤</span>
-        <div class="answer-body">
-          <div class="answer-text">Paycheck to paycheck</div>
-          <div class="answer-sub">Money runs out before the month does</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Paycheck to paycheck</div><div class="answer-sub">Money runs out before the month does</div></div>
       </button>
       <button class="answer-card" onclick="answer(1,'tight')">
         <span class="answer-emoji">😬</span>
-        <div class="answer-body">
-          <div class="answer-text">Some breathing room, but not much</div>
-          <div class="answer-sub">I get by but there's not a lot left over</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Some breathing room, but not much</div><div class="answer-sub">I get by but there's not a lot left over</div></div>
       </button>
       <button class="answer-card" onclick="answer(1,'stable')">
         <span class="answer-emoji">🙂</span>
-        <div class="answer-body">
-          <div class="answer-text">Pretty stable</div>
-          <div class="answer-sub">Decent income, covering my bases</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Pretty stable</div><div class="answer-sub">Decent income, covering my bases</div></div>
       </button>
       <button class="answer-card" onclick="answer(1,'doing-well')">
         <span class="answer-emoji">💪</span>
-        <div class="answer-body">
-          <div class="answer-text">Doing well — just not optimizing</div>
-          <div class="answer-sub">Good income, but not sure I'm making the most of it</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Doing well — just not optimizing</div><div class="answer-sub">Good income, but not sure I'm making the most of it</div></div>
       </button>
     </div>
   </div>
 
-  <!-- Q2: STRESS -->
+  <!-- Q2 -->
   <div class="question" id="screen-q2">
     <div class="q-step">Question 2 of 4</div>
     <div class="q-text">What's your biggest financial stress right now?</div>
@@ -472,43 +280,28 @@ nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-betw
     <div class="answers">
       <button class="answer-card" onclick="answer(2,'missing')">
         <span class="answer-emoji">🤷</span>
-        <div class="answer-body">
-          <div class="answer-text">I don't know where my money goes</div>
-          <div class="answer-sub">I earn it and it disappears</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">I don't know where my money goes</div><div class="answer-sub">I earn it and it disappears</div></div>
       </button>
       <button class="answer-card" onclick="answer(2,'debt')">
         <span class="answer-emoji">💳</span>
-        <div class="answer-body">
-          <div class="answer-text">Debt feels out of control</div>
-          <div class="answer-sub">Credit cards, loans — it's stressful</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Debt feels out of control</div><div class="answer-sub">Credit cards, loans — it's stressful</div></div>
       </button>
       <button class="answer-card" onclick="answer(2,'behind')">
         <span class="answer-emoji">📅</span>
-        <div class="answer-body">
-          <div class="answer-text">I feel behind for my age</div>
-          <div class="answer-sub">I worry I'm not where I should be</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">I feel behind for my age</div><div class="answer-sub">I worry I'm not where I should be</div></div>
       </button>
       <button class="answer-card" onclick="answer(2,'grow')">
         <span class="answer-emoji">📈</span>
-        <div class="answer-body">
-          <div class="answer-text">I want to grow what I have</div>
-          <div class="answer-sub">I have some money but don't know what to do with it</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">I want to grow what I have</div><div class="answer-sub">I have some money but don't know what to do with it</div></div>
       </button>
       <button class="answer-card" onclick="answer(2,'purchase')">
         <span class="answer-emoji">🚗</span>
-        <div class="answer-body">
-          <div class="answer-text">I'm making a big purchase soon</div>
-          <div class="answer-sub">Car, house, or something major</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">I'm making a big purchase soon</div><div class="answer-sub">Car, house, or something major</div></div>
       </button>
     </div>
   </div>
 
-  <!-- Q3: KNOWLEDGE -->
+  <!-- Q3 -->
   <div class="question" id="screen-q3">
     <div class="q-step">Question 3 of 4</div>
     <div class="q-text">How comfortable are you with money stuff?</div>
@@ -516,29 +309,20 @@ nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-betw
     <div class="answers">
       <button class="answer-card" onclick="answer(3,'none')">
         <span class="answer-emoji">🆕</span>
-        <div class="answer-body">
-          <div class="answer-text">Honestly — not much</div>
-          <div class="answer-sub">I know I should know more but I don't</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Honestly — not much</div><div class="answer-sub">I know I should know more but I don't</div></div>
       </button>
       <button class="answer-card" onclick="answer(3,'basics')">
         <span class="answer-emoji">📚</span>
-        <div class="answer-body">
-          <div class="answer-text">I know the basics</div>
-          <div class="answer-sub">Budget, savings, basic investing — I get it</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">I know the basics</div><div class="answer-sub">Budget, savings, basic investing — I get it</div></div>
       </button>
       <button class="answer-card" onclick="answer(3,'comfortable')">
         <span class="answer-emoji">💡</span>
-        <div class="answer-body">
-          <div class="answer-text">Pretty comfortable</div>
-          <div class="answer-sub">I understand most concepts, I just need the numbers</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Pretty comfortable</div><div class="answer-sub">I understand most concepts, I just need the numbers</div></div>
       </button>
     </div>
   </div>
 
-  <!-- Q4: AGE -->
+  <!-- Q4 -->
   <div class="question" id="screen-q4">
     <div class="q-step">Question 4 of 4</div>
     <div class="q-text">How old are you, roughly?</div>
@@ -546,31 +330,19 @@ nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-betw
     <div class="answers">
       <button class="answer-card" onclick="answer(4,'under25')">
         <span class="answer-emoji">🌱</span>
-        <div class="answer-body">
-          <div class="answer-text">Under 25</div>
-          <div class="answer-sub">Just starting out</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Under 25</div><div class="answer-sub">Just starting out</div></div>
       </button>
       <button class="answer-card" onclick="answer(4,'25to35')">
         <span class="answer-emoji">🚀</span>
-        <div class="answer-body">
-          <div class="answer-text">25 to 35</div>
-          <div class="answer-sub">Building phase</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">25 to 35</div><div class="answer-sub">Building phase</div></div>
       </button>
       <button class="answer-card" onclick="answer(4,'35to50')">
         <span class="answer-emoji">⚡</span>
-        <div class="answer-body">
-          <div class="answer-text">35 to 50</div>
-          <div class="answer-sub">Peak earning years</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">35 to 50</div><div class="answer-sub">Peak earning years</div></div>
       </button>
       <button class="answer-card" onclick="answer(4,'over50')">
         <span class="answer-emoji">🎯</span>
-        <div class="answer-body">
-          <div class="answer-text">Over 50</div>
-          <div class="answer-sub">Focused on the finish line</div>
-        </div>
+        <div class="answer-body"><div class="answer-text">Over 50</div><div class="answer-sub">Focused on the finish line</div></div>
       </button>
     </div>
   </div>
@@ -578,16 +350,16 @@ nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-betw
   <!-- RESULT -->
   <div class="result" id="screen-result">
     <div class="result-header">
-      <div class="result-tag">// YOUR STARTING POINT</div>
+      <div class="result-tag">// Your starting point</div>
       <div class="result-headline" id="resultHeadline"></div>
       <div class="result-body" id="resultBody"></div>
     </div>
 
-    <div class="tool-recommendation">
+    <div class="tool-rec">
       <div class="tool-rec-label">Your First Move</div>
       <div class="tool-rec-name" id="toolName"></div>
       <div class="tool-rec-why" id="toolWhy"></div>
-      <div class="example-box" id="exampleBox">
+      <div class="example-box">
         <div class="example-label">Example — try these numbers to start</div>
         <div class="example-numbers" id="exampleNumbers"></div>
       </div>
@@ -599,19 +371,16 @@ nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-betw
       <div class="also-tools" id="alsoTools"></div>
     </div>
 
-    <button class="restart-btn" onclick="restart()">← Start Over</button>
+    <button class="restart-btn" onclick="restart()">← Start over</button>
   </div>
 
 </div>
 
 <script>
 const answers = {};
-let currentQ = 0;
-
-const screens = ['intro','q1','q2','q3','q4','result'];
 
 function showScreen(id) {
-  document.querySelectorAll('.intro, .question, .result').forEach(el => {
+  document.querySelectorAll('.intro,.question,.result').forEach(el => {
     el.style.display = 'none';
     el.classList.remove('active');
   });
@@ -620,189 +389,143 @@ function showScreen(id) {
 }
 
 function updateProgress(step) {
-  // step 0=intro, 1-4=questions, 5=result
   const pct = step === 0 ? 0 : step >= 5 ? 100 : (step / 4) * 100;
   document.getElementById('progressFill').style.width = pct + '%';
 }
 
-function startQuiz() {
-  showScreen('q1');
-  updateProgress(1);
-}
+function startQuiz() { showScreen('q1'); updateProgress(1); }
 
 function answer(q, val) {
   answers[q] = val;
-
-  // Animate selection briefly
-  event.currentTarget.classList.add('selected');
-
+  const card = event.currentTarget;
+  card.classList.add('selected');
   setTimeout(function() {
-    if (q < 4) {
-      showScreen('q' + (q + 1));
-      updateProgress(q + 1);
-    } else {
-      showResult();
-      updateProgress(5);
-    }
+    if (q < 4) { showScreen('q' + (q+1)); updateProgress(q+1); }
+    else { showResult(); updateProgress(5); }
   }, 220);
 }
 
-// ─── RESULT LOGIC ─────────────────────────────────────────────────────────────
 function showResult() {
-  const sit  = answers[1]; // paycheck | tight | stable | doing-well
-  const str  = answers[2]; // missing | debt | behind | grow | purchase
-  const know = answers[3]; // none | basics | comfortable
-  const age  = answers[4]; // under25 | 25to35 | 35to50 | over50
+  const sit  = answers[1];
+  const str  = answers[2];
+  const know = answers[3];
+  const age  = answers[4];
 
-  let headline, body, tool, toolLink, toolWhy, example, also;
+  let headline, body, tool, toolUrl, toolWhy, example, also;
 
-  // ── ROUTING LOGIC ──────────────────────────────────────────────────────────
-
-  // Big purchase — always route to RealDeal
   if (str === 'purchase') {
     headline = 'Know the real number <span class="hl">before you sign.</span>';
     body = 'You\'re about to make one of the biggest financial decisions of your life. The number the dealership or lender shows you is not the full picture. <strong>You deserve to see the real one first.</strong>';
     tool = '🚗 Real Payment Calculator';
-    toolLink = '/realdeal/';
-    toolWhy = 'Built by an F&I manager — the person on the other side of the desk. See your real car payment or mortgage payment including taxes, fees, and what your approval odds actually look like. Know before you walk in.';
-    example = 'Vehicle price: <span>$25,000</span>\nDown payment: <span>$2,000</span>\nIncome: <span>$3,500/mo</span>\nCredit tier: <span>Fair (580-659)</span>';
+    toolUrl = '/realdeal/';
+    toolWhy = 'Built by an F&I manager — the person on the other side of the desk. See your real car payment or mortgage including taxes, fees, and what your approval odds actually look like. Know before you walk in.';
+    example = 'Vehicle price: <span>$25,000</span>\nDown payment: <span>$2,000</span>\nMonthly income: <span>$3,500</span>\nCredit tier: <span>Fair (580-659)</span>';
     also = [
-      { icon:'💸', name:'Paycheck Reality', why:'Make sure the payment actually fits your take-home', url:'/paycheck/' },
+      { icon:'💸', name:'Paycheck Reality', why:'Make sure the payment fits your actual take-home', url:'/paycheck/' },
       { icon:'🎯', name:'Should I Buy This?', why:'Score the decision before you commit', url:'/decision/' },
     ];
-  }
-
-  // Paycheck to paycheck + don't know where money goes
-  else if (sit === 'paycheck' && str === 'missing') {
-    headline = 'First — let\'s find out <span class="hl">what actually hits your account.</span>';
-    body = 'When you don\'t know where the money goes, the first thing to check is where it starts. <strong>Most people are shocked by how much disappears before they ever see it.</strong> Taxes, FICA, benefits — it adds up fast.';
+  } else if (sit === 'paycheck' && str === 'missing') {
+    headline = 'First — find out what <span class="hl">actually hits your account.</span>';
+    body = 'When money disappears and you don\'t know where it goes, the first thing to check is where it starts. <strong>Most people are shocked by how much is taken before they ever see it.</strong>';
     tool = '💸 Paycheck Reality';
-    toolLink = '/paycheck/';
-    toolWhy = 'See your real take-home after every deduction — federal taxes, state taxes, Social Security, Medicare, 401k. Once you know the real number, you can actually plan around it.';
-    example = 'Annual salary: <span>$40,000</span>\nState: <span>Ohio</span>\nFiling status: <span>Single</span>\n401k: <span>0%</span> (for now)';
+    toolUrl = '/paycheck/';
+    toolWhy = 'See your real take-home after every deduction — federal taxes, state taxes, Social Security, Medicare, 401k. This number is your real baseline. Everything else follows from it.';
+    example = 'Annual salary: <span>$40,000</span>\nState: <span>Ohio</span>\nFiling status: <span>Single</span>\n401k: <span>0%</span>';
     also = [
       { icon:'🎯', name:'Should I Buy This?', why:'When every dollar counts, score each decision first', url:'/decision/' },
       { icon:'📊', name:'Am I On Track?', why:'See where you stand vs others your age', url:'/track/' },
     ];
-  }
-
-  // Debt stress
-  else if (str === 'debt') {
+  } else if (str === 'debt') {
     headline = 'Debt is just <span class="hl">math. Let\'s look at it.</span>';
-    body = 'Debt feels overwhelming because it\'s invisible — you know it\'s there but you avoid looking directly at it. <strong>The first step is just seeing the real numbers clearly.</strong> Once you do, it\'s just a problem to solve.';
+    body = 'Debt feels overwhelming because it\'s invisible — you know it\'s there but avoid looking at it directly. <strong>The first step is just seeing the real numbers clearly.</strong> Once you do, it\'s a problem to solve.';
     tool = '🗂️ Money Allocator';
-    toolLink = '/allocate/';
-    toolWhy = 'The Money Allocator will tell you upfront — before investing a single dollar — how much should go toward paying off high-interest debt first. Paying off 20% credit card debt is the same as earning 20% guaranteed. Nothing beats it.';
-    example = 'Amount to allocate: <span>$500/mo</span>\nTime horizon: <span>3-5 years</span>\nDebt status: <span>Significant ($10k+)</span>\nRisk: <span>Hold tight</span>';
+    toolUrl = '/allocate/';
+    toolWhy = 'The Money Allocator tells you upfront — before investing a dollar — how much goes toward paying off high-interest debt first. Paying off 20% credit card debt is a guaranteed 20% return. Nothing beats it.';
+    example = 'Amount to allocate: <span>$500/mo</span>\nTime horizon: <span>3-5 years</span>\nDebt status: <span>Significant ($10k+)</span>\nRisk tolerance: <span>Hold tight</span>';
     also = [
-      { icon:'💸', name:'Paycheck Reality', why:'See exactly how much you actually have to work with', url:'/paycheck/' },
+      { icon:'💸', name:'Paycheck Reality', why:'See exactly how much you have to work with', url:'/paycheck/' },
       { icon:'🎯', name:'Should I Buy This?', why:'Stop adding to the hole — score purchases first', url:'/decision/' },
     ];
-  }
-
-  // Feel behind for age
-  else if (str === 'behind') {
+  } else if (str === 'behind') {
     headline = 'Let\'s see <span class="hl">where you actually stand.</span>';
-    body = 'The feeling of being behind is real — but most people don\'t actually know the number. <strong>Find out where you stand compared to everyone your age, based on real Federal Reserve data.</strong> Then we can talk about what to do about it.';
+    body = 'The feeling of being behind is real — but most people don\'t actually know the number. <strong>Find out where you stand compared to everyone your age, based on real Federal Reserve data.</strong>';
     tool = '📊 Am I On Track?';
-    toolLink = '/track/';
-    toolWhy = 'See your financial percentile by age. Find out your archetype — where you actually stand and what a realistic 10-year projection looks like. The number might surprise you in either direction.';
-    if (age === 'under25') {
-      example = 'Age: <span>22</span>\nSavings: <span>$1,000</span>\nIncome: <span>$32,000/yr</span>\nDebt: <span>$8,000</span>';
-    } else if (age === '25to35') {
-      example = 'Age: <span>29</span>\nSavings: <span>$8,000</span>\nIncome: <span>$55,000/yr</span>\nDebt: <span>$15,000</span>';
-    } else if (age === '35to50') {
-      example = 'Age: <span>41</span>\nSavings: <span>$45,000</span>\nIncome: <span>$85,000/yr</span>\nDebt: <span>$12,000</span>';
-    } else {
-      example = 'Age: <span>54</span>\nSavings: <span>$120,000</span>\nIncome: <span>$90,000/yr</span>\nDebt: <span>$8,000</span>';
-    }
+    toolUrl = '/track/';
+    toolWhy = 'See your financial percentile by age. Find your archetype — where you actually stand and what a realistic 10-year projection looks like. The number might surprise you either way.';
+    if (age === 'under25') example = 'Age: <span>22</span>\nSavings: <span>$1,000</span>\nIncome: <span>$32,000/yr</span>\nDebt: <span>$8,000</span>';
+    else if (age === '25to35') example = 'Age: <span>29</span>\nSavings: <span>$8,000</span>\nIncome: <span>$55,000/yr</span>\nDebt: <span>$15,000</span>';
+    else if (age === '35to50') example = 'Age: <span>41</span>\nSavings: <span>$45,000</span>\nIncome: <span>$85,000/yr</span>\nDebt: <span>$12,000</span>';
+    else example = 'Age: <span>54</span>\nSavings: <span>$120,000</span>\nIncome: <span>$90,000/yr</span>\nDebt: <span>$8,000</span>';
     also = [
-      { icon:'📈', name:'What Could $X Become?', why:'See what starting to invest now actually does over time', url:'/invest/' },
-      { icon:'🗂️', name:'Money Allocator', why:'Figure out exactly where to put money once you have it', url:'/allocate/' },
+      { icon:'📈', name:'What Could $X Become?', why:'See what starting to invest now does over time', url:'/invest/' },
+      { icon:'🗂️', name:'Money Allocator', why:'Figure out where to put money once you have it', url:'/allocate/' },
     ];
-  }
-
-  // Want to grow money
-  else if (str === 'grow') {
-    if (know === 'none') {
-      headline = 'Here\'s the thing about <span class="hl">your first $1,000.</span>';
-      body = '<strong>You don\'t need to know what an S&P 500 is to start.</strong> You just need to see what happens to money when you leave it alone and let it compound. One number. See it grow. That\'s the whole lesson.';
-      tool = '📈 What Could $X Become?';
-      toolLink = '/invest/';
-      toolWhy = 'Enter any amount and see what it becomes over time in the S&P 500 — one of the most searched-for investing concepts in America. We explain it in plain English. No jargon. Start here.';
-      example = 'Starting amount: <span>$1,000</span>\nMonthly addition: <span>$50</span>\nTime horizon: <span>20 years</span>\nInflation adjusted: <span>Off (see the big number first)</span>';
-    } else {
-      headline = 'You have money. <span class="hl">Let\'s put it to work.</span>';
-      body = 'Having money sitting in a regular savings account is one of the most common and most expensive mistakes in personal finance. <strong>You\'re already doing the hard part — earning it. Now let it work for you.</strong>';
-      tool = '🗂️ Money Allocator';
-      toolLink = '/allocate/';
-      toolWhy = 'Get a real opinionated allocation — not a generic pie chart. Tell us your timeline, risk tolerance, and situation. We\'ll give you actual dollar amounts across savings, bonds, index funds, and more.';
-      example = 'Amount to allocate: <span>$10,000</span>\nTime horizon: <span>10+ years</span>\nEmergency fund: <span>Yes, fully funded</span>\nRisk: <span>I\'d hold tight</span>';
-    }
+  } else if (str === 'grow' && know === 'none') {
+    headline = 'Here\'s what happens to <span class="hl">your first $1,000.</span>';
+    body = '<strong>You don\'t need to know what an S&P 500 is to start.</strong> You just need to see what happens when you leave money alone and let it compound. One number. Watch it grow.';
+    tool = '📈 What Could $X Become?';
+    toolUrl = '/invest/';
+    toolWhy = 'Enter any amount and see what it becomes over time. We explain everything in plain English — no jargon. The S&P 500, bonds, HYSA. See the numbers side by side and it clicks immediately.';
+    example = 'Starting amount: <span>$1,000</span>\nMonthly addition: <span>$50</span>\nTime horizon: <span>20 years</span>\nInflation adjusted: <span>Off (see the big number first)</span>';
     also = [
+      { icon:'🗂️', name:'Money Allocator', why:'Once you\'re ready — figure out exactly how to split it', url:'/allocate/' },
       { icon:'📊', name:'Am I On Track?', why:'Know where you stand before you start investing', url:'/track/' },
-      { icon:'💸', name:'Paycheck Reality', why:'Confirm how much you have to invest monthly', url:'/paycheck/' },
     ];
-  }
-
-  // Doing well / stable — optimize
-  else if (sit === 'doing-well' || (sit === 'stable' && str !== 'missing')) {
+  } else if (str === 'grow') {
+    headline = 'You have money. <span class="hl">Let\'s put it to work.</span>';
+    body = 'Money sitting in a regular savings account is one of the most common and most expensive mistakes in personal finance. <strong>You\'re doing the hard part — earning it. Now let it work for you.</strong>';
+    tool = '🗂️ Money Allocator';
+    toolUrl = '/allocate/';
+    toolWhy = 'Get a real opinionated allocation with actual dollar amounts — not a generic pie chart. Tell us your timeline, risk tolerance, and situation. We\'ll tell you exactly how to split it.';
+    example = 'Amount to allocate: <span>$10,000</span>\nTime horizon: <span>10+ years</span>\nEmergency fund: <span>Fully funded</span>\nRisk: <span>I\'d hold tight</span>';
+    also = [
+      { icon:'📊', name:'Am I On Track?', why:'Know where you stand before you invest', url:'/track/' },
+      { icon:'💸', name:'Paycheck Reality', why:'Confirm how much you can invest monthly', url:'/paycheck/' },
+    ];
+  } else if (sit === 'doing-well' || sit === 'stable') {
     headline = 'You\'re earning well. <span class="hl">Is the money doing the same?</span>';
     body = 'High income and low savings is more common than you\'d think — and it compounds against you just like good savings compounds for you. <strong>The question isn\'t how much you make. It\'s how much you keep and where it goes.</strong>';
     tool = '🗂️ Money Allocator';
-    toolLink = '/allocate/';
-    toolWhy = 'Built for exactly this situation. Tell us your timeline, risk tolerance, and whether you\'re carrying any debt. Get a real allocation with actual dollar amounts — not vague advice. Your money should be working harder than it is.';
-    example = 'Amount to allocate: <span>$25,000</span>\nTime horizon: <span>10+ years</span>\nEmergency fund: <span>Partially funded</span>\nExisting portfolio: <span>Small (under $50k)</span>';
+    toolUrl = '/allocate/';
+    toolWhy = 'Built for exactly this situation. Tell us your timeline, risk tolerance, and debt situation. Get a real allocation with actual dollar amounts. Your money should be working harder than it is.';
+    example = 'Amount to allocate: <span>$25,000</span>\nTime horizon: <span>10+ years</span>\nEmergency fund: <span>Partial</span>\nExisting portfolio: <span>Small (under $50k)</span>';
     also = [
       { icon:'💸', name:'Paycheck Reality', why:'See how much is really left after every deduction', url:'/paycheck/' },
       { icon:'📈', name:'What Could $X Become?', why:'See what your money does if you actually invest it', url:'/invest/' },
       { icon:'❤️', name:'Health ROI', why:'Your habits are a financial decision too', url:'/health/' },
     ];
-  }
-
-  // Tight / missing money
-  else {
+  } else {
     headline = 'Start with <span class="hl">what you actually take home.</span>';
-    body = 'When money is tight the most powerful thing you can do is understand exactly where it starts. <strong>Most people have no idea how much disappears before their direct deposit hits.</strong> That number is your real baseline — everything else follows from it.';
+    body = 'When money is tight the most powerful thing you can do is understand exactly where it starts. <strong>Most people have no idea how much disappears before their direct deposit hits.</strong>';
     tool = '💸 Paycheck Reality';
-    toolLink = '/paycheck/';
-    toolWhy = 'See your exact take-home after federal taxes, state taxes, Social Security, Medicare, and any deductions. All 50 states. Includes bonus income. Once you have this number you can actually plan.';
-    example = 'Annual salary: <span>$48,000</span>\nState: <span>Select yours</span>\nFiling status: <span>Single</span>\n401k contribution: <span>0% to start</span>';
+    toolUrl = '/paycheck/';
+    toolWhy = 'See your exact take-home after every deduction. All 50 states. Once you have this number you can actually plan around it instead of guessing.';
+    example = 'Annual salary: <span>$48,000</span>\nState: <span>Select yours</span>\nFiling status: <span>Single</span>\n401k: <span>0% to start</span>';
     also = [
       { icon:'🎯', name:'Should I Buy This?', why:'Score any purchase decision before you commit', url:'/decision/' },
       { icon:'📊', name:'Am I On Track?', why:'Know where you stand vs others your age', url:'/track/' },
     ];
   }
 
-  // ── RENDER ────────────────────────────────────────────────────────────────
   document.getElementById('resultHeadline').innerHTML = headline;
   document.getElementById('resultBody').innerHTML = body;
   document.getElementById('toolName').textContent = tool;
   document.getElementById('toolWhy').innerHTML = toolWhy;
-  document.getElementById('toolLink').href = toolLink;
+  document.getElementById('toolLink').href = toolUrl;
   document.getElementById('exampleNumbers').innerHTML = example.replace(/\n/g,'<br>');
-
   document.getElementById('alsoTools').innerHTML = (also||[]).map(t =>
-    `<a href="${t.url}" class="also-tool">
-      <span class="also-tool-icon">${t.icon}</span>
-      <div class="also-tool-info">
-        <div class="also-tool-name">${t.name}</div>
-        <div class="also-tool-why">${t.why}</div>
-      </div>
-      <span class="also-tool-arr">→</span>
-    </a>`
+    '<a href="'+t.url+'" class="also-tool"><span class="also-tool-icon">'+t.icon+'</span><div><div class="also-tool-name">'+t.name+'</div><div class="also-tool-why">'+t.why+'</div></div><span class="also-tool-arr">→</span></a>'
   ).join('');
 
   showScreen('result');
 }
 
 function restart() {
-  answers[1] = answers[2] = answers[3] = answers[4] = null;
+  answers[1]=answers[2]=answers[3]=answers[4]=null;
   showScreen('intro');
   updateProgress(0);
 }
 
-// Init
 showScreen('intro');
 updateProgress(0);
 </script>

@@ -14,7 +14,7 @@
 <meta name="twitter:title" content="How Much Do Your Habits Cost Over a Lifetime? — Health ROI Calculator">
 <meta name="twitter:description" content="See the lifetime financial gap between your current habits and an optimized baseline. Smoking, drinking, sleep, exercise — every habit has a dollar cost. No lectures. Just numbers.">
 <meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Exo+2:wght@300;400;500;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #080c0a;
@@ -29,7 +29,7 @@
   --text: #d4e8db;
   --muted: #4a6b55;
   --muted2: #2a3d30;
-  --mono: 'Share Tech Mono', monospace;
+  --mono: 'IBM Plex Mono', monospace;
   --display: 'Exo 2', sans-serif;
   --body: 'Barlow', sans-serif;
 }
@@ -70,12 +70,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,12,10,.95);backdrop-filt
 .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;opacity:0;animation:fadeIn .6s ease forwards 1s}
 .hstat{background:var(--panel);border:1px solid var(--border2);padding:12px 14px;border-radius:2px}
 .hstat-val{font-family:var(--mono);font-size:18px;color:var(--pulse);margin-bottom:3px;filter:drop-shadow(0 0 6px rgba(0,255,136,.4))}
-.hstat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);line-height:1.4}
+.hstat-lbl{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);line-height:1.4}
 
 .input-panel{background:var(--panel);border:1px solid var(--border2);border-radius:2px;overflow:hidden;margin-bottom:12px}
 .panel-head{display:flex;align-items:center;gap:12px;padding:10px 16px;border-bottom:1px solid var(--border);background:var(--panel2)}
-.panel-num{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted)}
-.panel-title{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--pulse)}
+.panel-num{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--muted)}
+.panel-title{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--pulse)}
 .panel-status{margin-left:auto;font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;transition:color .2s}
 .panel-body{padding:16px}
 
@@ -83,7 +83,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,12,10,.95);backdrop-filt
 .habit-row:last-child{border-bottom:none}
 .habit-info{flex:1}
 .habit-label{font-family:var(--mono);font-size:12px;color:var(--text);margin-bottom:2px;letter-spacing:.5px}
-.habit-sub{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.3px}
+.habit-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.3px}
 
 .stepper{display:flex;align-items:center;border:1px solid var(--border2);border-radius:2px;overflow:hidden;flex-shrink:0}
 .step-btn{width:34px;height:34px;background:var(--panel2);border:none;cursor:pointer;font-size:16px;color:var(--muted);transition:all .1s;font-family:var(--mono);display:flex;align-items:center;justify-content:center}
@@ -92,7 +92,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,12,10,.95);backdrop-filt
 .step-val{min-width:48px;height:34px;background:var(--bg);border-left:1px solid var(--border2);border-right:1px solid var(--border2);font-family:var(--mono);font-size:15px;color:var(--pulse);display:flex;align-items:center;justify-content:center;letter-spacing:1px;filter:drop-shadow(0 0 4px rgba(0,255,136,.3))}
 
 .habit-toggle{display:flex;border:1px solid var(--border2);border-radius:2px;overflow:hidden;flex-shrink:0}
-.htog-btn{padding:7px 10px;background:var(--panel2);border:none;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:all .12s;white-space:nowrap}
+.htog-btn{padding:7px 10px;background:var(--panel2);border:none;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);transition:all .12s;white-space:nowrap}
 .htog-btn:not(:last-child){border-right:1px solid var(--border2)}
 .htog-btn:hover{color:var(--text)}
 .htog-btn.active{background:var(--pulse);color:#000;font-weight:700}

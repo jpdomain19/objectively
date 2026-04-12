@@ -1,6 +1,5 @@
 [build]
   functions = "netlify/functions"
-
 [[redirects]]
   from = "/decision"
   to = "/decision/index.html"

@@ -97,6 +97,10 @@ select option{background:#1a1a1a}
 .tbtn.active[data-mt="good"]{border-color:var(--blue);color:var(--blue);background:rgba(77,184,255,.07)}
 .tbtn.active[data-mt="fair"]{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.07)}
 .tbtn.active[data-mt="poor"]{border-color:var(--danger);color:var(--danger);background:rgba(255,69,69,.07)}
+.tbtn.active[data-score="superprime"]{border-color:var(--good);color:var(--good);background:rgba(61,220,132,.12)}
+.tbtn.active[data-score="prime"]{border-color:var(--blue);color:var(--blue);background:rgba(77,184,255,.12)}
+.tbtn.active[data-score="nearPrime"]{border-color:var(--warn);color:var(--warn);background:rgba(255,170,0,.12)}
+.tbtn.active[data-score="subprime"]{border-color:var(--danger);color:var(--danger);background:rgba(255,69,69,.12)}
 
 /* SUBMIT */
 .submit-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:7px;padding:17px;font-family:var(--display);font-weight:800;font-size:17px;letter-spacing:.5px;cursor:pointer;transition:all .15s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:10px}
@@ -247,11 +251,14 @@ select option{background:#1a1a1a}
 
 <!-- MODE TOGGLE -->
 <div style="display:flex;gap:0;margin-bottom:28px;border:1px solid var(--border2);border-radius:6px;overflow:hidden;">
-  <button id="modeAuto" onclick="setMode('auto')" style="flex:1;padding:14px;background:var(--accent);color:#000;border:none;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .15s;">
+  <button id="modeAuto" onclick="setMode('auto')" style="flex:1;padding:14px;background:var(--accent);color:#000;border:none;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;">
     🚗 Auto Loan
   </button>
-  <button id="modeMortgage" onclick="setMode('mortgage')" style="flex:1;padding:14px;background:var(--s2);color:var(--muted);border:none;font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .15s;">
+  <button id="modeMortgage" onclick="setMode('mortgage')" style="flex:1;padding:14px;background:var(--s2);color:var(--muted);border:none;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;border-left:1px solid var(--border2);">
     🏠 Mortgage
+  </button>
+  <button id="modeVerify" onclick="setMode('verify')" style="flex:1;padding:14px;background:var(--s2);color:var(--muted);border:none;font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;border-left:1px solid var(--border2);">
+    🔍 Verify My Deal
   </button>
 </div>
 
@@ -675,8 +682,180 @@ select option{background:#1a1a1a}
 </div><!-- /mortgageCalc -->
 
 <div class="disclaimer">
-  <strong style="color:#444">Heads up:</strong> RealDeal provides educational estimates. Actual approval, rate, and payment depend on your full credit profile, lender decisions, vehicle specifics, and other factors. Tax rates are based on Ohio county data and may not reflect recent changes. Always review your contract line by line before signing anything.
+  <strong style="color:#444">Heads up:</strong> RealDeal provides educational estimates. Actual approval, rate, and payment depend on your full credit profile, lender decisions, vehicle specifics, and other factors. Always review your contract line by line before signing anything.
 </div>
+
+
+<!-- VERIFY MY DEAL -->
+<div id="verifyCalc" style="display:none">
+
+<div style="background:var(--s1);border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:16px 18px;margin-bottom:28px">
+  <div style="font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px">🔍 Verify My Deal</div>
+  <div style="font-size:14px;color:var(--text);font-weight:500;margin-bottom:6px">Got exact numbers from a dealer? Enter them here.</div>
+  <div style="font-size:13px;color:var(--muted);line-height:1.7">We'll calculate your <strong style="color:var(--text)">exact monthly payment</strong>, total cost, and flag anything that looks off — including whether your rate makes sense for your credit score.</div>
+</div>
+
+<!-- VEHICLE PRICE & FEES -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">01</span> Vehicle & Deal Figures</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Vehicle Price (before tax & fees)</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_price" placeholder="35000" oninput="verifyCalc()"></div>
+      <div class="hint">If you're reading from a standard dealer contract (RISC), Line 1 "cash price" already includes tax — enter that number and set tax rate to 0%. Only use the tax rate field if you're entering a pre-tax price.</div>
+    </div>
+    <div class="field">
+      <label>APR / Interest Rate</label>
+      <div class="iw has-suf"><input type="number" id="v_rate" placeholder="6.9" step="0.01" oninput="verifyCalc()"><span class="suf">%</span></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="field">
+      <label>Loan Term</label>
+      <select id="v_term" onchange="verifyCalc()">
+        <option value="24">24 months</option>
+        <option value="36">36 months</option>
+        <option value="48">48 months</option>
+        <option value="60">60 months</option>
+        <option value="72" selected>72 months</option>
+        <option value="84">84 months</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Down Payment</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_down" placeholder="0" value="0" oninput="verifyCalc()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TRADE -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">02</span> Trade-In (if any)</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Trade Value (ACV)</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_trade" placeholder="0" value="0" oninput="verifyCalc()"></div>
+      <div class="hint">What the dealer gives you for your trade</div>
+    </div>
+    <div class="field">
+      <label>Trade Payoff (you owe)</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_payoff" placeholder="0" value="0" oninput="verifyCalc()"></div>
+      <div class="hint">Remaining balance on your current loan</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEES -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">03</span> Taxes & Fees</div>
+  <div class="grid2">
+    <div class="field">
+      <label>Sales Tax Rate</label>
+      <div class="iw has-suf"><input type="number" id="v_tax" placeholder="7.25" step="0.01" oninput="verifyCalc()"><span class="suf">%</span></div>
+      <div class="hint">Leave at 0% if tax is already included in the vehicle price above.</div>
+    </div>
+    <div class="field">
+      <label>Doc Fee</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_doc" placeholder="250" value="0" oninput="verifyCalc()"></div>
+      <div class="hint">Dealer documentation fee</div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="field">
+      <label>Title & Registration</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_title" placeholder="150" value="0" oninput="verifyCalc()"></div>
+    </div>
+    <div class="field">
+      <label>Other Government Fees</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_govfee" placeholder="0" value="0" oninput="verifyCalc()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AFTERMARKET -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">04</span> Aftermarket Products</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.6">Enter any products the dealer added — GAP, extended warranty, paint/fabric protection, etc. These get financed into your loan so they cost more than the sticker price.</div>
+  <div class="grid2">
+    <div class="field">
+      <label>GAP Insurance</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_gap" placeholder="0" value="0" oninput="verifyCalc()"></div>
+    </div>
+    <div class="field">
+      <label>Extended Warranty / VSC</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_warranty" placeholder="0" value="0" oninput="verifyCalc()"></div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="field">
+      <label>Paint / Fabric Protection</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_paint" placeholder="0" value="0" oninput="verifyCalc()"></div>
+    </div>
+    <div class="field">
+      <label>Other Products</label>
+      <div class="iw has-pre"><span class="pre">$</span><input type="number" id="v_other" placeholder="0" value="0" oninput="verifyCalc()"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CREDIT SCORE -->
+<div class="fsec">
+  <div class="slabel"><span class="snum">05</span> Your Credit Score</div>
+  <div style="font-size:12px;color:var(--muted);margin-bottom:14px">We use this to check if the rate you were quoted makes sense for your profile.</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px" id="v_scoreGrid">
+    <button class="tbtn" data-score="superprime" onclick="setVScore(this)">
+      <span class="tn">Super Prime</span>
+      <span class="ts">720+</span>
+    </button>
+    <button class="tbtn" data-score="prime" onclick="setVScore(this)">
+      <span class="tn">Prime</span>
+      <span class="ts">660–719</span>
+    </button>
+    <button class="tbtn" data-score="nearPrime" onclick="setVScore(this)">
+      <span class="tn">Near Prime</span>
+      <span class="ts">580–659</span>
+    </button>
+    <button class="tbtn active" data-score="subprime" onclick="setVScore(this)">
+      <span class="tn">Subprime</span>
+      <span class="ts">Below 580</span>
+    </button>
+  </div>
+</div>
+
+<button class="submit-btn" onclick="runVerify()" style="margin-top:8px">Verify My Deal <span class="arr">→</span></button>
+
+<!-- VERIFY RESULTS -->
+<div id="verifyResults" style="display:none;margin-top:32px;animation:fadeUp .4s ease">
+
+  <!-- Monthly payment -->
+  <div style="background:var(--s1);border:1px solid var(--border2);padding:28px;margin-bottom:16px;border-radius:4px;position:relative;overflow:hidden">
+    <div style="position:absolute;right:-8px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--mono);font-size:40px;font-weight:700;color:rgba(200,241,53,.03);letter-spacing:8px;pointer-events:none;white-space:nowrap">DEAL BREAKDOWN</div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Your Exact Monthly Payment</div>
+    <div style="font-family:var(--display);font-size:clamp(52px,13vw,84px);font-weight:800;line-height:1;letter-spacing:-2px;color:var(--accent);margin-bottom:4px" id="v_monthly"></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:20px" id="v_termLabel"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid var(--border);padding-top:16px">
+      <div><div style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px" id="v_financed"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Amount Financed</div></div>
+      <div><div style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--text);margin-bottom:3px" id="v_totalCost"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Total Vehicle Cost</div></div>
+      <div><div style="font-family:var(--display);font-size:18px;font-weight:700;color:var(--danger);margin-bottom:3px" id="v_totalInterest"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Total Interest Paid</div></div>
+    </div>
+  </div>
+
+  <!-- Deal breakdown table -->
+  <div style="background:var(--s1);border:1px solid var(--border2);border-radius:4px;overflow:hidden;margin-bottom:16px">
+    <div style="padding:10px 16px;background:var(--s2);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Deal Breakdown</div>
+    <div id="v_breakdown"></div>
+  </div>
+
+  <!-- Flags / intelligence -->
+  <div id="v_flags" style="margin-bottom:16px"></div>
+
+  <!-- Aftermarket education -->
+  <div id="v_aftermarket_notes" style="margin-bottom:16px"></div>
+
+  <button class="submit-btn" onclick="resetVerify()" style="background:transparent;border:1px solid var(--border2);color:var(--muted);margin-top:8px">← Recalculate</button>
+</div>
+
+</div><!-- /verifyCalc -->
 
 </div><!-- /wrap -->
 
@@ -1135,438 +1314,4 @@ function calculate() {
   const intLow = totalLow - amtFinanced;
   const intHigh = totalHigh - amtFinanced;
 
-  const ptiLow = income > 0 ? payLow / income : null;
-  const ptiHigh = income > 0 ? payHigh / income : null;
-  const ptiMid = income > 0 ? payMid / income : null;
-
-  // ─── APPROVAL ODDS ───────────────────────────────────────────────────────
-  const baseOdds = tc.approvalBase;
-  const { odds, ptiRatio, estPayment } = calculateApprovalOdds(
-    baseOdds, amtFinanced, price, income, down, tradeEquity, selectedTier
-  );
-
-  // Overall odds (weighted: deep sub is last resort)
-  const weights = { prime: 0.30, nearPrime: 0.35, subprime: 0.25, deepSub: 0.10 };
-  const overallOdds = Math.round(
-    Object.keys(weights).reduce((sum, k) => sum + weights[k] * odds[k], 0)
-  );
-
-  // ─── DEAL HEALTH ────────────────────────────────────────────────────────
-  const ltv = amtFinanced / price;
-  let healthClass, healthVerdict, healthDesc;
-
-  const ptiOk = ptiMid !== null ? ptiMid < 0.20 : true;
-  const ltvOk = ltv < 1.15;
-  const downOk = down >= price * 0.05;
-
-  if (ltvOk && ptiOk && (selectedTier === 'great' || selectedTier === 'good')) {
-    healthClass = 'green'; healthVerdict = 'SOLID DEAL';
-    healthDesc = 'Your numbers are in good shape. You have real negotiating leverage — don\'t feel rushed.';
-  } else if ((ltvOk && ptiOk) || selectedTier === 'great') {
-    healthClass = 'green'; healthVerdict = 'LOOKS GOOD';
-    healthDesc = 'Deal structure is reasonable. Read every line before signing and ask about the buy rate.';
-  } else if (!ltvOk && !ptiOk) {
-    healthClass = 'red'; healthVerdict = 'HIGH RISK';
-    healthDesc = 'High amount financed AND high payment-to-income. This deal needs more down payment or a cheaper vehicle to be manageable.';
-  } else if (!ltvOk || !ptiOk || selectedTier === 'poor') {
-    healthClass = 'yellow'; healthVerdict = 'WATCH IT';
-    healthDesc = selectedTier === 'poor'
-      ? 'Deep subprime deals carry high rates. Know your total cost — not just the monthly payment.'
-      : 'One or more factors are stretched. Proceed carefully and don\'t let payment alone drive your decision.';
-  } else {
-    healthClass = 'green'; healthVerdict = 'LOOKS GOOD';
-    healthDesc = 'Deal structure is reasonable. Review the contract carefully before signing.';
-  }
-
-  // ─── WATCH OUTS ─────────────────────────────────────────────────────────
-  const allWatchouts = {
-    great: [
-      { i:'📋', t:'Rate Markup', d:'Dealers earn money by marking up your rate above what the lender approved. Ask what your "buy rate" is and what the dealer is adding.' },
-      { i:'📦', t:'Product Packing', d:'F&I products will be presented in a way that buries their individual cost. Ask for an itemized breakdown before you discuss any payment.' },
-    ],
-    good: [
-      { i:'📋', t:'Rate Markup', d:'You were probably approved at a lower rate than you\'re being shown. Ask directly: "What\'s the buy rate from the lender?"' },
-      { i:'📦', t:'Payment Packing', d:'Products added to your payment without clearly showing the price. Always get itemized numbers first.' },
-      { i:'📅', t:'Term Stretching', d:'72–84 month loans look affordable but cost significantly more in interest. You\'ll likely be upside down for years.' },
-    ],
-    fair: [
-      { i:'🚗', t:'Vehicle Restrictions', d:'Subprime lenders often have caps on vehicle age, mileage, and loan-to-value. A $20k car might not qualify at your credit tier.' },
-      { i:'💳', t:'GAP Insurance', d:'At higher rates and longer terms, GAP is legitimately worth it — but shop the price. Dealers often mark it up significantly.' },
-      { i:'📋', t:'Spot Delivery (Yo-Yo)', d:'Driving home before financing is final is risky. If the dealer calls you back saying terms changed, you have the right to return the vehicle.' },
-      { i:'📦', t:'Payment Focus', d:'Dealers trained to keep you focused on monthly payment, not total cost. Always ask what the total payoff is.' },
-    ],
-    poor: [
-      { i:'💰', t:'Down Payment Is Everything', d:'At deep subprime, your down payment tells the lender you\'re serious. Every $500 more significantly improves your odds and rate.' },
-      { i:'🚗', t:'Vehicle Age & Mileage Caps', d:'Most deep subprime lenders won\'t finance vehicles over 10 years old or 120k miles. Your choices will be limited.' },
-      { i:'📋', t:'Know the Total Cost', d:'At 25%+ APR on 72 months, you could pay close to double the vehicle\'s value by payoff. Look at the total, not the monthly.' },
-      { i:'🔄', t:'Build Credit First?', d:'If this purchase isn\'t urgent, 6 months of on-time payments on a secured card can meaningfully improve your tier and save thousands.' },
-    ],
-  };
-
-  const watchouts = allWatchouts[selectedTier];
-
-  // ─── LEVERAGE TIPS ───────────────────────────────────────────────────────
-  const leverageTips = [];
-  if (tradeEquity < 0) {
-    leverageTips.push(`<strong>Your trade has negative equity ($${Math.abs(Math.round(tradeEquity)).toLocaleString()} owed more than it\'s worth)</strong> — this rolls into your loan and raises your payment. Consider paying it down first if you can.`);
-  }
-  if (ptiMid !== null && ptiMid > 0.20) {
-    leverageTips.push(`<strong>Your payment-to-income ratio is high (${pct(ptiMid)})</strong> — lenders prefer under 20%. A shorter term or more down payment helps.`);
-  }
-  if (ltv > 1.15) {
-    leverageTips.push(`<strong>You\'re financing more than the car is worth (LTV: ${pct(ltv)})</strong> — more down payment or a lower vehicle price will protect you.`);
-  }
-  leverageTips.push(`<strong>Always ask for an itemized worksheet</strong> before discussing a monthly payment. If they won\'t give you one, that\'s a red flag.`);
-  leverageTips.push(`<strong>You can shop your own financing</strong> at your bank or credit union before going to the dealer. Having a pre-approval gives you real leverage.`);
-  if (selectedTier === 'poor' || selectedTier === 'fair') {
-    leverageTips.push(`<strong>Every dollar of down payment helps</strong> — not just for approval odds but for your LTV, your rate tier, and keeping you from going upside down immediately.`);
-  }
-
-  // ─── RENDER ─────────────────────────────────────────────────────────────
-  document.getElementById('results').style.display = 'block';
-
-  // Health
-  const hc = document.getElementById('healthCard');
-  hc.className = 'health-card ' + healthClass;
-  document.getElementById('healthVerdict').textContent = healthVerdict;
-  document.getElementById('healthDesc').textContent = healthDesc;
-
-  // Payment
-  document.getElementById('payNum').textContent = `${fmt(payLow)} – ${fmt(payHigh)}/mo`;
-  document.getElementById('payNote').textContent =
-    `Based on ${term}-month term at ${(tc.aprLow*100).toFixed(1)}%–${(tc.aprHigh*100).toFixed(1)}% APR for ${tc.name} credit`;
-
-  // Stats
-  const afEl = document.getElementById('statAF');
-  afEl.textContent = fmt(amtFinanced);
-  afEl.className = 'scard-v' + (ltv > 1.2 ? ' danger' : ltv > 1.1 ? ' warn' : '');
-  document.getElementById('statAFsub').textContent = `LTV: ${pct(ltv)} of vehicle price`;
-
-  document.getElementById('statTax').textContent = fmt(tax);
-  document.getElementById('statTaxSub').textContent = taxLabel;
-
-  const intEl = document.getElementById('statInt');
-  intEl.textContent = `${fmt(intLow)} – ${fmt(intHigh)}`;
-  intEl.className = 'scard-v' + (selectedTier === 'poor' ? ' danger' : selectedTier === 'fair' ? ' warn' : '');
-
-  if (ptiMid !== null) {
-    const ptiEl = document.getElementById('statPTI');
-    const ptiPct = Math.round(ptiMid * 100);
-    ptiEl.textContent = ptiPct + '%';
-    ptiEl.className = 'scard-v' + (ptiPct > 25 ? ' danger' : ptiPct > 18 ? ' warn' : ' good');
-    document.getElementById('statPTIsub').textContent =
-      ptiPct < 15 ? 'Great ratio — lenders love this' :
-      ptiPct < 20 ? 'Acceptable — within lender guidelines' :
-      ptiPct < 25 ? 'Stretched — may affect approval' :
-      'High — lenders will scrutinize this';
-  } else {
-    document.getElementById('statPTI').textContent = '—';
-    document.getElementById('statPTIsub').textContent = 'Enter income to calculate';
-  }
-
-  // Approval Odds
-  const approvalIntro = income > 0
-    ? `Based on your credit tier, income, down payment, and loan-to-value ratio — here\'s how lenders are likely to see this deal.`
-    : `Based on your credit tier, down payment, and loan-to-value. Add your income above for a more accurate picture.`;
-  document.getElementById('approvalIntro').textContent = approvalIntro;
-
-  const lenderHTML = lenderTypes.map(lt => {
-    const o = Math.round(odds[lt.key]);
-    const cls = oddsClass(o);
-    return `
-      <div class="lender-row">
-        <div class="lender-header">
-          <span class="lender-name">${lt.label}</span>
-          <span class="lender-pct ${cls}">${o > 0 ? o + '%' : 'Unlikely'}</span>
-        </div>
-        <div class="bar-track">
-          <div class="bar-fill ${cls}" style="width:${o}%"></div>
-        </div>
-        <div class="lender-note">${lt.desc}</div>
-      </div>`;
-  }).join('');
-  document.getElementById('lenderRows').innerHTML = lenderHTML;
-
-  // Overall circle
-  const circumference = 163.4;
-  const offset = circumference - (overallOdds / 100) * circumference;
-  const arc = document.getElementById('oddsArc');
-  arc.style.strokeDashoffset = offset;
-  arc.style.stroke = overallOdds >= 70 ? 'var(--good)' : overallOdds >= 40 ? 'var(--warn)' : 'var(--danger)';
-  document.getElementById('oddsNum').textContent = overallOdds + '%';
-  document.getElementById('oddsNum').style.color = overallOdds >= 70 ? 'var(--good)' : overallOdds >= 40 ? 'var(--warn)' : 'var(--danger)';
-
-  const oddsDescText = overallOdds >= 80
-    ? 'Strong likelihood of finding financing at multiple lenders.'
-    : overallOdds >= 60
-    ? 'Decent odds. Will likely require a subprime lender — shop carefully.'
-    : overallOdds >= 40
-    ? 'Challenging. Approval possible but expect high rates and stricter terms.'
-    : 'Difficult. More down payment or a lower price vehicle would significantly help.';
-  document.getElementById('oddsDesc').textContent = oddsDescText;
-
-  // APR
-  document.getElementById('aprVal').textContent = `${(tc.aprLow*100).toFixed(1)}% – ${(tc.aprHigh*100).toFixed(1)}%`;
-  const segments = ['great','good','fair','poor'];
-  const segColors = {'great':'var(--good)','good':'var(--blue)','fair':'var(--warn)','poor':'var(--danger)'};
-  document.getElementById('aprSpectrum').innerHTML = segments.map(s => `
-    <div class="apr-seg" style="background:${segColors[s]};opacity:${s===selectedTier?1:0.18}"></div>
-  `).join('');
-  const aprNotes = {
-    great:'You qualify for the best rates. Pre-approval from your bank or credit union before shopping gives you the strongest negotiating position.',
-    good:'Near-prime rates are manageable but still markupable by the dealer. Know your buy rate and shop competing offers.',
-    fair:'Subprime rates are significantly higher. Focus on minimizing amount financed rather than chasing a specific payment.',
-    poor:'Deep subprime rates mean a high total cost of ownership. Shorter term = less interest even if the payment feels higher.',
-  };
-  document.getElementById('aprNote').textContent = aprNotes[selectedTier];
-
-  // Subprime box
-  const spBox = document.getElementById('subprimeBox');
-  if (selectedTier === 'poor' || selectedTier === 'fair') {
-    spBox.style.display = 'block';
-    document.getElementById('subprimeText').textContent = selectedTier === 'poor'
-      ? 'Deep subprime means lenders see you as higher risk. That risk is priced into your rate — which is why the total cost of the loan is much higher than the vehicle\'s value. Your down payment, income stability, and debt-to-income ratio are what lenders actually focus on, not just your score.'
-      : 'Subprime buyers are a large part of the market and can absolutely get financed. The key is understanding that you\'re paying a premium for your credit history, and knowing exactly what that costs you over the full term.';
-  } else {
-    spBox.style.display = 'none';
-  }
-
-  // Watch outs
-  document.getElementById('watchItems').innerHTML = watchouts.map((w, i) => `
-    <div class="watch-item" style="animation-delay:${i*0.06}s">
-      <span class="watch-icon">${w.i}</span>
-      <div class="watch-body"><strong>${w.t}:</strong> ${w.d}</div>
-    </div>`).join('');
-
-  // Power tips
-  document.getElementById('powerTips').innerHTML = leverageTips.map(t =>
-    `<div class="power-tip">${t}</div>`).join('');
-
-  // Animate bars after a tick
-  setTimeout(() => {
-    document.querySelectorAll('.bar-fill').forEach(b => {
-      const w = b.style.width;
-      b.style.width = '0';
-      setTimeout(() => { b.style.width = w; }, 50);
-    });
-  }, 100);
-
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ─── MODE TOGGLE ─────────────────────────────────────────────────────────────
-function setMode(mode) {
-  const autoCalc = document.getElementById('autoCalc');
-  const mortCalc = document.getElementById('mortgageCalc');
-  const btnAuto  = document.getElementById('modeAuto');
-  const btnMort  = document.getElementById('modeMortgage');
-
-  if (mode === 'auto') {
-    autoCalc.style.display = 'block';
-    mortCalc.style.display = 'none';
-    btnAuto.style.background  = 'var(--accent)';
-    btnAuto.style.color       = '#000';
-    btnMort.style.background  = 'var(--s2)';
-    btnMort.style.color       = 'var(--muted)';
-  } else {
-    autoCalc.style.display = 'none';
-    mortCalc.style.display = 'block';
-    btnMort.style.background  = 'var(--accent)';
-    btnMort.style.color       = '#000';
-    btnAuto.style.background  = 'var(--s2)';
-    btnAuto.style.color       = 'var(--muted)';
-  }
-}
-
-// ─── MORTGAGE TIER ───────────────────────────────────────────────────────────
-let selectedMortgageTier = 'poor';
-
-function setMortgageTier(btn) {
-  document.querySelectorAll('[data-mt]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  selectedMortgageTier = btn.dataset.mt;
-}
-
-// Mortgage rates by credit tier (30yr fixed, approximate current market)
-const mortgageRates = {
-  excellent: { low: 0.0625, high: 0.0699, label: '6.25% - 6.99%' },
-  good:      { low: 0.0699, high: 0.0799, label: '6.99% - 7.99%' },
-  fair:      { low: 0.0799, high: 0.0924, label: '7.99% - 9.24%' },
-  poor:      { low: 0.0924, high: 0.1200, label: '9.24%+ or denied' },
-};
-
-function updateDownPct() {
-  const price = parseFloat(document.getElementById('mPrice').value) || 0;
-  const down  = parseFloat(document.getElementById('mDown').value) || 0;
-  const pct   = price > 0 ? Math.round(down / price * 100) : 0;
-  document.getElementById('downPctHint').textContent = pct + '% down' + (pct >= 20 ? ' — no PMI' : pct >= 10 ? ' — PMI required' : ' — PMI required, consider saving more');
-}
-
-function mortgagePmt(principal, annualRate, months) {
-  if (annualRate === 0) return principal / months;
-  const r = annualRate / 12;
-  return principal * r / (1 - Math.pow(1 + r, -months));
-}
-
-function calculateMortgage() {
-  const price     = parseFloat(document.getElementById('mPrice').value) || 0;
-  const down      = parseFloat(document.getElementById('mDown').value) || 0;
-  const income    = parseFloat(document.getElementById('mIncome').value) || 0;
-  const debt      = parseFloat(document.getElementById('mDebt').value) || 0;
-  const term      = parseInt(document.getElementById('mTerm').value);
-  const taxRate   = parseFloat(document.getElementById('mTaxRate').value);
-  const insurance = parseFloat(document.getElementById('mInsurance').value) || 150;
-  const hoa       = parseFloat(document.getElementById('mHOA').value) || 0;
-
-  if (!price || !income) {
-    alert('Please enter a home price and your monthly income.');
-    return;
-  }
-
-  const loanAmount  = price - down;
-  const downPct     = price > 0 ? down / price : 0;
-  const tier        = mortgageRates[selectedMortgageTier];
-  const rateMid     = (tier.low + tier.high) / 2;
-
-  // Monthly payment components
-  const piPayment   = mortgagePmt(loanAmount, rateMid, term);
-  const monthlyTax  = (price * taxRate) / 12;
-  const pmi         = downPct < 0.20 ? (loanAmount * 0.0085) / 12 : 0;
-  const totalMonthly = piPayment + monthlyTax + insurance + pmi + hoa;
-
-  // Total interest
-  const totalPaid   = piPayment * term;
-  const totalInterest = totalPaid - loanAmount;
-
-  // DTI ratios
-  const frontEnd    = income > 0 ? totalMonthly / income : 0;
-  const backEnd     = income > 0 ? (totalMonthly + debt) / income : 0;
-
-  // What they can comfortably afford (28% front-end rule)
-  const comfortablePayment = income * 0.28;
-  const comfortableLoan    = comfortablePayment > (monthlyTax + insurance + pmi + hoa)
-    ? mortgagePmt(1, rateMid, term) > 0
-      ? (comfortablePayment - monthlyTax - insurance - pmi - hoa) / (rateMid/12 / (1 - Math.pow(1 + rateMid/12, -term)))
-      : 0
-    : 0;
-  const comfortablePrice   = comfortableLoan + down;
-
-  // Health assessment
-  let healthClass, healthVerdict, healthDesc;
-  if (selectedMortgageTier === 'poor') {
-    healthClass   = 'danger';
-    healthVerdict = 'Approval Unlikely';
-    healthDesc    = 'Most conventional lenders require a minimum 620 credit score. FHA loans are possible at lower scores but require at least 3.5% down and mortgage insurance. Improving your credit score first will save tens of thousands in interest.';
-  } else if (backEnd > 0.50) {
-    healthClass   = 'danger';
-    healthVerdict = 'Debt Load Too High';
-    healthDesc    = 'Your total debt-to-income ratio exceeds 50%. Most lenders will deny this application. You need to either reduce existing debt, increase income, or lower the purchase price significantly.';
-  } else if (backEnd > 0.43) {
-    healthClass   = 'warn';
-    healthVerdict = 'Tight — Borderline';
-    healthDesc    = 'Your back-end DTI exceeds the standard 43% threshold. Some lenders (especially FHA) may still approve this but you will face scrutiny. Consider paying down existing debt before applying.';
-  } else if (frontEnd > 0.31) {
-    healthClass   = 'warn';
-    healthVerdict = 'Stretched Budget';
-    healthDesc    = 'Your housing costs exceed 31% of gross income. You may qualify but this leaves little margin for unexpected expenses, repairs, or job changes. Lenders will likely approve but your budget will feel tight.';
-  } else if (downPct < 0.03) {
-    healthClass   = 'warn';
-    healthVerdict = 'Very Low Down Payment';
-    healthDesc    = 'Under 3% down is possible with certain loan programs but you will have significant PMI costs, limited equity, and higher risk of being underwater if values dip.';
-  } else {
-    healthClass   = 'good';
-    healthVerdict = 'Solid Position';
-    healthDesc    = 'Your DTI ratios and down payment put you in a strong position for approval. ' + (downPct >= 0.20 ? 'No PMI required.' : 'PMI required until you reach 20% equity.');
-  }
-
-  // Build watch-out items
-  const watchItems = [];
-  if (downPct < 0.20) {
-    watchItems.push({ i: '💸', t: 'Private Mortgage Insurance (PMI)', d: 'With under 20% down you will pay PMI of roughly ' + fmt(pmi) + '/mo until you reach 20% equity. This is not building equity — it protects the lender, not you. Request cancellation once you hit 20%.' });
-  }
-  watchItems.push({ i: '🏚', t: 'Maintenance & Repairs', d: 'Budget 1-2% of home value annually for maintenance (' + fmt(price * 0.01 / 12) + '-' + fmt(price * 0.02 / 12) + '/mo). This is not in your payment but it is a real cost of ownership.' });
-  watchItems.push({ i: '📈', t: 'Variable Property Tax', d: 'Property taxes can increase annually. If your tax estimate is based on last year\'s assessed value, your actual escrow may be higher.' });
-  if (term === 360) {
-    watchItems.push({ i: '⏰', t: 'Total Interest Over 30 Years', d: 'At this rate you will pay ' + fmt(totalInterest) + ' in interest over the life of the loan — on top of the ' + fmt(price) + ' home price. A 15-year mortgage at a lower rate saves dramatically.' });
-  }
-  if (selectedMortgageTier === 'fair' || selectedMortgageTier === 'poor') {
-    watchItems.push({ i: '🏦', t: 'FHA vs Conventional', d: 'With your credit tier, an FHA loan may be your best option. FHA requires as little as 3.5% down but carries both upfront and annual mortgage insurance premiums.' });
-  }
-  watchItems.push({ i: '🔎', t: 'Pre-Approval vs Pre-Qualification', d: 'Pre-qualification is just an estimate. Get a real pre-approval with a hard pull before making offers — sellers take pre-approvals seriously, pre-quals less so.' });
-
-  // Power tips
-  const powerTips = [];
-  if (comfortablePrice < price * 0.9) {
-    powerTips.push('<strong>You qualify for more than you can comfortably afford.</strong> Based on the 28% rule, your comfortable price point is around ' + fmt(comfortablePrice) + '. The bank will approve more — but your budget will tell you the truth.');
-  }
-  powerTips.push('<strong>Shop multiple lenders</strong> — rate differences of 0.5% on a ' + fmt(loanAmount) + ' loan cost you ' + fmt(loanAmount * 0.005 * (term/12) * 0.6) + ' over the loan term. Always get at least 3 quotes.');
-  if (downPct < 0.20) {
-    powerTips.push('<strong>Every dollar toward 20% down saves you PMI costs</strong> of ' + fmt(pmi) + '/mo and gives you instant equity protection against market dips.');
-  }
-  powerTips.push('<strong>Ask for a Loan Estimate form</strong> within 3 days of applying — lenders are legally required to provide it. Compare every line item, not just the rate.');
-
-  // RENDER
-  document.getElementById('mortgageResults').style.display = 'block';
-
-  const hc = document.getElementById('mHealthCard');
-  hc.className = 'health-card ' + healthClass;
-  document.getElementById('mHealthVerdict').textContent = healthVerdict;
-  document.getElementById('mHealthDesc').textContent = healthDesc;
-
-  document.getElementById('mPayNum').textContent = fmt(totalMonthly) + '/mo';
-  document.getElementById('mPayNote').textContent = 'Principal + interest + taxes + insurance' + (pmi > 0 ? ' + PMI' : '') + (hoa > 0 ? ' + HOA' : '');
-
-  document.getElementById('mStatPI').textContent = fmt(piPayment) + '/mo';
-  document.getElementById('mStatPIsub').textContent = 'at ~' + (rateMid * 100).toFixed(2) + '% rate';
-  document.getElementById('mStatTax').textContent = fmt(monthlyTax) + '/mo';
-  document.getElementById('mStatInt').textContent = fmt(totalInterest);
-  document.getElementById('mStatPMI').textContent = pmi > 0 ? fmt(pmi) + '/mo' : 'None';
-  document.getElementById('mStatPMIsub').textContent = pmi > 0 ? 'until 20% equity' : downPct >= 0.20 ? '20%+ down — no PMI' : '';
-
-  const feDTIEl = document.getElementById('mFrontDTI');
-  feDTIEl.textContent = Math.round(frontEnd * 100) + '%';
-  feDTIEl.style.color = frontEnd > 0.31 ? 'var(--warn)' : frontEnd > 0.28 ? 'var(--warn)' : 'var(--good)';
-
-  const beDTIEl = document.getElementById('mBackDTI');
-  beDTIEl.textContent = Math.round(backEnd * 100) + '%';
-  beDTIEl.style.color = backEnd > 0.43 ? 'var(--danger)' : backEnd > 0.36 ? 'var(--warn)' : 'var(--good)';
-
-  let dtiNote = '';
-  if (backEnd > 0.43) dtiNote = 'Your back-end DTI exceeds most lender maximums. Paying down existing debt before applying will dramatically improve your position.';
-  else if (backEnd > 0.36) dtiNote = 'Your DTI is in the caution zone. You will likely qualify but some lenders may require compensating factors like large reserves.';
-  else if (frontEnd > 0.28) dtiNote = 'Housing costs are above the standard 28% guideline but your overall DTI is manageable. Many lenders will still approve this.';
-  else dtiNote = 'Both your DTI ratios are within standard guidelines. You are in a solid position for approval.';
-  document.getElementById('mDTINote').textContent = dtiNote;
-
-  document.getElementById('mAprVal').textContent = tier.label;
-  document.getElementById('mAprNote').textContent = selectedMortgageTier === 'poor'
-    ? 'Below 640 credit score, conventional approval is unlikely. FHA loans may be available. Improving your score by even 40-60 points can unlock significantly better rates.'
-    : 'Rate estimates based on current market conditions for a ' + (term === 360 ? '30' : term === 180 ? '15' : '20') + '-year fixed mortgage. Shopping multiple lenders can save 0.25-0.75% — worth thousands over the loan term.';
-
-  if (pmi > 0) {
-    document.getElementById('mPMIBox').style.display = 'block';
-    document.getElementById('mPMIText').textContent = 'With ' + Math.round(downPct * 100) + '% down you owe PMI of approximately ' + fmt(pmi) + '/mo. This cancels automatically at 80% LTV (when you owe ' + fmt(loanAmount * 0.80) + '). You can also request cancellation in writing once you hit that threshold — don\'t wait for the lender to do it automatically. Pro tip: some lenders offer PMI waiver programs at 15% down — always ask, it\'s not advertised.';
-  } else {
-    document.getElementById('mPMIBox').style.display = 'none';
-  }
-
-  if (comfortablePrice < price * 0.92) {
-    document.getElementById('mAffordBox').style.display = 'block';
-    document.getElementById('mAffordText').textContent = 'Based on your income, the bank may approve you for this purchase — but the 28% front-end guideline suggests your comfortable price point is around ' + fmt(comfortablePrice) + '. That is ' + fmt(price - comfortablePrice) + ' less than the asking price. Getting approved and being comfortable are two very different things.';
-  } else {
-    document.getElementById('mAffordBox').style.display = 'none';
-  }
-
-  document.getElementById('mWatchItems').innerHTML = watchItems.map(w =>
-    '<div class="watch-item"><span class="wi-icon">' + w.i + '</span><div class="wi-body"><div class="wi-title">' + w.t + '</div><div class="wi-desc">' + w.d + '</div></div></div>'
-  ).join('');
-
-  document.getElementById('mPowerTips').innerHTML = powerTips.map(t =>
-    '<div class="power-tip">' + t + '</div>'
-  ).join('');
-
-  document.getElementById('mortgageResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-</script>
-</body>
-</html>
+  const pt

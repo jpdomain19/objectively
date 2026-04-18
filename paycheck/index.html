@@ -176,6 +176,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
 
 .f-input:focus{border-bottom-color:var(--amber);border-left-color:var(--amber);filter:drop-shadow(0 0 4px rgba(212,146,10,.2))}
 .f-input::placeholder{color:var(--muted2);font-size:14px;letter-spacing:.5px}
+input[type="date"].f-input{color:var(--amber2);font-size:14px}
+input[type="date"].f-input::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1) saturate(2) hue-rotate(5deg);cursor:pointer}
 
 .f-select{
   width:100%;
@@ -202,7 +204,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
 
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
-/* INCOME TYPE TABS */
+/* PAGE MODE TABS */
+.mode-tabs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border2);border-radius:2px;overflow:hidden;margin-bottom:32px}
+.mode-tab{padding:13px;background:var(--bg);border:none;cursor:pointer;font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:all .15s;text-align:center;border-right:1px solid var(--border2)}
+.mode-tab:last-child{border-right:none}
+.mode-tab:hover{color:var(--text);background:var(--panel2)}
+.mode-tab.active{background:var(--amber);color:#000;font-weight:700}
 .type-tabs{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--border2);margin-bottom:8px;overflow:hidden}
 .type-tab{padding:9px 6px;background:var(--bg);border:none;border-right:1px solid var(--border2);cursor:pointer;font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:all .12s;text-align:center;line-height:1.5}
 .type-tab:last-child{border-right:none}
@@ -451,6 +458,15 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
   </p>
 </div>
 
+<!-- MODE TABS -->
+<div class="mode-tabs">
+  <button class="mode-tab active" onclick="switchMode('takehome',this)">💸 Take-Home Calculator</button>
+  <button class="mode-tab" onclick="switchMode('gross',this)">📋 Gross Income Calculator</button>
+</div>
+
+<!-- TAKE-HOME MODE -->
+<div id="mode-takehome">
+
 <!-- SECTION 1 — INCOME -->
 <div class="doc-section">
   <div class="section-head">
@@ -669,6 +685,154 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
   A tool by objectively.net
 </div>
 
+</div><!-- /mode-takehome -->
+
+<!-- GROSS INCOME CALCULATOR MODE -->
+<div id="mode-gross" style="display:none">
+
+<div class="doc-section">
+  <div class="section-head">
+    <span class="section-code">§ 01</span>
+    <span class="section-title">Method — How Long Have You Been at This Job?</span>
+  </div>
+  <div class="section-body">
+    <div class="field">
+      <div class="field-lbl">Calculation Method</div>
+      <div class="type-tabs" style="grid-template-columns:1fr 1fr">
+        <button class="type-tab active" onclick="setGrossMethod('ytd',this)">90+ Days / YTD Method<br><span style="font-size:8px;opacity:.7">Most accurate — lender preferred</span></button>
+        <button class="type-tab" onclick="setGrossMethod('base',this)">Under 90 Days / Base Rate<br><span style="font-size:8px;opacity:.7">New job or new year</span></button>
+      </div>
+      <div class="field-hint" id="grossMethodHint">You've been at this job 90+ days and it's 90+ days into the year — use your YTD gross for the most accurate calculation lenders use.</div>
+    </div>
+  </div>
+</div>
+
+<!-- YTD METHOD -->
+<div id="gross-ytd">
+  <div class="doc-section">
+    <div class="section-head">
+      <span class="section-code">§ 02</span>
+      <span class="section-title">YTD Income Details</span>
+    </div>
+    <div class="section-body">
+      <div class="grid2">
+        <div class="field">
+          <div class="field-lbl">YTD Gross Income</div>
+          <div style="position:relative"><input type="number" id="ytdGross" class="f-input" placeholder="32,500" oninput="calcGross()" style="padding-left:22px"><span style="position:absolute;left:10px;top:9px;font-family:var(--mono);font-size:14px;color:var(--muted);pointer-events:none">$</span></div>
+          <div class="field-hint">Total gross earnings shown on your most recent paystub</div>
+        </div>
+        <div class="field">
+          <div class="field-lbl">Hire Date</div>
+          <input type="date" id="hireDate" class="f-input" oninput="calcGross()">
+          <div class="field-hint">The date you started this job</div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <div class="field-lbl">Last Pay Date</div>
+          <input type="date" id="payDate" class="f-input" oninput="calcGross()">
+          <div class="field-hint">Date of your most recent paycheck</div>
+        </div>
+        <div class="field">
+          <div class="field-lbl">Pay Frequency</div>
+          <select id="ytdFreq" class="f-select" onchange="calcGross()">
+            <option value="52">Weekly (52x/yr)</option>
+            <option value="26" selected>Bi-Weekly (26x/yr)</option>
+            <option value="24">Semi-Monthly (24x/yr)</option>
+            <option value="12">Monthly (12x/yr)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BASE RATE METHOD -->
+<div id="gross-base" style="display:none">
+  <div class="doc-section">
+    <div class="section-head">
+      <span class="section-code">§ 02</span>
+      <span class="section-title">Base Pay Details</span>
+    </div>
+    <div class="section-body">
+      <div class="grid2">
+        <div class="field">
+          <div class="field-lbl">Pay Type</div>
+          <div class="type-tabs" style="grid-template-columns:1fr 1fr;margin-bottom:0">
+            <button class="type-tab active" onclick="setPayType('hourly',this)">Hourly</button>
+            <button class="type-tab" onclick="setPayType('salary',this)">Salary</button>
+          </div>
+        </div>
+        <div class="field" id="basePayField">
+          <div class="field-lbl" id="basePayLbl">Hourly Rate</div>
+          <div style="position:relative"><input type="number" id="baseRate" class="f-input" placeholder="18.00" step="0.01" oninput="calcGross()" style="padding-left:22px"><span style="position:absolute;left:10px;top:9px;font-family:var(--mono);font-size:14px;color:var(--muted);pointer-events:none">$</span></div>
+        </div>
+      </div>
+      <div class="grid2" id="hoursField">
+        <div class="field">
+          <div class="field-lbl">Hours Per Week</div>
+          <input type="number" id="hoursPerWeek" class="f-input" placeholder="40" value="40" oninput="calcGross()">
+          <div class="field-hint">Standard is 40. Use your actual scheduled hours.</div>
+        </div>
+        <div class="field">
+          <div class="field-lbl">Pay Frequency</div>
+          <select id="baseFreq" class="f-select" onchange="calcGross()">
+            <option value="52">Weekly (52x/yr)</option>
+            <option value="26" selected>Bi-Weekly (26x/yr)</option>
+            <option value="24">Semi-Monthly (24x/yr)</option>
+            <option value="12">Monthly (12x/yr)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROSS RESULTS -->
+<div id="gross-results" style="display:none;animation:fadeUp .4s ease">
+  <div class="results-header" style="margin-top:36px">GROSS INCOME CALCULATED</div>
+
+  <!-- Big monthly number -->
+  <div style="background:var(--panel);border:1px solid var(--border2);padding:28px;margin-bottom:16px;position:relative;overflow:hidden">
+    <div style="position:absolute;right:-10px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:var(--mono);font-size:48px;font-weight:700;color:rgba(217,119,6,.04);letter-spacing:8px;pointer-events:none;white-space:nowrap">GROSS INCOME</div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Estimated Gross Monthly Income</div>
+    <div style="font-family:var(--display);font-size:clamp(48px,12vw,78px);font-weight:800;line-height:1;color:var(--amber);letter-spacing:-2px;margin-bottom:4px" id="grossMonthly"></div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:20px">per month — gross before taxes</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid var(--border);padding-top:16px">
+      <div><div class="sg-val" id="grossAnnual"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Annual</div></div>
+      <div><div class="sg-val" id="grossWeekly"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Weekly</div></div>
+      <div><div class="sg-val" id="grossPerPay"></div><div style="font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)" id="grossPerPayLbl">Per Paycheck</div></div>
+    </div>
+  </div>
+
+  <!-- Method note -->
+  <div style="background:var(--panel);border:1px solid var(--border2);border-left:3px solid var(--amber);padding:16px;margin-bottom:16px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8" id="grossMethodNote"></div>
+
+  <!-- Lender tip -->
+  <div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.2);padding:14px 16px;margin-bottom:16px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.8">
+    <strong style="color:var(--amber)">What lenders want to see:</strong> Most banks and landlords ask for gross monthly income on applications. Use the number above. If you're under 90 days or under 90 days into the year, most lenders will use base pay only — variable income like overtime and bonuses typically requires a history to count.
+  </div>
+
+  <!-- CTA to take-home -->
+  <div style="background:var(--panel);border:1px solid var(--border2);padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;gap:12px" onclick="switchMode('takehome', document.querySelector('.mode-tab'))">
+    <div>
+      <div style="font-family:var(--display);font-size:15px;font-weight:700;color:var(--amber);margin-bottom:2px;letter-spacing:.5px">Now see your actual take-home</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Calculate what you keep after taxes and deductions →</div>
+    </div>
+    <div style="font-size:18px;color:var(--amber);flex-shrink:0">→</div>
+  </div>
+
+  <button class="reset-btn" onclick="resetGross()" style="margin-top:4px">&larr; Recalculate</button>
+</div>
+
+<div class="disclaimer" style="margin-top:32px">
+  YTD method annualizes income based on days worked. Base rate method uses standard 52-week year.<br>
+  Results are estimates for application purposes. Actual lender calculations may vary.<br>
+  A tool by objectively.net
+</div>
+
+</div><!-- /mode-gross -->
+
 </div><!-- /wrap -->
 
 <script>
@@ -852,6 +1016,114 @@ function calculate(){
   sp.classList.add('show');
 
   document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ─── MODE SWITCHING ───────────────────────────────────────────────────────────
+function switchMode(mode, btn) {
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector('.mode-tab').classList.remove('active');
+  // Activate correct tab
+  const tabs = document.querySelectorAll('.mode-tab');
+  if (mode === 'takehome') { tabs[0].classList.add('active'); }
+  else { tabs[1].classList.add('active'); }
+
+  document.getElementById('mode-takehome').style.display = mode === 'takehome' ? 'block' : 'none';
+  document.getElementById('mode-gross').style.display    = mode === 'gross'    ? 'block' : 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── GROSS CALCULATOR ─────────────────────────────────────────────────────────
+let grossMethod = 'ytd';
+let grossPayType = 'hourly';
+
+function setGrossMethod(method, btn) {
+  grossMethod = method;
+  document.querySelectorAll('#mode-gross .type-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('gross-ytd').style.display  = method === 'ytd'  ? 'block' : 'none';
+  document.getElementById('gross-base').style.display = method === 'base' ? 'block' : 'none';
+  const hints = {
+    ytd:  'You\'ve been at this job 90+ days and it\'s 90+ days into the year — use your YTD gross for the most accurate calculation lenders use.',
+    base: 'New job or new year (under 90 days) — lenders typically use base pay only. Enter your hourly rate or base salary.'
+  };
+  document.getElementById('grossMethodHint').textContent = hints[method];
+  document.getElementById('gross-results').style.display = 'none';
+}
+
+function setPayType(type, btn) {
+  grossPayType = type;
+  document.querySelectorAll('#gross-base .type-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('basePayLbl').textContent = type === 'hourly' ? 'Hourly Rate' : 'Annual Salary';
+  document.getElementById('hoursField').style.display = type === 'hourly' ? 'grid' : 'none';
+  document.getElementById('baseRate').placeholder = type === 'hourly' ? '18.00' : '45000';
+  calcGross();
+}
+
+function calcGross() {
+  let annual = 0;
+  let methodNote = '';
+  let perPay = 0;
+  let freqVal = 26;
+
+  if (grossMethod === 'ytd') {
+    const ytd      = parseFloat(document.getElementById('ytdGross').value) || 0;
+    const hireDate = document.getElementById('hireDate').value;
+    const payDate  = document.getElementById('payDate').value;
+    freqVal        = parseInt(document.getElementById('ytdFreq').value);
+    if (!ytd || !hireDate || !payDate) { document.getElementById('gross-results').style.display='none'; return; }
+
+    const hire = new Date(hireDate);
+    const pay  = new Date(payDate);
+    const jan1 = new Date(pay.getFullYear(), 0, 1);
+
+    // Days from Jan 1 (or hire date if hired this year) to pay date
+    const startDate  = hire > jan1 ? hire : jan1;
+    const daysWorked = Math.max(1, Math.round((pay - startDate) / (1000 * 60 * 60 * 24)));
+    const daysInYear = 365;
+
+    annual = (ytd / daysWorked) * daysInYear;
+    perPay = annual / freqVal;
+
+    methodNote = `YTD gross of $${ytd.toLocaleString()} ÷ ${daysWorked} days worked × 365 days = annualized income of $${Math.round(annual).toLocaleString()}. Hire date used: ${hire > jan1 ? hireDate : 'Jan 1 ' + pay.getFullYear()} (whichever is later).`;
+
+  } else {
+    const rate  = parseFloat(document.getElementById('baseRate').value) || 0;
+    const hours = parseFloat(document.getElementById('hoursPerWeek').value) || 40;
+    freqVal     = parseInt(document.getElementById('baseFreq').value);
+    if (!rate) { document.getElementById('gross-results').style.display='none'; return; }
+
+    if (grossPayType === 'hourly') {
+      annual = rate * hours * 52;
+      perPay = annual / freqVal;
+      methodNote = `$${rate}/hr × ${hours} hrs/week × 52 weeks = $${Math.round(annual).toLocaleString()}/yr. Note: lenders under 90 days or in a new year typically use base pay only — overtime and bonuses may not count without documentation.`;
+    } else {
+      annual = rate;
+      perPay = annual / freqVal;
+      methodNote = `Base annual salary of $${Math.round(rate).toLocaleString()} used. For new employees under 90 days, lenders typically use base salary only regardless of expected bonuses or commission.`;
+    }
+  }
+
+  const monthly = annual / 12;
+  const weekly  = annual / 52;
+  const freqLabels = { 52:'Per Week', 26:'Per Bi-Weekly Check', 24:'Per Semi-Monthly Check', 12:'Per Month' };
+
+  document.getElementById('grossMonthly').textContent  = '$' + Math.round(monthly).toLocaleString();
+  document.getElementById('grossAnnual').textContent   = '$' + Math.round(annual).toLocaleString();
+  document.getElementById('grossWeekly').textContent   = '$' + Math.round(weekly).toLocaleString();
+  document.getElementById('grossPerPay').textContent   = '$' + Math.round(perPay).toLocaleString();
+  document.getElementById('grossPerPayLbl').textContent = freqLabels[freqVal] || 'Per Paycheck';
+  document.getElementById('grossMethodNote').textContent = methodNote;
+  document.getElementById('gross-results').style.display = 'block';
+}
+
+function resetGross() {
+  document.getElementById('gross-results').style.display = 'none';
+  ['ytdGross','hireDate','payDate','baseRate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function doShare(type){

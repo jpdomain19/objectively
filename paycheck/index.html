@@ -12,7 +12,7 @@
 <meta property="og:image" content="https://objectively.net/og-image.png?v=2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://objectively.net/og-image.png?v=2">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Exo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Exo+2:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:      #0d0d0b;
@@ -25,17 +25,18 @@
   --amber-dim: rgba(212,146,10,.12);
   --red:     #c44020;
   --red-dim: rgba(196,64,32,.10);
-  --text:    #ccc8bc;
-  --muted:   #5a5850;
-  --muted2:  #333330;
+  --text:    #ddd9d0;
+  --muted:   #7a7468;
+  --muted2:  #4a4840;
   --green:   #3a8a50;
   --mono:    'IBM Plex Mono', monospace;
   --display: 'Exo 2', sans-serif;
+  --body:    'DM Sans', sans-serif;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
 /* subtle dot grid */
 body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(212,146,10,.06) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
@@ -102,15 +103,16 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
 }
 
 .doc-id{
-  font-size:10px;
+  font-size:11px;
   color:var(--muted);
-  letter-spacing:2px;
+  letter-spacing:1.5px;
 }
 
 .doc-id span{color:var(--amber2);letter-spacing:1px}
 
 .doc-sub{
-  font-size:12px;
+  font-size:14px;
+  font-family:var(--body);
   color:var(--muted);
   line-height:1.8;
   max-width:520px;
@@ -138,15 +140,15 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
 }
 
 .section-code{
-  font-size:9px;
-  letter-spacing:3px;
+  font-size:11px;
+  letter-spacing:2px;
   color:var(--muted);
   text-transform:uppercase;
 }
 
 .section-title{
-  font-size:11px;
-  letter-spacing:2px;
+  font-size:12px;
+  letter-spacing:1.5px;
   text-transform:uppercase;
   color:var(--amber);
 }
@@ -155,8 +157,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
 
 /* FORM FIELDS */
 .field{margin-bottom:16px}
-.field-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.field-hint{font-size:10px;color:var(--muted);margin-top:4px;letter-spacing:.3px}
+.field-lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.field-hint{font-size:12px;color:var(--muted);margin-top:5px;font-family:var(--body);letter-spacing:0;line-height:1.5}
 
 .f-input{
   width:100%;
@@ -166,7 +168,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
   border-left:2px solid var(--amber-dim);
   padding:8px 10px;
   font-family:var(--mono);
-  font-size:18px;
+  font-size:20px;
   font-weight:400;
   color:var(--amber2);
   outline:none;
@@ -175,9 +177,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(13,13,11,.96);backdrop-fil
 }
 
 .f-input:focus{border-bottom-color:var(--amber);border-left-color:var(--amber);filter:drop-shadow(0 0 4px rgba(212,146,10,.2))}
-.f-input::placeholder{color:var(--muted2);font-size:14px;letter-spacing:.5px}
+.f-input::placeholder{color:var(--muted2);font-size:15px;letter-spacing:.3px}
 input[type="date"].f-input{color:var(--amber2);font-size:14px}
 input[type="date"].f-input::-webkit-calendar-picker-indicator{filter:invert(.4) sepia(1) saturate(2) hue-rotate(5deg);cursor:pointer}
+/* Date select group */
+.date-group{display:grid;grid-template-columns:2fr 1.5fr 2fr;gap:6px}
+.date-group .f-select{font-size:13px;padding:8px 8px;padding-right:24px;background-position:right 6px center}
+
 
 .f-select{
   width:100%;
@@ -291,7 +297,7 @@ input[type="date"].f-input::-webkit-calendar-picker-indicator{filter:invert(.4) 
 .stamp-corner.bl{bottom:10px;left:10px;border-width:0 0 1px 1px}
 .stamp-corner.br{bottom:10px;right:10px;border-width:0 1px 1px 0}
 
-.stamp-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stamp-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 
 .stamp-amount{
   font-family:var(--display);
@@ -451,7 +457,7 @@ input[type="date"].f-input::-webkit-calendar-picker-indicator{filter:invert(.4) 
     <div class="doc-id">TAX YEAR <span>2024</span></div>
     <div class="doc-id">ALL 50 STATES</div>
   </div>
-  <p class="doc-sub">
+  <p class="doc-sub" style="font-family:var(--body);font-size:14px;line-height:1.7;letter-spacing:0">
     Your employer reports one number. The government takes its cut before you ever see it.<br>
     <span class="key">This document shows you exactly what happened to your money.</span><br>
     Every deduction. Every agency. Every dollar. No redactions.
@@ -723,14 +729,22 @@ input[type="date"].f-input::-webkit-calendar-picker-indicator{filter:invert(.4) 
         </div>
         <div class="field">
           <div class="field-lbl">Hire Date</div>
-          <input type="date" id="hireDate" class="f-input" oninput="calcGross()">
+          <div class="date-group">
+            <select id="hireMo" class="f-select" onchange="calcGross()"><option value="">Mo</option><option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select>
+            <select id="hireDay" class="f-select" onchange="calcGross()"><option value="">Day</option><option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+            <select id="hireYr" class="f-select" onchange="calcGross()"><option value="">Yr</option><option value="2021">2021</option><option value="2022">2022</option><option value="2023">2023</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option></select>
+          </div>
           <div class="field-hint">The date you started this job</div>
         </div>
       </div>
       <div class="grid2">
         <div class="field">
           <div class="field-lbl">Last Pay Date</div>
-          <input type="date" id="payDate" class="f-input" oninput="calcGross()">
+          <div class="date-group">
+            <select id="payMo" class="f-select" onchange="calcGross()"><option value="">Mo</option><option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select>
+            <select id="payDay" class="f-select" onchange="calcGross()"><option value="">Day</option><option value="01">1</option><option value="02">2</option><option value="03">3</option><option value="04">4</option><option value="05">5</option><option value="06">6</option><option value="07">7</option><option value="08">8</option><option value="09">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select>
+            <select id="payYr" class="f-select" onchange="calcGross()"><option value="">Yr</option><option value="2024">2024</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option></select>
+          </div>
           <div class="field-hint">Date of your most recent paycheck</div>
         </div>
         <div class="field">
@@ -1068,13 +1082,20 @@ function calcGross() {
 
   if (grossMethod === 'ytd') {
     const ytd      = parseFloat(document.getElementById('ytdGross').value) || 0;
-    const hireDate = document.getElementById('hireDate').value;
-    const payDate  = document.getElementById('payDate').value;
-    freqVal        = parseInt(document.getElementById('ytdFreq').value);
-    if (!ytd || !hireDate || !payDate) { document.getElementById('gross-results').style.display='none'; return; }
-
-    const hire = new Date(hireDate);
-    const pay  = new Date(payDate);
+    const hireMo = document.getElementById('hireMo').value;
+    const hireDay = document.getElementById('hireDay').value;
+    const hireYr  = document.getElementById('hireYr').value;
+    const payMo  = document.getElementById('payMo').value;
+    const payDay = document.getElementById('payDay').value;
+    const payYr  = document.getElementById('payYr').value;
+    freqVal      = parseInt(document.getElementById('ytdFreq').value);
+    if (!ytd || !hireMo || !hireDay || !hireYr || !payMo || !payDay || !payYr) {
+      document.getElementById('gross-results').style.display='none'; return;
+    }
+    const hire = new Date(parseInt(hireYr), parseInt(hireMo)-1, parseInt(hireDay));
+    const pay  = new Date(parseInt(payYr),  parseInt(payMo)-1,  parseInt(payDay));
+    const hireDate = hireYr + '-' + hireMo + '-' + hireDay;
+    const payDate  = payYr  + '-' + payMo  + '-' + payDay;
     const jan1 = new Date(pay.getFullYear(), 0, 1);
 
     // Days from Jan 1 (or hire date if hired this year) to pay date
@@ -1119,7 +1140,11 @@ function calcGross() {
 
 function resetGross() {
   document.getElementById('gross-results').style.display = 'none';
-  ['ytdGross','hireDate','payDate','baseRate'].forEach(id => {
+  ['ytdGross','baseRate'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['hireMo','hireDay','hireYr','payMo','payDay','payYr'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
